@@ -6,12 +6,12 @@ import { Calendar, AlertCircle, CheckCircle2, Lightbulb, AlignLeft, Image as Ima
 interface CaseCardProps {
   caseData: Case;
   highlight?: string;
+  onImageZoom: (url: string) => void;
 }
 
-const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '' }) => {
+const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZoom }) => {
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const [imgLoaded, setImgLoaded] = useState<Record<string, boolean>>({});
-  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   const isExcellence = caseData.type === CaseType.EXCELLENCE;
 
   const handleImgError = (url: string) => {
@@ -49,7 +49,7 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '' }) => {
   const renderImageBlock = (img: CaseImage, idx: number) => (
     <div key={`${img.url}-${idx}`} className="group space-y-2.5">
       <div
-        onClick={() => !imgErrors[img.url] && setZoomedImage(img.url)}
+        onClick={() => !imgErrors[img.url] && onImageZoom(img.url)}
         className={`relative rounded-[20px] overflow-hidden border border-slate-100 shadow-sm bg-slate-50 flex items-center justify-center min-h-[160px] transition-all group-hover:border-blue-200 group-hover:shadow-md cursor-zoom-in active:scale-[0.98]`}
       >
         {!imgErrors[img.url] && (
@@ -106,7 +106,7 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '' }) => {
         </div>
       </div>
 
-      <div className="p-7">
+      <div className="px-5 py-7">
         <h4 className="text-[20px] font-extrabold text-slate-900 mb-5 leading-[1.45] break-keep tracking-tight">
           {highlightText(caseData.title, highlight)}
         </h4>
@@ -118,7 +118,7 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '' }) => {
               <AlignLeft className={`w-4 h-4 ${isExcellence ? 'text-emerald-500' : 'text-blue-500'}`} />
               {isExcellence ? '예방 활동 및 성과' : '사고 발생 경위'}
             </h5>
-            <div className="bg-slate-50/40 p-6 rounded-[24px] border border-slate-100/80 shadow-inner-sm">
+            <div className="px-1">
               <p className={`text-[16px] text-slate-600 leading-[1.8] text-justify break-keep font-medium ${detailImages.length > 0 ? 'mb-5' : 'mb-0'}`}>
                 {highlightText(caseData.content, highlight)}
               </p>
@@ -155,7 +155,7 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '' }) => {
               <Lightbulb className="w-5 h-5" />
               재발방지 대책 및 시사점
             </h5>
-            <div className={`p-6 rounded-[28px] shadow-sm border-2 ${isExcellence ? 'bg-emerald-50/40 border-emerald-100/30' : 'bg-blue-50/40 border-blue-100/30'}`}>
+            <div className="px-1">
               <ul className="space-y-4">
                 {caseData.countermeasure.map((m, i) => (
                   <li key={i} className={`text-[15px] leading-relaxed flex items-start gap-3.5 ${isExcellence ? 'text-emerald-900' : 'text-blue-900'} font-bold`}>
@@ -182,29 +182,6 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '' }) => {
         </div>
       </div>
 
-      {/* 이미지 확대 모달 */}
-      {zoomedImage && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm animate-in fade-in duration-300"
-          onClick={() => setZoomedImage(null)}
-        >
-          <button
-            className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
-            onClick={() => setZoomedImage(null)}
-          >
-            <X className="w-6 h-6" />
-          </button>
-
-          <div className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-2xl animate-in zoom-in-95 duration-300">
-            <img
-              src={zoomedImage}
-              alt="확대보기"
-              className="max-w-full max-h-[90vh] object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

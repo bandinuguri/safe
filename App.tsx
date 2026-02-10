@@ -5,7 +5,7 @@ import StatsDashboard from './components/StatsDashboard';
 import CaseCard from './components/CaseCard';
 import { CASES } from './constants';
 import { CaseType } from './types';
-import { Search, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, X } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('stats');
@@ -13,6 +13,17 @@ const App: React.FC = () => {
   const [selectedAirport, setSelectedAirport] = useState('전체');
   const [selectedCompany, setSelectedCompany] = useState('전체');
   const [showTopBtn, setShowTopBtn] = useState(false);
+  const [zoomedImageUrl, setZoomedImageUrl] = useState<string | null>(null);
+
+  // 이미지 확대 시 스크롤 잠금
+  useEffect(() => {
+    if (zoomedImageUrl) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [zoomedImageUrl]);
 
   // 스크롤 감지 (Top 버튼 노출)
   useEffect(() => {
@@ -77,23 +88,25 @@ const App: React.FC = () => {
           <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
             {/* 필터 섹션 */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="group space-y-1.5">
-                <label className="text-[11px] font-extrabold text-slate-400 ml-1 transition-colors group-focus-within:text-blue-500">공항 필터</label>
+            <div className="grid grid-cols-2 gap-3 pb-1">
+              <div className="group">
                 <div className="relative">
                   <select
                     value={selectedAirport}
                     onChange={(e) => setSelectedAirport(e.target.value)}
                     className="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-4 py-3 text-[14px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none shadow-sm cursor-pointer transition-all"
                   >
-                    {airports.map(a => <option key={a} value={a}>{a}</option>)}
+                    {airports.map(a => (
+                      <option key={a} value={a}>
+                        {a === '전체' ? '전체 공항' : a}
+                      </option>
+                    ))}
                   </select>
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 </div>
               </div>
 
-              <div className="group space-y-1.5">
-                <label className="text-[11px] font-extrabold text-slate-400 ml-1 transition-colors group-focus-within:text-blue-500">조업사 필터</label>
+              <div className="group">
                 <div className="relative">
                   <select
                     value={selectedCompany}
@@ -102,7 +115,7 @@ const App: React.FC = () => {
                   >
                     {companies.map(c => (
                       <option key={c} value={c}>
-                        {c.length > 10 ? `${c.substring(0, 10)}..` : c}
+                        {c === '전체' ? '전체 조업사' : (c.length > 10 ? `${c.substring(0, 10)}..` : c)}
                       </option>
                     ))}
                   </select>
@@ -126,7 +139,12 @@ const App: React.FC = () => {
             {/* 목록 영역 */}
             <div className="space-y-4 pt-1 pb-16">
               {filteredCases.map((c) => (
-                <CaseCard key={c.id} caseData={c} highlight={searchQuery.trim()} />
+                <CaseCard
+                  key={c.id}
+                  caseData={c}
+                  highlight={searchQuery.trim()}
+                  onImageZoom={(url) => setZoomedImageUrl(url)}
+                />
               ))}
 
               {filteredCases.length === 0 && (
@@ -168,6 +186,30 @@ const App: React.FC = () => {
           <p className="text-[11px] text-slate-300 mt-6">© 2025 MOLIT. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* 글로벌 이미지 확대 모달 */}
+      {zoomedImageUrl && (
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/95 backdrop-blur-md animate-in fade-in duration-300"
+          onClick={() => setZoomedImageUrl(null)}
+        >
+          <button
+            className="absolute top-6 right-6 p-4 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all active:scale-95 shadow-lg"
+            onClick={() => setZoomedImageUrl(null)}
+          >
+            <X className="w-8 h-8" />
+          </button>
+
+          <div className="relative max-w-full lg:max-w-5xl w-full max-h-[90vh] flex items-center justify-center overflow-hidden rounded-2xl shadow-2xl animate-in zoom-in-95 duration-300">
+            <img
+              src={zoomedImageUrl}
+              alt="확대보기"
+              className="max-w-full max-h-[90vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
