@@ -90,6 +90,37 @@ const App: React.FC = () => {
         {(activeTab === 'excellence' || activeTab === 'general' || activeTab === 'accident25') && (
           <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
+            {/* '25년 사고 요약표 */}
+            {activeTab === 'accident25' && (
+              <div className="bg-white rounded-[24px] border border-red-100 shadow-sm overflow-hidden">
+                <div className="flex items-center gap-2 px-5 py-3.5 border-b border-red-50 bg-red-50/60">
+                  <span className="text-red-500 text-[16px]">⊙</span>
+                  <span className="text-[14px] font-black text-red-700">2025년 공항별 사고 발생 현황 (요약)</span>
+                </div>
+                <div className="p-4">
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {[
+                      { name: '인천공항', count: 12 },
+                      { name: '김포공항', count: 3 },
+                      { name: '김해공항', count: 2 },
+                      { name: '청주공항', count: 2 },
+                      { name: '울산공항', count: 1 },
+                      { name: '제주공항', count: 1 },
+                    ].map(({ name, count }) => (
+                      <div key={name} className="flex items-center justify-between bg-slate-50 rounded-xl px-3.5 py-2.5 border border-slate-100">
+                        <span className="text-[13px] font-bold text-slate-600">{name}</span>
+                        <span className="text-[14px] font-black text-red-500">{count}<span className="text-[11px] font-bold text-slate-400 ml-0.5">건</span></span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-3 flex items-center justify-between bg-slate-900 rounded-2xl px-5 py-3">
+                    <span className="text-[14px] font-black text-white">합계</span>
+                    <span className="text-[18px] font-black text-white">21<span className="text-[13px] font-bold text-slate-300 ml-1">건</span></span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 필터 섹션 */}
             <div className="grid grid-cols-2 gap-3 pb-1">
               <div className="group">
