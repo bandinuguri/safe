@@ -8,6 +8,8 @@ import {
   Line,
   Bar,
   Cell,
+  PieChart,
+  Pie,
   XAxis,
   YAxis,
   LabelList,
@@ -25,6 +27,27 @@ import {
 } from 'lucide-react';
 
 const StatsDashboard: React.FC = () => {
+  const renderCustomLabel = (props: any) => {
+    const { cx, cy, midAngle, outerRadius, name, count, percentage } = props;
+    const RADIAN = Math.PI / 180;
+    const radius = outerRadius + 22;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="#475569"
+        textAnchor={x > cx ? 'start' : 'end'}
+        dominantBaseline="central"
+        className="text-[11px] font-bold"
+      >
+        <tspan x={x} dy="-0.2em">{name}</tspan>
+        <tspan x={x} dy="1.2em" fill="#3b82f6" fontSize="10px">{`${count}건(${percentage}%)`}</tspan>
+      </text>
+    );
+  };
 
   const renderLegendText = (value: string) => {
     if (value === '환산건수') {
@@ -285,39 +308,32 @@ const StatsDashboard: React.FC = () => {
 
       {/* 4. 공항별 사고 현황 */}
       <section className="bg-white p-5 rounded-3xl shadow-sm border border-slate-200">
-        <div className="flex items-center gap-1.5 mb-4">
+        <div className="flex items-center gap-1.5 mb-2">
           <Info className="w-4 h-4 text-emerald-600" />
-          <h3 className="text-[15px] font-bold text-slate-800">공항별 지상안전사고 발생현황 <span className="text-slate-400 font-normal text-[13px]">('19~'25)</span></h3>
+          <h3 className="text-[15px] font-bold text-slate-800">공항별 지상안전사고 발생현황 <span className="text-slate-400 font-normal text-[12px]">('19~'25)</span></h3>
         </div>
-
-        {/* 막대 차트 */}
-        <div className="h-[260px] w-full mb-5">
+        <div className="h-[220px] w-full relative mb-4 pb-2">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart
-              data={AIRPORT_STATS}
-              margin={{ top: 16, right: 10, left: -28, bottom: 0 }}
-              layout="vertical"
-            >
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-              <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }} />
-              <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#475569', fontSize: 12, fontWeight: 700 }} width={32} />
-              <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }} formatter={(v: any) => [`${v}건`]} />
-              <Bar dataKey="count" name="합계" radius={[0, 6, 6, 0]} barSize={18}>
+            <PieChart>
+              <Pie data={AIRPORT_STATS} cx="50%" cy="50%" innerRadius={55} outerRadius={70} paddingAngle={5} dataKey="count" nameKey="name" stroke="none" label={renderCustomLabel}>
                 {AIRPORT_STATS.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#6366f1','#ec4899','#14b8a6','#f97316','#84cc16'][index % 10]} />
                 ))}
-                <LabelList dataKey="count" position="right" style={{ fill: '#475569', fontSize: 12, fontWeight: 900 }} formatter={(v: any) => `${v}건`} />
-              </Bar>
-            </ComposedChart>
+              </Pie>
+            </PieChart>
           </ResponsiveContainer>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+            <p className="text-[11px] font-bold text-slate-400 mb-0.5">전체 건수</p>
+            <p className="text-2xl font-black text-slate-800">99건</p>
+          </div>
         </div>
 
         {/* 연도별 표 */}
-        <div className="overflow-x-auto -mx-1">
-          <table className="w-full text-center text-[11px] min-w-[420px]">
+        <div className="border-t border-slate-100 pt-4 overflow-x-auto -mx-1">
+          <table className="w-full text-center text-[11px] min-w-[380px]">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="py-2 px-1.5 font-bold text-slate-600 text-left w-10">구분</th>
+                <th className="py-2 px-1.5 font-bold text-slate-600 text-left">구분</th>
                 {['2019','2020','2021','2022','2023','2024'].map(y => (
                   <th key={y} className="py-2 px-1 font-bold text-slate-500">{y.slice(2)}년</th>
                 ))}
