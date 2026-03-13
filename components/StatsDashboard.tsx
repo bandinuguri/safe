@@ -363,6 +363,72 @@ const StatsDashboard: React.FC = () => {
             </tbody>
           </table>
         </div>
+
+        {/* 사고 분석 요약 */}
+        <div className="space-y-10 mt-6">
+          <div>
+            <h4 className="text-[14px] font-black text-slate-900 flex items-center gap-2 mb-4">
+              <span className="w-1 h-4 bg-blue-600 rounded-full"></span>
+              ㅇ 사고 주요 유형
+            </h4>
+            <p className="text-[13.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
+              사고는 크게 차량/장비 간 접촉, 항공기 접촉, 조업자 상해로 나뉩니다.
+            </p>
+            <div className="space-y-4">
+              {[
+                { title: "차량 및 시설물 접촉", desc: "차량 간 추돌이나 주기장 내 시설물과의 충돌입니다. 특히 탑승교(PBB) 하단부 통과 시 높이 제한을 인지하지 못해 발생하는 충돌 사례가 빈번합니다." },
+                { title: "항공기 접촉", desc: "견인 중인 장비(달리 등)의 결박 해제, 급유차 후진 중 날개 접촉, 토잉(Towing) 중 탑승교와의 접촉 등으로 인해 항공기 엔진이나 기체가 손상되는 경우입니다." },
+                { title: "조업자 인적 상해", desc: "작업 중 발생하는 부상 사고입니다.", sub: ["낙상: 로더(Loader)나 사다리 작업 중 발을 헛딛어 지면으로 추락.", "끼임/충돌: 터그카 운전자가 주변 조업자를 보지 못하고 출발하여 달리 사이에 끼거나, 주행 중인 버스가 작업 중인 윙 가드(Wing Guard)와 접촉."] },
+                { title: "아차 사고 및 우수 사례", desc: "강풍으로 장비가 밀려 항공기에 접근하거나, Push-back 중 타 항공기 침범을 발견하여 멈추는 등 사고로 이어질 뻔한 사례도 포함됩니다." }
+              ].map((item, i) => (
+                <div key={i} className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100 flex flex-col gap-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
+                    <span className="text-[14px] font-bold text-slate-800 tracking-tight">{item.title}</span>
+                  </div>
+                  <p className="text-[13px] text-slate-500 leading-relaxed font-medium pl-3.5">{item.desc}</p>
+                  {item.sub && (
+                    <div className="mt-1 pl-3.5 space-y-1.5">
+                      {item.sub.map((s, j) => (
+                        <div key={j} className="flex items-start gap-2">
+                          <span className="text-slate-300 mt-0.5">•</span>
+                          <span className="text-[12.5px] text-slate-500/80 font-medium leading-relaxed">{s}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-[14px] font-black text-slate-900 flex items-center gap-2 mb-4">
+              <span className="w-1 h-4 bg-orange-500 rounded-full"></span>
+              ㅇ 사고 발생 원인
+            </h4>
+            <p className="text-[13.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
+              지상안전사고의 대부분은 인적 요인에 의해 발생하며, 특히 2024년 발생한 24건은 모두 운전자 부주의로 인한 차량 사고였습니다.
+            </p>
+            <div className="grid grid-cols-1 gap-2.5">
+              {[
+                { title: "운전자 부주의 및 집중력 저하", desc: "운전 미숙, 전방 주시 태만, 안일함 등이 주요 원인입니다." },
+                { title: "사주경계 및 지적확인 미흡", desc: "출발 전 주변 확인을 소홀히 하거나, 교차로 및 유도로 진입 전 일단정지 규정을 준수하지 않는 경우입니다." },
+                { title: "안전 수칙 및 절차 미준수", desc: "고소장비의 통과 높이 제한 무시, 안전거리 미확보, 유도자 없이 후진 접현을 시도하는 등의 행위가 사고를 유발합니다." },
+                { title: "조급한 작업 수행", desc: "항공기 지연이나 스케줄 압박으로 인해 서둘러 조업하다가 발생하는 사고가 많습니다." },
+                { title: "환경적 요인", desc: "강풍으로 인해 결박되지 않은 비동력 장비가 이동하거나, 빗물로 인해 미끄러운 바닥 노면이 원인이 되기도 합니다." }
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col gap-1 p-3 bg-white border border-slate-100 rounded-xl shadow-sm">
+                  <span className="text-[13.5px] font-bold text-slate-800">• {item.title}</span>
+                  <p className="text-[13px] text-slate-500 pl-3 leading-relaxed font-medium">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-8 pt-6 border-t border-slate-100 text-[13.5px] text-slate-600 leading-relaxed font-bold text-center italic bg-slate-50/50 p-4 rounded-2xl">
+              "이러한 사고 분석을 바탕으로 각 공항에서는 사례 전파 교육, 지적확인 캠페인, 시설물 경고 장치 강화 등의 개선 대책을 시행하고 있습니다."
+            </p>
+          </div>
+        </div>
       </section>
     </div>
   );
