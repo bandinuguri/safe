@@ -129,8 +129,15 @@ const StatsDashboard: React.FC = () => {
                 dataKey="year"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#64748b', fontSize: 12, fontWeight: 700 }}
-                dy={10}
+                tick={(props) => {
+                  const { x, y, payload } = props;
+                  const is25 = payload.value === "'25*";
+                  return (
+                    <text x={x} y={y} dy={10} textAnchor="middle" fill={is25 ? '#ef4444' : '#64748b'} fontSize={12} fontWeight={700}>
+                      {payload.value}
+                    </text>
+                  );
+                }}
               />
               <YAxis yAxisId="left" hide />
               <YAxis yAxisId="right" orientation="right" hide />
@@ -149,7 +156,11 @@ const StatsDashboard: React.FC = () => {
                   paddingTop: '0px'
                 }}
               />
-              <Bar yAxisId="left" dataKey="flights" name="운항횟수" fill="#e2e8f0" barSize={32} radius={[4, 4, 0, 0]} />
+              <Bar yAxisId="left" dataKey="flights" name="운항횟수" barSize={32} radius={[4, 4, 0, 0]}>
+                {YEARLY_STATS.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.year === "'25*" ? '#fecaca' : '#e2e8f0'} />
+                ))}
+              </Bar>
               <Line yAxisId="right" type="monotone" dataKey="accidents" name="발생건수" stroke="#ef4444" strokeWidth={2} dot={{ r: 4, fill: '#ef4444', strokeWidth: 1, stroke: '#fff' }}>
                 <LabelList dataKey="accidents" position="top" offset={12} style={{ fill: '#ef4444', fontSize: 13, fontWeight: 900 }} />
               </Line>
@@ -164,10 +175,10 @@ const StatsDashboard: React.FC = () => {
           <p className="text-[13px] font-bold text-slate-700 ml-1">최근 3개년 사고 추이</p>
           <div className="grid grid-cols-3 gap-2">
             {YEARLY_STATS.slice(-3).map(s => (
-              <div key={s.year} className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-center">
-                <p className="text-[12px] font-bold text-slate-400 mb-1">{s.year}년</p>
-                <p className="text-[17px] font-black text-slate-800 leading-none">{s.accidents}건</p>
-                <p className="text-[10px] text-orange-500 font-bold mt-1.5">{s.rate.toFixed(3)}</p>
+              <div key={s.year} className={`p-3.5 rounded-2xl border text-center ${s.year === "'25*" ? 'bg-red-50 border-red-100' : 'bg-slate-50 border-slate-100'}`}>
+                <p className={`text-[12px] font-bold mb-1 ${s.year === "'25*" ? 'text-red-400' : 'text-slate-400'}`}>{s.year}년</p>
+                <p className={`text-[17px] font-black leading-none ${s.year === "'25*" ? 'text-red-600' : 'text-slate-800'}`}>{s.accidents}건</p>
+                <p className={`text-[10px] font-bold mt-1.5 ${s.year === "'25*" ? 'text-red-400' : 'text-orange-500'}`}>{s.rate.toFixed(3)}</p>
               </div>
             ))}
           </div>
