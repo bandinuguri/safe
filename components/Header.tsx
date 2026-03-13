@@ -9,10 +9,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { id: 'stats', name: '통계분석', icon: BarChart3 },
-    { id: 'excellence', name: '예방사례', icon: CheckCircle2 },
-    { id: 'general', name: '사고사례', icon: ShieldAlert },
+    { id: 'stats', name: '사고 현황', icon: BarChart3 },
     { id: 'accident25', name: "'25년 사고", icon: AlertTriangle },
+    { id: 'general', name: '19~24년사고', icon: ShieldAlert },
+    { id: 'excellence', name: '예방사례', icon: CheckCircle2 },
   ];
 
   return (
@@ -24,8 +24,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               <Plane className="text-white w-4.5 h-4.5" />
             </div>
             <div className="flex items-baseline gap-1.5">
-              <h1 className="text-[20px] font-black text-slate-900 tracking-tighter">지상안전사고 사례</h1>
-              <span className="text-[11px] font-bold text-slate-400">('19~'25)</span>
+              <h1 className="text-[20px] font-black text-slate-900 tracking-tighter">공항 지상안전사고 예방</h1>
             </div>
           </div>
         </div>
@@ -39,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center justify-center gap-1.5 flex-1 py-2.5 rounded-xl text-[13px] font-bold transition-all ${
+                className={`flex items-center justify-center gap-1.5 flex-1 py-2.5 rounded-xl text-[12px] font-bold transition-all ${
                   isActive
                     ? isAccident25
                       ? 'bg-red-50 text-red-600 shadow-sm ring-1 ring-red-100'
@@ -47,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     : 'text-slate-500 hover:bg-slate-50'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? (isAccident25 ? 'text-red-600' : 'text-blue-600') : 'text-slate-400'}`} />
+                <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? (isAccident25 ? 'text-red-600' : 'text-blue-600') : 'text-slate-400'}`} />
                 <span>{tab.name}</span>
               </button>
             );
