@@ -4,6 +4,7 @@ import Header from './components/Header';
 import StatsDashboard from './components/StatsDashboard';
 import CaseCard from './components/CaseCard';
 import { CASES } from './constants';
+import { ACCIDENT25_CASES } from './accident25case';
 import { CaseType } from './types';
 import { Search, ChevronDown, ChevronUp, X } from 'lucide-react';
 
@@ -39,7 +40,7 @@ const App: React.FC = () => {
   };
 
   // 공항 및 조업사 목록 추출 최적화
-  const airports = useMemo(() => ['전체', '인천', '김포', '김해', '제주', '대구', '광주', '청주'], []);
+  const airports = useMemo(() => ['전체', '인천', '김포', '김해', '제주', '대구', '광주', '청주', '울산'], []);
   const companies = useMemo(() => {
     const list = Array.from(new Set(CASES.map(c => c.company)));
     return ['전체', ...list.sort()];
@@ -48,11 +49,13 @@ const App: React.FC = () => {
   // 필터링 로직 최적화
   const filteredCases = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
+    const allCases = activeTab === 'accident25' ? ACCIDENT25_CASES : CASES;
 
-    return CASES.filter((c) => {
+    return allCases.filter((c) => {
       const matchesTab =
         (activeTab === 'excellence' && c.type === CaseType.EXCELLENCE) ||
-        (activeTab === 'general' && c.type === CaseType.GENERAL);
+        (activeTab === 'general' && c.type === CaseType.GENERAL) ||
+        (activeTab === 'accident25' && c.type === CaseType.ACCIDENT25);
 
       const matchesAirport =
         selectedAirport === '전체' || c.airport.startsWith(selectedAirport);
@@ -84,7 +87,7 @@ const App: React.FC = () => {
       <main className="flex-1 max-w-xl mx-auto px-4 py-4 w-full">
         {activeTab === 'stats' && <StatsDashboard />}
 
-        {(activeTab === 'excellence' || activeTab === 'general') && (
+        {(activeTab === 'excellence' || activeTab === 'general' || activeTab === 'accident25') && (
           <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
             {/* 필터 섹션 */}

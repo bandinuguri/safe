@@ -1,7 +1,8 @@
 
 export enum CaseType {
   EXCELLENCE = 'EXCELLENCE',
-  GENERAL = 'GENERAL'
+  GENERAL = 'GENERAL',
+  ACCIDENT25 = 'ACCIDENT25'
 }
 
 export interface CaseImage {
@@ -19,11 +20,12 @@ export interface Case {
   content: string;
   cause: string[];
   countermeasure: string[];
+  피해상황?: string[];
   effect?: string;
   imageAlt?: string;
-  imageUrl?: string; // 단일 이미지 (하위 호환)
-  images?: CaseImage[]; // 상세 내용 내 다중 이미지
-  footerImages?: CaseImage[]; // 하단(대책 아래) 다중 이미지
+  imageUrl?: string;
+  images?: CaseImage[];
+  footerImages?: CaseImage[];
   location?: string;
 }
 

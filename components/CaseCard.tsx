@@ -1,7 +1,7 @@
 
 import React, { useState, memo } from 'react';
 import { Case, CaseType, CaseImage } from '../types';
-import { Calendar, AlertCircle, CheckCircle2, Lightbulb, AlignLeft, Image as ImageIcon, Camera, Loader2, X, ZoomIn } from 'lucide-react';
+import { Calendar, AlertCircle, CheckCircle2, Lightbulb, AlignLeft, Loader2, ZoomIn, MapPin } from 'lucide-react';
 
 interface CaseCardProps {
   caseData: Case;
@@ -13,14 +13,10 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const [imgLoaded, setImgLoaded] = useState<Record<string, boolean>>({});
   const isExcellence = caseData.type === CaseType.EXCELLENCE;
+  const isAccident25 = caseData.type === CaseType.ACCIDENT25;
 
-  const handleImgError = (url: string) => {
-    setImgErrors(prev => ({ ...prev, [url]: true }));
-  };
-
-  const handleImgLoad = (url: string) => {
-    setImgLoaded(prev => ({ ...prev, [url]: true }));
-  };
+  const handleImgError = (url: string) => setImgErrors(prev => ({ ...prev, [url]: true }));
+  const handleImgLoad = (url: string) => setImgLoaded(prev => ({ ...prev, [url]: true }));
 
   const highlightText = (text: string, query: string) => {
     if (!query.trim()) return text;
@@ -43,14 +39,19 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
     ? `${caseData.company.substring(0, 8)}..`
     : caseData.company;
 
-  const displayId = isExcellence ? `예방-${caseData.id}` : `사례-${caseData.id - 100}`;
+  let displayId: string;
+  if (isExcellence) displayId = `예방-${caseData.id}`;
+  else if (isAccident25) displayId = `'25-${caseData.id}`;
+  else displayId = `사례-${caseData.id - 100}`;
+
   const detailImages = caseData.images || (caseData.imageUrl ? [{ url: caseData.imageUrl }] : []);
+  const 피해목록 = caseData.피해상황 || caseData.countermeasure || [];
 
   const renderImageBlock = (img: CaseImage, idx: number) => (
     <div key={`${img.url}-${idx}`} className="group space-y-2.5">
       <div
         onClick={() => !imgErrors[img.url] && onImageZoom(img.url)}
-        className={`relative rounded-[20px] overflow-hidden border border-slate-100 shadow-sm bg-slate-50 flex items-center justify-center min-h-[160px] transition-all group-hover:border-blue-200 group-hover:shadow-md cursor-zoom-in active:scale-[0.98]`}
+        className="relative rounded-[20px] overflow-hidden border border-slate-100 shadow-sm bg-slate-50 flex items-center justify-center min-h-[160px] transition-all group-hover:border-blue-200 group-hover:shadow-md cursor-zoom-in active:scale-[0.98]"
       >
         {!imgErrors[img.url] && (
           <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/5 transition-colors z-10 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -85,18 +86,34 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
           </div>
         )}
       </div>
+      {img.label && (
+        <p className="text-center text-[12px] text-slate-400 font-medium">{img.label}</p>
+      )}
     </div>
   );
 
+  // 스타일 변수
+  const cardBorder = isExcellence ? 'border-emerald-100' : isAccident25 ? 'border-red-100' : 'border-slate-200';
+  const headerBg = isExcellence ? 'bg-emerald-100/60' : isAccident25 ? 'bg-red-50/80 border-b border-red-100/50' : 'bg-slate-100/80 border-b border-slate-200/50';
+  const badgeBg = isExcellence ? 'bg-emerald-500 text-white' : isAccident25 ? 'bg-red-600 text-white' : 'bg-slate-800 text-white';
+  const titleColor = isExcellence ? 'text-emerald-900' : isAccident25 ? 'text-red-900' : 'text-slate-800';
+  const sectionLabelColor = isExcellence ? 'text-emerald-700' : isAccident25 ? 'text-red-700' : 'text-slate-800';
+  const sectionIconColor = isExcellence ? 'text-emerald-500' : isAccident25 ? 'text-red-400' : 'text-blue-500';
+  const causeBarColor = isExcellence ? 'bg-emerald-500' : 'bg-red-500';
+  const causeNumBg = isExcellence ? 'bg-emerald-100 text-emerald-600' : 'bg-red-50 text-red-500';
+  const bottomBorder = isExcellence ? 'border-emerald-100' : isAccident25 ? 'border-red-100' : 'border-blue-100';
+  const bottomTitleColor = isExcellence ? 'text-emerald-700' : isAccident25 ? 'text-red-600' : 'text-blue-600';
+  const bottomTextColor = isExcellence ? 'text-emerald-900' : isAccident25 ? 'text-red-900' : 'text-blue-900';
+
   return (
-    <div className={`bg-white rounded-[32px] shadow-sm border overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1 animate-fade-in ${isExcellence ? 'border-emerald-100' : 'border-slate-200'}`}>
+    <div className={`bg-white rounded-[32px] shadow-sm border overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1 animate-fade-in ${cardBorder}`}>
       {/* 카드 헤더 */}
-      <div className={`px-6 py-4 flex items-center justify-between ${isExcellence ? 'bg-emerald-100/60' : 'bg-slate-100/80 border-b border-slate-200/50'}`}>
+      <div className={`px-6 py-4 flex items-center justify-between ${headerBg}`}>
         <div className="flex items-center gap-3">
-          <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg shadow-sm tracking-tighter ${isExcellence ? 'bg-emerald-500 text-white' : 'bg-slate-800 text-white'}`}>
+          <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg shadow-sm tracking-tighter ${badgeBg}`}>
             {displayId}
           </span>
-          <span className={`text-[15px] font-bold tracking-tight ${isExcellence ? 'text-emerald-900' : 'text-slate-800'}`}>
+          <span className={`text-[15px] font-bold tracking-tight ${titleColor}`}>
             {shortAirport} · {displayCompany}
           </span>
         </div>
@@ -111,18 +128,25 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
           {highlightText(caseData.title, highlight)}
         </h4>
 
+        {/* 발생장소 (ACCIDENT25) */}
+        {isAccident25 && caseData.location && (
+          <div className="inline-flex items-center gap-2 mb-5 text-[13px] font-bold text-red-500 bg-red-50 px-3.5 py-2 rounded-xl">
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
+            <span>{caseData.location}</span>
+          </div>
+        )}
+
         <div className="space-y-5">
-          {/* 상세 내용 섹션 */}
+          {/* 사고 경위 */}
           <div className="space-y-2.5">
-            <h5 className={`text-[15px] font-black flex items-center gap-2 uppercase tracking-wide ${isExcellence ? 'text-emerald-700' : 'text-slate-800'}`}>
-              <AlignLeft className={`w-4 h-4 ${isExcellence ? 'text-emerald-500' : 'text-blue-500'}`} />
+            <h5 className={`text-[15px] font-black flex items-center gap-2 uppercase tracking-wide ${sectionLabelColor}`}>
+              <AlignLeft className={`w-4 h-4 ${sectionIconColor}`} />
               {isExcellence ? '예방 활동 및 성과' : '사고 발생 경위'}
             </h5>
             <div className="px-1">
               <p className={`text-[16px] text-slate-600 leading-[1.8] text-justify break-keep font-medium ${detailImages.length > 0 ? 'mb-5' : 'mb-0'}`}>
                 {highlightText(caseData.content, highlight)}
               </p>
-
               {detailImages.length > 0 && (
                 <div className="mt-5 space-y-6">
                   {detailImages.map((img, idx) => renderImageBlock(img, idx))}
@@ -131,16 +155,16 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
             </div>
           </div>
 
-          {/* 원인 분석 섹션 */}
+          {/* 원인 분석 */}
           <div className="space-y-2.5">
-            <h5 className={`text-[15px] font-black flex items-center gap-2 uppercase tracking-wide ${isExcellence ? 'text-emerald-700' : 'text-slate-800'}`}>
-              <span className={`w-1 h-4 rounded-full ${isExcellence ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
-              핵심 원인 분석
+            <h5 className={`text-[15px] font-black flex items-center gap-2 uppercase tracking-wide ${sectionLabelColor}`}>
+              <span className={`w-1 h-4 rounded-full ${causeBarColor}`}></span>
+              {isAccident25 ? '사고 원인' : '핵심 원인 분석'}
             </h5>
             <div className="grid grid-cols-1 gap-3.5">
               {caseData.cause.map((c, i) => (
                 <div key={i} className="flex items-start gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm transition-colors hover:border-slate-200">
-                  <span className={`mt-0.5 w-6 h-6 flex items-center justify-center rounded-lg text-[12px] font-black shrink-0 ${isExcellence ? 'bg-emerald-100 text-emerald-600' : 'bg-red-50 text-red-500'}`}>
+                  <span className={`mt-0.5 w-6 h-6 flex items-center justify-center rounded-lg text-[12px] font-black shrink-0 ${causeNumBg}`}>
                     {i + 1}
                   </span>
                   <span className="text-[15px] text-slate-700 leading-snug font-semibold pt-0.5">{c}</span>
@@ -149,16 +173,16 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
             </div>
           </div>
 
-          {/* 대책 섹션 */}
-          <div className={`pt-7 border-t-2 border-dashed ${isExcellence ? 'border-emerald-100' : 'border-blue-100'} space-y-4`}>
-            <h5 className={`text-[15px] font-black flex items-center gap-2 uppercase tracking-wide ${isExcellence ? 'text-emerald-700' : 'text-blue-600'}`}>
+          {/* 피해현황 / 재발방지 대책 */}
+          <div className={`pt-7 border-t-2 border-dashed ${bottomBorder} space-y-4`}>
+            <h5 className={`text-[15px] font-black flex items-center gap-2 uppercase tracking-wide ${bottomTitleColor}`}>
               <Lightbulb className="w-5 h-5" />
-              재발방지 대책 및 시사점
+              {isAccident25 ? '피해 현황' : '재발방지 대책 및 시사점'}
             </h5>
             <div className="px-1">
               <ul className="space-y-4">
-                {caseData.countermeasure.map((m, i) => (
-                  <li key={i} className={`text-[15px] leading-relaxed flex items-start gap-3.5 ${isExcellence ? 'text-emerald-900' : 'text-blue-900'} font-bold`}>
+                {피해목록.map((m, i) => (
+                  <li key={i} className={`text-[15px] leading-relaxed flex items-start gap-3.5 ${bottomTextColor} font-bold`}>
                     <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0 opacity-40" />
                     <span className="break-keep">{m}</span>
                   </li>
@@ -181,7 +205,6 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
           </div>
         </div>
       </div>
-
     </div>
   );
 };

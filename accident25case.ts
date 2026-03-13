@@ -1,0 +1,335 @@
+import { Case, CaseType } from './types';
+
+export const ACCIDENT25_CASES: Case[] = [
+  {
+    id: 1,
+    type: CaseType.ACCIDENT25,
+    title: "#252 BSA구역 내 조업직원 손가락 골절",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.1.23.(목)",
+    location: "#252 주기장 BSA 구역 내",
+    content: "#252 주기장 BSA 구역 내 조업사 자체 작업 중 달리 연결부위에 손가락이 낌",
+    cause: ["작업자 부주의"],
+    피해상황: ["(인적피해) 조업직원 1명 손가락 부상", "(물적피해) 없음"],
+    images: [
+      { url: "25_image/01_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/01_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 2,
+    type: CaseType.ACCIDENT25,
+    title: "북측지하차도 서편 진입로 시설물 파손",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.1.29.(수)",
+    location: "북측지하차도 서편 진입로",
+    content: "터그카 운행 중 탈락한 달리가 지하차도 진입로 부근 높이제한 기둥을 접촉, 높이제한봉 파손·탈락",
+    cause: ["운전자 부주의"],
+    피해상황: ["(인적피해) 없음", "(물적피해) 시설물(높이제한봉) 1개 파손"],
+    images: [
+      { url: "25_image/02_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/02_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 3,
+    type: CaseType.ACCIDENT25,
+    title: "라바토리카와 토잉트렉터 추돌 사고",
+    company: "김포공항",
+    airport: "김포공항",
+    date: "2025.2.2.(일)",
+    location: "국내선 #34 주기장",
+    content: "국내선에서 국제선 #34 주기장으로 이동중인 토잉트렉터(AAP)를 뒤따르던 라바토리카(KAS)가 #33~34 주기장사이에서 토잉트렉터(AAP)를 추월하다 1차 추돌 사고 발생, 이후 충격으로 라바토리카(KAS)가 2차 조명탑 가드레일 충돌 사고 발생",
+    cause: ["운전자 부주의"],
+    피해상황: ["(인적피해) 없음", "(물적피해) 사고차량 2대 파손, #34 조명탑(22번) 가드레일 파손"],
+    images: [
+      { url: "25_image/03_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/03_02.jpg", label: "사고 현장 2" },
+      { url: "25_image/03_03.jpg", label: "사고 현장 3" },
+      { url: "25_image/03_04.jpg", label: "사고 현장 4" }
+    ],
+  },
+  {
+    id: 4,
+    type: CaseType.ACCIDENT25,
+    title: "#253 주기장 항공기 AC-GPS 강제분리",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.2.7.(금)",
+    location: "#253 주기장",
+    content: "출발 항공기(승객 탑승)와 AC-GPS 케이블이 연결된 상태에서 PBB를 이현하여 케이블이 강제 탈락",
+    cause: ["항공기와 AC-GPS가 연결된 상태로 탑승교 이현"],
+    피해상황: ["(인적피해) 없음", "(물적피해) 항공기 노즈기어 도어 체결부위 일부 파손, AC-GPS 커버 브라켓 파손"],
+    images: [
+      { url: "25_image/04_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/04_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 5,
+    type: CaseType.ACCIDENT25,
+    title: "북측지하차도 내 차량 간 추돌",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.2.11.(화)",
+    location: "북측지하차도 내 화물터미널 방향 중앙 부근",
+    content: "북측지하차도 중앙 부근에서 작업 중이던 승용차(운전자 미탑승)를 뒤에서 차량이 추돌함",
+    cause: ["운전자 부주의"],
+    피해상황: ["(인적피해) 없음", "(물적피해) 차량 2대 일부 파손"],
+    images: [
+      { url: "25_image/05_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/05_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 6,
+    type: CaseType.ACCIDENT25,
+    title: "램프버스가 지상조업 직원 추돌",
+    company: "김해공항",
+    airport: "김해공항",
+    date: "2025.2.21.(금)",
+    location: "국내선 #22 주기장",
+    content: "JAS소속 승객 수송 버스가 승객 수송을 위해 국내선 #22번 주기장으로 이동 중 JAS소속 조업직원을 보지 못하고 추돌",
+    cause: ["운전자 부주의"],
+    피해상황: ["(인적피해) 조업사 직원 사망", "(물적피해) -"],
+  },
+  {
+    id: 7,
+    type: CaseType.ACCIDENT25,
+    title: "#43 주기장 전면GSE도로 인근 접촉",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.3.21.(금)",
+    location: "#43 주기장 전면GSE도로 인근",
+    content: "#43 전면GSE도로에서 운행하던 차량이 주차 된 차량 3대를 졸음운전으로 접촉",
+    cause: ["운전자 부주의 (졸음운전)"],
+    피해상황: ["(인적피해) 주차차량 운전석 탑승직원 어깨통증", "(물적피해) 차량 3대 일부 파손"],
+    images: [
+      { url: "25_image/07_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/07_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 8,
+    type: CaseType.ACCIDENT25,
+    title: "#30 주기장 전면GSE도로 터그카 간 접촉",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.3.23.(일)",
+    location: "#30 주기장 전면GSE도로",
+    content: "#30 주기장 전면GSE도로에서 직진하는 터그카와 장비 정치장으로 좌회전 진입하던 터그카 간 접촉 발생",
+    cause: ["운전자 부주의"],
+    피해상황: ["(인적피해) 직진차량 운전자 좌측 허리, 둔부 통증", "(물적피해) 차량 2대 일부 파손"],
+    images: [
+      { url: "25_image/08_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/08_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 9,
+    type: CaseType.ACCIDENT25,
+    title: "이동지역 내 차량 간 사고 발생",
+    company: "청주공항",
+    airport: "청주공항",
+    date: "2025.4.22.(화)",
+    location: "#1번 주기장 인근 차량도로",
+    content: "제이에이에스 소속 봉고 차량 운전자가 #1번 장비정치장에서 출발하던 중 한공항보안 소속 니로 차량과 충돌",
+    cause: ["운전자 부주의"],
+    피해상황: ["(물적피해) 봉고 차량 전면 일부 및 니로차량 측면 파손"],
+    images: [
+      { url: "25_image/09_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/09_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 10,
+    type: CaseType.ACCIDENT25,
+    title: "터그카와 토잉카 간 사고 발생",
+    company: "김해공항",
+    airport: "김해공항",
+    date: "2025.5.2.(금)",
+    location: "국제선 #10 주기장 앞 GSE도로",
+    content: "국제선 10번 주기장에서 샤프 터그카가 전방에 일시 정지한 AAP 토잉카에 견인된 토우바를 추돌",
+    cause: ["운전자 부주의"],
+    피해상황: ["(물적피해) 토우바 일부 파손"],
+    images: [
+      { url: "25_image/10_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/10_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 11,
+    type: CaseType.ACCIDENT25,
+    title: "항공기 견인 차량 유도로 오진입",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.5.7.(수)",
+    location: "R3-R7",
+    content: "견인 항공기에 R8, R4 전 대기 지시 하였으나, 견인 운전자의 착각으로 R3에서 R7으로 오진입",
+    cause: ["견인 운전자 착각"],
+    피해상황: ["(인적피해) 없음", "(물적피해) 없음"],
+    images: [
+      { url: "25_image/11_01.jpg", label: "사고 현장 1" }
+    ],
+  },
+  {
+    id: 12,
+    type: CaseType.ACCIDENT25,
+    title: "SUV 차량 주행중 배수로에 전도",
+    company: "김포공항",
+    airport: "김포공항",
+    date: "2025.5.24.(토)",
+    location: "국내선 외곽 차량도로(#240 외곽)",
+    content: "한국공항보안 소속 SUV 차량이 국제선 외곽의 차량도에서 졸음운전으로 주행 구간을 이탈하여 배수로에 빠짐",
+    cause: ["운전자 부주의 (졸음운전)"],
+    피해상황: ["(물적피해) SUV 차량 파손"],
+    images: [
+      { url: "25_image/12_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/12_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 13,
+    type: CaseType.ACCIDENT25,
+    title: "SUV 차량 주행중 배수로에 전도",
+    company: "울산공항",
+    airport: "울산공항",
+    date: "2025.6.16.(월)",
+    location: "4초소 앞 배수로",
+    content: "한국공항보안 소속 니로차량 운전자가 보안 술찰 중 졸음운전으로 인해 4초소 앞 배수로에 빠짐",
+    cause: ["운전자 부주의 (졸음운전)"],
+    피해상황: ["(물적피해) 니로 차량 파손"],
+    images: [
+      { url: "25_image/13_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/13_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 14,
+    type: CaseType.ACCIDENT25,
+    title: "#601 주기장 인근 조업 중 부상자 발생",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.6.24.(화)",
+    location: "#601 주기장 인근",
+    content: "#601 주기장 인근에서 조업차량에 폐기물 적재 중 차량 위에 실려 있던 달리 타이어가 떨어지면서 안면 부상",
+    cause: ["조사 중"],
+    피해상황: ["(인적피해) 안면 부상", "(물적피해) 없음"],
+    images: [
+      { url: "25_image/14_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/14_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 15,
+    type: CaseType.ACCIDENT25,
+    title: "4활주로 북단 보안울타리-차량 충돌",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.8.26.(화)",
+    location: "4활주로 북단 보안울타리 인근",
+    content: "제4서비스 도로로 이동하던 차량이 4활주로 북단 보안울타리와 충돌",
+    cause: ["조사 중"],
+    피해상황: ["(인적피해) 운전자 사망", "(물적피해) 보안울타리 및 차량 파손"],
+    images: [
+      { url: "25_image/15_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/15_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 16,
+    type: CaseType.ACCIDENT25,
+    title: "#841 인근 보안울타리-차량 충돌",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.8.27.(수)",
+    location: "#841 인근 보안울타리",
+    content: "운전자 졸음운전으로 인하여 전방에 있는 보안울타리를 확인하지 못하고 충돌",
+    cause: ["운전자 부주의 (졸음운전)"],
+    피해상황: ["(인적피해) 동승자 안면부 및 팔 타박상", "(물적피해) 보안울타리 파손, 차량 파손"],
+    images: [
+      { url: "25_image/16_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/16_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 17,
+    type: CaseType.ACCIDENT25,
+    title: "이동지역 내 차량-시설 간 충돌 발생",
+    company: "청주공항",
+    airport: "청주공항",
+    date: "2025.10.2.(화)",
+    location: "#7번 주기장 인근 차량도로",
+    content: "에어로케이 항공 소속 케이터링 차량이 작업 후 차량 안전난간을 접지 않고 이동 중 차량 높이제한 구조물(봉)과 충돌",
+    cause: ["운전자 부주의"],
+    피해상황: ["(물적피해) 차량 안전난간 파손, 높이제한 충돌방지봉 파손"],
+    images: [
+      { url: "25_image/17_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/17_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 18,
+    type: CaseType.ACCIDENT25,
+    title: "#263 차량-직원 간 접촉 발생",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.10.13.(월)",
+    location: "#263 탑승교 하부 GSE 도로",
+    content: "#263 주기장 탑승교 하부 GSE 도로로 사고 차량이 커브길 주행(약 20km/h 운행) 중 짐을 들고 무단횡단 중인 조업 직원(피해자)과 접촉",
+    cause: ["운전자 부주의"],
+    피해상황: ["(인적피해) 후두부 1cm 열상(환자 의식 있음)", "(물적피해) 없음"],
+    images: [
+      { url: "25_image/18_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/18_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 19,
+    type: CaseType.ACCIDENT25,
+    title: "T1 서측 G1 초소 인근 보안울타리 차량충돌",
+    company: "인천공항",
+    airport: "인천공항",
+    date: "2025.10.22.(수)",
+    location: "T1 서측 G1 초소 인근 외곽보안울타리",
+    content: "#50번 주기장으로 항공기 토잉 후 전면 GSE도로로 이탈 회전중 회전반경이 너무 커 토잉카 우측 후미와 외곽보안울타리 충돌",
+    cause: ["운전자 부주의"],
+    피해상황: ["(인적피해) 없음", "(물적피해) 보안울타리 일부 파손(2m×1.3m) / 토잉카 파손없음"],
+    images: [
+      { url: "25_image/19_01.jpg", label: "사고 현장 1" },
+      { url: "25_image/19_02.jpg", label: "사고 현장 2" }
+    ],
+  },
+  {
+    id: 20,
+    type: CaseType.ACCIDENT25,
+    title: "이동지역 내 차량 배수로 빠짐 발생",
+    company: "김포공항",
+    airport: "김포공항",
+    date: "2025.12.24.(수)",
+    location: "외곽도로 배수로(그리드맵 L15 지점)",
+    content: "서울소방119항공대 소속 직원이 운전 중 전방주시 소홀(운전중 성에 제거 조작)로 외곽도로 배수로에 차량이 빠짐",
+    cause: ["운전자 부주의 (전방주시 소홀)"],
+    피해상황: ["(물적피해) 사고차량 범퍼 손상"],
+    images: [
+      { url: "25_image/20_01.jpg", label: "사고 현장 1" }
+    ],
+  },
+  {
+    id: 21,
+    type: CaseType.ACCIDENT25,
+    title: "이동지역 내 차량 간 접촉사고 발생",
+    company: "제주공항",
+    airport: "제주공항",
+    date: "2025.12.29.(월)",
+    location: "#6번 탑승교 인근 차량도로",
+    content: "#6번 탑승교 인근 차량 도로에서 ATS 램프버스와 AQ 레이차량 간 접촉사고 발생",
+    cause: ["운전자 부주의"],
+    피해상황: ["(물적피해) AQ 레이차량 범퍼 일부 찌그러짐"],
+    images: [
+      { url: "25_image/21_01.jpg", label: "사고 현장 1" }
+    ],
+  }
+];
