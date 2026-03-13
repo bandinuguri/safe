@@ -23,8 +23,14 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             <div className="bg-blue-600 p-1.5 rounded-lg shadow-sm shadow-blue-200 shrink-0">
               <Plane className="text-white w-4.5 h-4.5" />
             </div>
-            <div className="flex items-baseline gap-1.5">
+            <div className="flex items-baseline gap-2">
               <h1 className="text-[20px] font-black text-slate-900 tracking-tighter">공항 지상안전사고 예방</h1>
+              <a
+                href="/safe/pc.html"
+                className="text-[11px] font-bold text-blue-500 border border-blue-200 bg-blue-50 px-2 py-0.5 rounded-md hover:bg-blue-100 transition-colors whitespace-nowrap"
+              >
+                수정페이지
+              </a>
             </div>
           </div>
         </div>

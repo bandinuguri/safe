@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공항 지상안전사고 예방 (PC버전)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #2563eb; --blue-light: #eff6ff; --blue-border: #bfdbfe;
+      --red: #dc2626; --red-light: #fff5f5; --red-border: #fecaca;
+      --emerald: #059669; --emerald-light: #ecfdf5;
+      --slate-900: #0f172a; --slate-800: #1e293b; --slate-700: #334155;
+      --slate-600: #475569; --slate-500: #64748b; --slate-400: #94a3b8;
+      --slate-300: #cbd5e1; --slate-200: #e2e8f0; --slate-100: #f1f5f9; --slate-50: #f8fafc;
+      --white: #ffffff;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; background: var(--slate-50); color: var(--slate-800); line-height: 1.5; }
+    
+    /* ── 헤더 ── */
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--slate-200); }
+    .header-inner { max-width: 1400px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .header-logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { background: var(--blue); padding: 8px; border-radius: 10px; display: flex; }
+    .logo-icon svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 2; }
+    .header-title { font-size: 20px; font-weight: 900; color: var(--slate-900); }
+    .header-badge { font-size: 11px; color: var(--slate-400); font-weight: 700; background: var(--slate-100); padding: 2px 8px; border-radius: 20px; border: 1px solid var(--slate-200); }
+    .header-back { font-size: 12px; color: var(--blue); font-weight: 700; text-decoration: none; border: 1px solid var(--blue-border); padding: 5px 12px; border-radius: 8px; background: var(--blue-light); transition: opacity .2s; }
+    .header-back:hover { opacity: .8; }
+
+    /* ── 탭 네비 ── */
+    .tab-nav { max-width: 1400px; margin: 0 auto; padding: 0 32px; display: flex; gap: 4px; padding-top: 0; }
+    .tab-nav-wrap { background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--slate-200); }
+    .tab-btn { display: flex; align-items: center; gap: 6px; padding: 12px 20px; font-size: 14px; font-weight: 700; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; color: var(--slate-500); transition: all .2s; }
+    .tab-btn:hover { color: var(--slate-700); background: var(--slate-50); }
+    .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+    .tab-btn.active-red { color: var(--red); border-bottom-color: var(--red); }
+    .tab-btn svg { width: 15px; height: 15px; }
+
+    /* ── 레이아웃 ── */
+    .main { max-width: 1400px; margin: 0 auto; padding: 28px 32px 60px; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── 카드 공통 ── */
+    .card { background: white; border-radius: 20px; border: 1px solid var(--slate-200); overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+    .section-title { font-size: 15px; font-weight: 800; color: var(--slate-800); display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+
+    /* ── 통계 대시보드 ── */
+    .stats-grid { display: grid; grid-template-columns: 360px 1fr 1fr; gap: 20px; align-items: start; }
+    .stats-summary-card { background: white; border-radius: 20px; border: 1px solid var(--slate-200); overflow: hidden; }
+    .stats-summary-header { background: var(--slate-800); padding: 14px 20px; text-align: center; }
+    .stats-summary-header h2 { font-size: 15px; font-weight: 700; color: white; }
+    .stats-summary-body { padding: 20px; }
+    .accident-type-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--slate-50); border-radius: 14px; border: 1px solid var(--slate-100); margin-bottom: 10px; }
+    .cause-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+    .cause-item { padding: 12px; background: #eff6ff; border-radius: 14px; border: 1px solid #bfdbfe; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .chart-card { background: white; border-radius: 20px; border: 1px solid var(--slate-200); padding: 22px; }
+    .stat-pills { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 16px; }
+    .stat-pill { background: var(--slate-50); border-radius: 14px; border: 1px solid var(--slate-100); padding: 12px; text-align: center; }
+
+    /* ── 사고 분석 텍스트 ── */
+    .analysis-section { margin-top: 24px; }
+    .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+    .analysis-item { background: var(--slate-50); border-radius: 14px; border: 1px solid var(--slate-100); padding: 14px 16px; }
+
+    /* ── 사례 목록 (19~24 / 예방) ── */
+    .cases-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; }
+    .filter-sidebar { background: white; border-radius: 20px; border: 1px solid var(--slate-200); padding: 20px; position: sticky; top: 120px; }
+    .filter-title { font-size: 13px; font-weight: 800; color: var(--slate-500); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+    .filter-select { width: 100%; appearance: none; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 10px 14px; font-size: 13px; font-weight: 700; color: var(--slate-700); cursor: pointer; margin-bottom: 10px; }
+    .search-input { width: 100%; border: 1px solid var(--slate-200); border-radius: 12px; padding: 10px 14px; font-size: 13px; background: var(--slate-50); color: var(--slate-700); }
+    .search-input:focus { outline: none; border-color: var(--blue); }
+    .result-count { font-size: 12px; font-weight: 700; color: var(--slate-400); margin-top: 12px; }
+    .reset-btn { display: block; width: 100%; margin-top: 10px; padding: 8px; background: none; border: 1px dashed var(--slate-300); border-radius: 10px; font-size: 12px; font-weight: 700; color: var(--blue); cursor: pointer; }
+    .reset-btn:hover { background: var(--blue-light); }
+
+    /* ── 케이스 카드 ── */
+    .cases-list { display: flex; flex-direction: column; gap: 16px; }
+    .case-card { background: white; border-radius: 24px; border: 1.5px solid var(--slate-200); overflow: hidden; transition: box-shadow .2s, transform .2s; }
+    .case-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,.1); transform: translateY(-2px); }
+    .case-card.excellence { border-color: #a7f3d0; }
+    .case-card.accident25 { border-color: var(--red-border); }
+    .case-card-header { padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .case-card-header.general-bg { background: var(--slate-100); border-bottom: 1px solid var(--slate-200); }
+    .case-card-header.excellence-bg { background: var(--emerald-light); border-bottom: 1px solid #a7f3d0; }
+    .case-card-header.accident25-bg { background: var(--red-light); border-bottom: 1px solid var(--red-border); }
+    .case-badge { font-size: 10px; font-weight: 900; padding: 3px 10px; border-radius: 8px; }
+    .badge-general { background: var(--slate-800); color: white; }
+    .badge-excellence { background: var(--emerald); color: white; }
+    .badge-25 { background: var(--red); color: white; }
+    .case-meta { font-size: 14px; font-weight: 700; }
+    .case-date { font-size: 12px; color: var(--slate-400); font-weight: 700; display: flex; align-items: center; gap: 5px; background: white; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--slate-200); }
+    .case-body { padding: 20px 22px; display: grid; grid-template-columns: 1fr 260px; gap: 24px; align-items: start; }
+    .case-body.no-image { grid-template-columns: 1fr; }
+    .case-title { font-size: 19px; font-weight: 900; color: var(--slate-900); margin-bottom: 14px; line-height: 1.45; }
+    .case-location { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--red); background: var(--red-light); padding: 5px 12px; border-radius: 10px; margin-bottom: 14px; }
+    .case-section-label { font-size: 13px; font-weight: 800; color: var(--slate-700); display: flex; align-items: center; gap: 6px; margin-bottom: 8px; margin-top: 14px; }
+    .case-section-label.red { color: #b91c1c; }
+    .case-section-label.blue { color: #1d4ed8; }
+    .case-section-label.emerald { color: #065f46; }
+    .case-content-text { font-size: 14px; color: var(--slate-600); line-height: 1.85; font-weight: 500; }
+    .cause-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .cause-item-row { display: flex; align-items: flex-start; gap: 10px; background: var(--slate-50); border: 1px solid var(--slate-100); border-radius: 12px; padding: 10px 14px; }
+    .cause-num { min-width: 22px; height: 22px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; }
+    .cause-num.red { background: #fef2f2; color: #ef4444; }
+    .cause-num.emerald { background: #ecfdf5; color: #059669; }
+    .countermeasure-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .countermeasure-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; font-weight: 700; line-height: 1.6; }
+    .divider-dashed { border-top: 2px dashed var(--slate-200); margin: 16px 0; }
+    .divider-dashed.red-dashed { border-color: var(--red-border); }
+    .divider-dashed.blue-dashed { border-color: #bfdbfe; }
+    .divider-dashed.emerald-dashed { border-color: #a7f3d0; }
+    .case-img-block { border-radius: 16px; overflow: hidden; border: 1px solid var(--slate-100); background: var(--slate-50); cursor: zoom-in; }
+    .case-img-block img { width: 100%; height: auto; display: block; max-height: 320px; object-fit: contain; }
+    .img-label { text-align: center; font-size: 11px; color: var(--slate-400); font-weight: 600; padding: 6px 0 8px; }
+    .empty-state { padding: 80px 0; text-align: center; background: white; border-radius: 20px; border: 1px dashed var(--slate-200); }
+
+    /* ── '25년 사고 탭 ── */
+    .accident25-summary { background: white; border-radius: 20px; border: 1px solid var(--red-border); overflow: hidden; margin-bottom: 20px; }
+    .accident25-summary-header { background: #fff5f5; border-bottom: 1px solid var(--red-border); padding: 12px 20px; display: flex; align-items: center; gap: 8px; }
+    .accident25-summary-body { padding: 16px 20px; }
+    .airport-count-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 10px; margin-bottom: 12px; }
+    .airport-count-item { background: var(--slate-50); border-radius: 12px; border: 1px solid var(--slate-100); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .total-row { background: var(--slate-800); border-radius: 14px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+
+    /* ── 이미지 줌 모달 ── */
+    .zoom-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15,23,42,.95); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+    .zoom-modal.open { display: flex; }
+    .zoom-modal img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 16px; }
+    .zoom-close { position: absolute; top: 20px; right: 24px; background: rgba(255,255,255,.15); border: none; border-radius: 50%; width: 44px; height: 44px; color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+    mark { background: #fef08a; border-radius: 2px; padding: 0 2px; }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+      </div>
+      <span class="header-title">공항 지상안전사고 예방</span>
+      <span class="header-badge">PC버전</span>
+    </div>
+    <a class="header-back" href="/safe/">← 모바일 버전으로</a>
+  </div>
+</div>
+
+<!-- 탭 네비게이션 -->
+<div class="tab-nav-wrap">
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="stats" onclick="switchTab('stats', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      사고 현황
+    </button>
+    <button class="tab-btn" data-tab="accident25" onclick="switchTab('accident25', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      '25년 사고
+    </button>
+    <button class="tab-btn" data-tab="general" onclick="switchTab('general', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      19~24년 사고
+    </button>
+    <button class="tab-btn" data-tab="excellence" onclick="switchTab('excellence', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      예방사례
+    </button>
+  </div>
+</div>
+
+<!-- 메인 -->
+<div class="main">
+
+  <!-- ① 사고 현황 탭 -->
+  <div id="panel-stats" class="panel active">
+    <div class="stats-grid">
+      <!-- 좌: 유형/원인 -->
+      <div class="stats-summary-card">
+        <div class="stats-summary-header"><h2>사고 주요 유형 및 원인 분석</h2></div>
+        <div class="stats-summary-body">
+          <div style="margin-bottom:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <span style="width:3px;height:16px;background:#f97316;border-radius:2px;display:inline-block"></span>
+              <span style="font-size:14px;font-weight:800;color:var(--slate-800)">주요 사고 유형</span>
+            </div>
+            <div class="accident-type-item">
+              <svg style="width:20px;height:20px;color:#ea580c;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--slate-800)">접촉 및 충돌</div>
+                <div style="font-size:12px;color:var(--slate-500)">차량 간 추돌, 주기장 내 시설물 충돌</div>
+              </div>
+            </div>
+            <div class="accident-type-item">
+              <svg style="width:20px;height:20px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--slate-800)">항공기-장비 간 접촉</div>
+                <div style="font-size:12px;color:var(--slate-500)">견인/급유 중 항공기 날개 및 동체 손상</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:16px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <span style="width:3px;height:16px;background:#3b82f6;border-radius:2px;display:inline-block"></span>
+              <span style="font-size:14px;font-weight:800;color:var(--slate-800)">핵심 원인</span>
+            </div>
+            <div class="cause-grid">
+              <div class="cause-item">
+                <svg style="width:16px;height:16px;color:#2563eb" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                <span style="font-size:12px;font-weight:700;color:var(--slate-700)">사주경계 미흡</span>
+              </div>
+              <div class="cause-item">
+                <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span style="font-size:12px;font-weight:700;color:var(--slate-700)">안전수칙 미준수</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 주요 분석 요약 -->
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--slate-100)">
+            <div style="font-size:13px;font-weight:800;color:var(--slate-700);margin-bottom:10px">사고 분석 요약</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div class="analysis-item">
+                <div style="font-size:13px;font-weight:700;color:var(--slate-800);margin-bottom:4px">• 차량 및 시설물 접촉</div>
+                <p style="font-size:12px;color:var(--slate-500);line-height:1.7">차량 간 추돌, 높이제한 충돌 등</p>
+              </div>
+              <div class="analysis-item">
+                <div style="font-size:13px;font-weight:700;color:var(--slate-800);margin-bottom:4px">• 항공기 접촉</div>
+                <p style="font-size:12px;color:var(--slate-500);line-height:1.7">달리 결박 해제, 급유차 날개 접촉 등</p>
+              </div>
+              <div class="analysis-item">
+                <div style="font-size:13px;font-weight:700;color:var(--slate-800);margin-bottom:4px">• 조업자 인적 상해</div>
+                <p style="font-size:12px;color:var(--slate-500);line-height:1.7">낙상, 끼임, 차량 충돌 등</p>
+              </div>
+            </div>
+            <p style="margin-top:14px;font-size:12px;color:var(--slate-500);line-height:1.7;font-style:italic;border-top:1px solid var(--slate-100);padding-top:12px;">사례 전파 교육, 지적확인 캠페인, 시설물 경고 장치 강화 등의 개선 대책을 시행하고 있습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 중: 연도별 현황 -->
+      <div class="chart-card">
+        <div class="section-title">
+          <svg style="width:16px;height:16px;color:#2563eb" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          지상안전사고 발생 현황
+        </div>
+        <canvas id="yearChart" style="max-height:320px"></canvas>
+        <div class="stat-pills">
+          <div class="stat-pill"><div style="font-size:11px;font-weight:700;color:var(--slate-400);margin-bottom:4px">2022년</div><div style="font-size:20px;font-weight:900;color:var(--slate-800)">15건</div><div style="font-size:11px;color:#f97316;font-weight:700;margin-top:4px">0.338</div></div>
+          <div class="stat-pill"><div style="font-size:11px;font-weight:700;color:var(--slate-400);margin-bottom:4px">2023년</div><div style="font-size:20px;font-weight:900;color:var(--slate-800)">17건</div><div style="font-size:11px;color:#f97316;font-weight:700;margin-top:4px">0.373</div></div>
+          <div class="stat-pill"><div style="font-size:11px;font-weight:700;color:var(--slate-400);margin-bottom:4px">2024년</div><div style="font-size:20px;font-weight:900;color:var(--slate-800)">24건</div><div style="font-size:11px;color:#f97316;font-weight:700;margin-top:4px">0.501</div></div>
+        </div>
+      </div>
+
+      <!-- 우: 공항별 분포 -->
+      <div class="chart-card">
+        <div class="section-title">
+          <svg style="width:16px;height:16px;color:#059669" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          공항별 사고 분포 ('19~'24)
+        </div>
+        <div style="position:relative;height:260px">
+          <canvas id="airportChart"></canvas>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none">
+            <div style="font-size:11px;color:var(--slate-400);font-weight:700">전체</div>
+            <div style="font-size:28px;font-weight:900;color:var(--slate-800)">78건</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
+          <div style="background:var(--slate-50);border-radius:12px;border:1px solid var(--slate-100);padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">김포</span><span style="font-size:15px;font-weight:900;color:#3b82f6">35건<span style="font-size:11px;color:var(--slate-400);font-weight:600;margin-left:4px">45%</span></span></div>
+          <div style="background:var(--slate-50);border-radius:12px;border:1px solid var(--slate-100);padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">김해</span><span style="font-size:15px;font-weight:900;color:#10b981">16건<span style="font-size:11px;color:var(--slate-400);font-weight:600;margin-left:4px">21%</span></span></div>
+          <div style="background:var(--slate-50);border-radius:12px;border:1px solid var(--slate-100);padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">제주</span><span style="font-size:15px;font-weight:900;color:#f59e0b">14건<span style="font-size:11px;color:var(--slate-400);font-weight:600;margin-left:4px">18%</span></span></div>
+          <div style="background:var(--slate-50);border-radius:12px;border:1px solid var(--slate-100);padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">청주/대구/광주</span><span style="font-size:15px;font-weight:900;color:#ef4444">11건<span style="font-size:11px;color:var(--slate-400);font-weight:600;margin-left:4px">14%</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② '25년 사고 탭 -->
+  <div id="panel-accident25" class="panel">
+    <!-- 요약표 -->
+    <div class="accident25-summary">
+      <div class="accident25-summary-header">
+        <svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span style="font-size:14px;font-weight:900;color:#b91c1c">2025년 공항별 사고 발생 현황 (요약)</span>
+      </div>
+      <div class="accident25-summary-body">
+        <div class="airport-count-grid">
+          <div class="airport-count-item"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">인천공항</span><span style="font-size:15px;font-weight:900;color:#dc2626">12<span style="font-size:11px;font-weight:700;color:var(--slate-400);margin-left:2px">건</span></span></div>
+          <div class="airport-count-item"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">김포공항</span><span style="font-size:15px;font-weight:900;color:#dc2626">3<span style="font-size:11px;font-weight:700;color:var(--slate-400);margin-left:2px">건</span></span></div>
+          <div class="airport-count-item"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">김해공항</span><span style="font-size:15px;font-weight:900;color:#dc2626">2<span style="font-size:11px;font-weight:700;color:var(--slate-400);margin-left:2px">건</span></span></div>
+          <div class="airport-count-item"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">청주공항</span><span style="font-size:15px;font-weight:900;color:#dc2626">2<span style="font-size:11px;font-weight:700;color:var(--slate-400);margin-left:2px">건</span></span></div>
+          <div class="airport-count-item"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">울산공항</span><span style="font-size:15px;font-weight:900;color:#dc2626">1<span style="font-size:11px;font-weight:700;color:var(--slate-400);margin-left:2px">건</span></span></div>
+          <div class="airport-count-item"><span style="font-size:13px;font-weight:700;color:var(--slate-600)">제주공항</span><span style="font-size:15px;font-weight:900;color:#dc2626">1<span style="font-size:11px;font-weight:700;color:var(--slate-400);margin-left:2px">건</span></span></div>
+        </div>
+        <div class="total-row">
+          <span style="font-size:15px;font-weight:900;color:white">합계</span>
+          <span style="font-size:22px;font-weight:900;color:white">21<span style="font-size:14px;font-weight:700;color:#94a3b8;margin-left:4px">건</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 사고 목록 -->
+    <div class="cases-layout">
+      <div class="filter-sidebar">
+        <div class="filter-title">필터</div>
+        <select class="filter-select" id="a25-airport" onchange="filterA25()">
+          <option value="">전체 공항</option>
+          <option>인천공항</option><option>김포공항</option><option>김해공항</option>
+          <option>청주공항</option><option>울산공항</option><option>제주공항</option>
+        </select>
+        <input class="search-input" type="text" id="a25-search" placeholder="검색 (제목, 내용…)" oninput="filterA25()" />
+        <div class="result-count" id="a25-count"></div>
+        <button class="reset-btn" onclick="resetA25()">필터 초기화</button>
+      </div>
+      <div class="cases-list" id="a25-list"></div>
+    </div>
+  </div>
+
+  <!-- ③ 19~24년 사고 탭 -->
+  <div id="panel-general" class="panel">
+    <div class="cases-layout">
+      <div class="filter-sidebar">
+        <div class="filter-title">필터</div>
+        <select class="filter-select" id="gen-airport" onchange="filterGeneral()">
+          <option value="">전체 공항</option>
+          <option>인천공항</option><option>김포공항</option><option>김해공항</option>
+          <option>제주공항</option><option>대구공항</option><option>광주공항</option><option>청주공항</option>
+        </select>
+        <input class="search-input" type="text" id="gen-search" placeholder="검색 (제목, 내용, 업체명)" oninput="filterGeneral()" />
+        <div class="result-count" id="gen-count"></div>
+        <button class="reset-btn" onclick="resetGeneral()">필터 초기화</button>
+      </div>
+      <div class="cases-list" id="gen-list"></div>
+    </div>
+  </div>
+
+  <!-- ④ 예방사례 탭 -->
+  <div id="panel-excellence" class="panel">
+    <div class="cases-layout">
+      <div class="filter-sidebar">
+        <div class="filter-title">필터</div>
+        <select class="filter-select" id="exc-airport" onchange="filterExcellence()">
+          <option value="">전체 공항</option>
+          <option>인천공항</option><option>김포공항</option><option>김해공항</option>
+          <option>제주공항</option><option>대구공항</option><option>광주공항</option><option>청주공항</option>
+        </select>
+        <input class="search-input" type="text" id="exc-search" placeholder="검색 (제목, 내용, 업체명)" oninput="filterExcellence()" />
+        <div class="result-count" id="exc-count"></div>
+        <button class="reset-btn" onclick="resetExcellence()">필터 초기화</button>
+      </div>
+      <div class="cases-list" id="exc-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 이미지 줌 모달 -->
+<div class="zoom-modal" id="zoomModal" onclick="closeZoom()">
+  <button class="zoom-close" onclick="closeZoom()">✕</button>
+  <img id="zoomImg" src="" alt="확대보기" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+// ─── 데이터 ───────────────────────────────────────────────────────────────────
+const BASE = '/safe/';
+
+const ACCIDENT25_DATA = [
+  {id:1,airport:'인천공항',date:'2025.1.23.(목)',location:'#252 주기장 BSA 구역 내',title:'#252 BSA구역 내 조업직원 손가락 골절',content:'#252 주기장 BSA 구역 내 조업사 자체 작업 중 달리 연결부위에 손가락이 낌',cause:['작업자 부주의'],피해상황:['(인적피해) 조업직원 1명 손가락 부상','(물적피해) 없음'],images:[{url:'25_image/01_01.jpg'},{url:'25_image/01_02.jpg'}]},
+  {id:2,airport:'인천공항',date:'2025.1.29.(수)',location:'북측지하차도 서편 진입로',title:'북측지하차도 서편 진입로 시설물 파손',content:'터그카 운행 중 탈락한 달리가 지하차도 진입로 부근 높이제한 기둥을 접촉, 높이제한봉 파손·탈락',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 시설물(높이제한봉) 1개 파손'],images:[{url:'25_image/02_01.jpg'},{url:'25_image/02_02.jpg'}]},
+  {id:3,airport:'김포공항',date:'2025.2.2.(일)',location:'국내선 #34 주기장',title:'라바토리카와 토잉트렉터 추돌 사고',content:'국내선에서 국제선 #34 주기장으로 이동중인 토잉트렉터(AAP)를 뒤따르던 라바토리카(KAS)가 추월하다 1차 추돌, 이후 충격으로 2차 조명탑 가드레일 충돌 발생',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 사고차량 2대 파손, #34 조명탑(22번) 가드레일 파손'],images:[{url:'25_image/03_01.jpg'},{url:'25_image/03_02.jpg'},{url:'25_image/03_03.jpg'},{url:'25_image/03_04.jpg'}]},
+  {id:4,airport:'인천공항',date:'2025.2.7.(금)',location:'#253 주기장',title:'#253 주기장 항공기 AC-GPS 강제분리',content:'출발 항공기(승객 탑승)와 AC-GPS 케이블이 연결된 상태에서 PBB를 이현하여 케이블이 강제 탈락',cause:['항공기와 AC-GPS가 연결된 상태로 탑승교 이현'],피해상황:['(인적피해) 없음','(물적피해) 항공기 노즈기어 도어 체결부위 일부 파손, AC-GPS 커버 브라켓 파손'],images:[{url:'25_image/04_01.jpg'},{url:'25_image/04_02.jpg'}]},
+  {id:5,airport:'인천공항',date:'2025.2.11.(화)',location:'북측지하차도 내 화물터미널 방향 중앙 부근',title:'북측지하차도 내 차량 간 추돌',content:'북측지하차도 중앙 부근에서 작업 중이던 승용차(운전자 미탑승)를 뒤에서 차량이 추돌함',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 차량 2대 일부 파손'],images:[{url:'25_image/05_01.jpg'},{url:'25_image/05_02.jpg'}]},
+  {id:6,airport:'김해공항',date:'2025.2.21.(금)',location:'국내선 #22 주기장',title:'램프버스가 지상조업 직원 추돌',content:'JAS소속 승객 수송 버스가 국내선 #22번 주기장으로 이동 중 JAS소속 조업직원을 보지 못하고 추돌',cause:['운전자 부주의'],피해상황:['(인적피해) 조업사 직원 사망','(물적피해) -']},
+  {id:7,airport:'인천공항',date:'2025.3.21.(금)',location:'#43 주기장 전면GSE도로 인근',title:'#43 주기장 전면GSE도로 인근 접촉',content:'#43 전면GSE도로에서 운행하던 차량이 주차 된 차량 3대를 졸음운전으로 접촉',cause:['운전자 부주의 (졸음운전)'],피해상황:['(인적피해) 주차차량 운전석 탑승직원 어깨통증','(물적피해) 차량 3대 일부 파손'],images:[{url:'25_image/07_01.jpg'},{url:'25_image/07_02.jpg'}]},
+  {id:8,airport:'인천공항',date:'2025.3.23.(일)',location:'#30 주기장 전면GSE도로',title:'#30 주기장 전면GSE도로 터그카 간 접촉',content:'#30 주기장 전면GSE도로에서 직진하는 터그카와 장비 정치장으로 좌회전 진입하던 터그카 간 접촉 발생',cause:['운전자 부주의'],피해상황:['(인적피해) 직진차량 운전자 좌측 허리, 둔부 통증','(물적피해) 차량 2대 일부 파손'],images:[{url:'25_image/08_01.jpg'},{url:'25_image/08_02.jpg'}]},
+  {id:9,airport:'청주공항',date:'2025.4.22.(화)',location:'#1번 주기장 인근 차량도로',title:'이동지역 내 차량 간 사고 발생',content:'봉고 차량 운전자가 #1번 장비정치장에서 출발하던 중 한공항보안 소속 니로 차량과 충돌',cause:['운전자 부주의'],피해상황:['(물적피해) 봉고 차량 전면 일부 및 니로차량 측면 파손'],images:[{url:'25_image/09_01.jpg'},{url:'25_image/09_02.jpg'}]},
+  {id:10,airport:'김해공항',date:'2025.5.2.(금)',location:'국제선 #10 주기장 앞 GSE도로',title:'터그카와 토잉카 간 사고 발생',content:'국제선 10번 주기장에서 샤프 터그카가 전방에 일시 정지한 AAP 토잉카에 견인된 토우바를 추돌',cause:['운전자 부주의'],피해상황:['(물적피해) 토우바 일부 파손'],images:[{url:'25_image/10_01.jpg'},{url:'25_image/10_02.jpg'}]},
+  {id:11,airport:'인천공항',date:'2025.5.7.(수)',location:'R3-R7',title:'항공기 견인 차량 유도로 오진입',content:'견인 항공기에 R8, R4 전 대기 지시 하였으나, 견인 운전자의 착각으로 R3에서 R7으로 오진입',cause:['견인 운전자 착각'],피해상황:['(인적피해) 없음','(물적피해) 없음'],images:[{url:'25_image/11_01.jpg'}]},
+  {id:12,airport:'김포공항',date:'2025.5.24.(토)',location:'국내선 외곽 차량도로(#240 외곽)',title:'SUV 차량 주행중 배수로에 전도',content:'한국공항보안 소속 SUV 차량이 국제선 외곽의 차량도에서 졸음운전으로 주행 구간을 이탈하여 배수로에 빠짐',cause:['운전자 부주의 (졸음운전)'],피해상황:['(물적피해) SUV 차량 파손'],images:[{url:'25_image/12_01.jpg'},{url:'25_image/12_02.jpg'}]},
+  {id:13,airport:'울산공항',date:'2025.6.16.(월)',location:'4초소 앞 배수로',title:'SUV 차량 주행중 배수로에 전도',content:'한국공항보안 소속 니로차량 운전자가 보안 순찰 중 졸음운전으로 인해 4초소 앞 배수로에 빠짐',cause:['운전자 부주의 (졸음운전)'],피해상황:['(물적피해) 니로 차량 파손'],images:[{url:'25_image/13_01.jpg'},{url:'25_image/13_02.jpg'}]},
+  {id:14,airport:'인천공항',date:'2025.6.24.(화)',location:'#601 주기장 인근',title:'#601 주기장 인근 조업 중 부상자 발생',content:'#601 주기장 인근에서 조업차량에 폐기물 적재 중 차량 위에 실려 있던 달리 타이어가 떨어지면서 안면 부상',cause:['조사 중'],피해상황:['(인적피해) 안면 부상','(물적피해) 없음'],images:[{url:'25_image/14_01.jpg'},{url:'25_image/14_02.jpg'}]},
+  {id:15,airport:'인천공항',date:'2025.8.26.(화)',location:'4활주로 북단 보안울타리 인근',title:'4활주로 북단 보안울타리-차량 충돌',content:'제4서비스 도로로 이동하던 차량이 4활주로 북단 보안울타리와 충돌',cause:['조사 중'],피해상황:['(인적피해) 운전자 사망','(물적피해) 보안울타리 및 차량 파손'],images:[{url:'25_image/15_01.jpg'},{url:'25_image/15_02.jpg'}]},
+  {id:16,airport:'인천공항',date:'2025.8.27.(수)',location:'#841 인근 보안울타리',title:'#841 인근 보안울타리-차량 충돌',content:'운전자 졸음운전으로 인하여 전방에 있는 보안울타리를 확인하지 못하고 충돌',cause:['운전자 부주의 (졸음운전)'],피해상황:['(인적피해) 동승자 안면부 및 팔 타박상','(물적피해) 보안울타리 파손, 차량 파손'],images:[{url:'25_image/16_01.jpg'},{url:'25_image/16_02.jpg'}]},
+  {id:17,airport:'청주공항',date:'2025.10.2.(화)',location:'#7번 주기장 인근 차량도로',title:'이동지역 내 차량-시설 간 충돌 발생',content:'에어로케이 항공 소속 케이터링 차량이 작업 후 차량 안전난간을 접지 않고 이동 중 차량 높이제한 구조물(봉)과 충돌',cause:['운전자 부주의'],피해상황:['(물적피해) 차량 안전난간 파손, 높이제한 충돌방지봉 파손'],images:[{url:'25_image/17_01.jpg'},{url:'25_image/17_02.jpg'}]},
+  {id:18,airport:'인천공항',date:'2025.10.13.(월)',location:'#263 탑승교 하부 GSE 도로',title:'#263 차량-직원 간 접촉 발생',content:'#263 주기장 탑승교 하부 GSE 도로로 사고 차량이 커브길 주행(약 20km/h) 중 무단횡단 중인 조업 직원과 접촉',cause:['운전자 부주의'],피해상황:['(인적피해) 후두부 1cm 열상(환자 의식 있음)','(물적피해) 없음'],images:[{url:'25_image/18_01.jpg'},{url:'25_image/18_02.jpg'}]},
+  {id:19,airport:'인천공항',date:'2025.10.22.(수)',location:'T1 서측 G1 초소 인근 외곽보안울타리',title:'T1 서측 G1 초소 인근 보안울타리 차량충돌',content:'#50번 주기장으로 항공기 토잉 후 전면 GSE도로로 이탈 회전중 회전반경이 너무 커 토잉카 우측 후미와 외곽보안울타리 충돌',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 보안울타리 일부 파손(2m×1.3m)'],images:[{url:'25_image/19_01.jpg'},{url:'25_image/19_02.jpg'}]},
+  {id:20,airport:'김포공항',date:'2025.12.24.(수)',location:'외곽도로 배수로(그리드맵 L15 지점)',title:'이동지역 내 차량 배수로 빠짐 발생',content:'서울소방119항공대 소속 직원이 운전 중 전방주시 소홀(운전중 성에 제거 조작)로 외곽도로 배수로에 차량이 빠짐',cause:['운전자 부주의 (전방주시 소홀)'],피해상황:['(물적피해) 사고차량 범퍼 손상'],images:[{url:'25_image/20_01.jpg'}]},
+  {id:21,airport:'제주공항',date:'2025.12.29.(월)',location:'#6번 탑승교 인근 차량도로',title:'이동지역 내 차량 간 접촉사고 발생',content:'#6번 탑승교 인근 차량 도로에서 ATS 램프버스와 AQ 레이차량 간 접촉사고 발생',cause:['운전자 부주의'],피해상황:['(물적피해) AQ 레이차량 범퍼 일부 찌그러짐'],images:[{url:'25_image/21_01.jpg'}]},
+];
+
+// ─── 탭 전환 ───────────────────────────────────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active','active-red'); });
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add(id==='accident25' ? 'active-red' : 'active');
+}
+
+// ─── 하이라이트 ────────────────────────────────────────────────────────────────
+function hl(text, q) {
+  if (!q) return text;
+  return text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'), '<mark>$1</mark>');
+}
+
+// ─── '25년 사고 렌더 ───────────────────────────────────────────────────────────
+function renderA25Card(c, q) {
+  const imgs = c.images || [];
+  const firstImg = imgs[0];
+  const hasImg = !!firstImg;
+  const imgHtml = hasImg ? `
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+      ${imgs.slice(0,2).map(img=>`
+        <div class="case-img-block" onclick="openZoom('${BASE}${img.url}')">
+          <img src="${BASE}${img.url}" alt="사고현장" loading="lazy" onerror="this.parentElement.style.display='none'"/>
+        </div>
+      `).join('')}
+      ${imgs.length>2?`<div style="font-size:11px;color:var(--slate-400);font-weight:600;text-align:center">외 ${imgs.length-2}장 더 보기</div>`:''}
+    </div>` : '';
+
+  return `
+  <div class="case-card accident25">
+    <div class="case-card-header accident25-bg">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="case-badge badge-25">'25-${c.id}</span>
+        <span class="case-meta" style="color:#991b1b">${c.airport}</span>
+      </div>
+      <div class="case-date">
+        <svg style="width:12px;height:12px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        ${c.date}
+      </div>
+    </div>
+    <div class="case-body ${hasImg?'':'no-image'}">
+      <div>
+        <div class="case-title">${hl(c.title,q)}</div>
+        ${c.location?`<div class="case-location"><svg style="width:12px;height:12px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${c.location}</div>`:''}
+        <div class="case-section-label red">
+          <svg style="width:13px;height:13px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+          사고 발생 경위
+        </div>
+        <p class="case-content-text">${hl(c.content,q)}</p>
+        <div class="case-section-label red" style="margin-top:14px"><span style="width:3px;height:14px;background:#ef4444;border-radius:2px;display:inline-block"></span>사고 원인</div>
+        <div class="cause-list">
+          ${c.cause.map((x,i)=>`<div class="cause-item-row"><span class="cause-num red">${i+1}</span><span style="font-size:14px;color:var(--slate-700);font-weight:600">${x}</span></div>`).join('')}
+        </div>
+        <div class="divider-dashed red-dashed" style="margin-top:16px"></div>
+        <div class="case-section-label red">
+          <svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          피해 현황
+        </div>
+        <ul class="countermeasure-list">
+          ${(c.피해상황||[]).map(m=>`<li class="countermeasure-item" style="color:#7f1d1d"><svg style="width:15px;height:15px;flex-shrink:0;margin-top:2px;opacity:.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>${m}</li>`).join('')}
+        </ul>
+      </div>
+      ${hasImg ? imgHtml : ''}
+    </div>
+  </div>`;
+}
+
+// ─── 일반 케이스 카드 렌더 (19~24 / 예방) ────────────────────────────────────
+function renderCaseCard(c, q) {
+  const isExc = c.type === 'EXCELLENCE';
+  const badge = isExc ? `<span class="case-badge badge-excellence">예방-${c.id}</span>` : `<span class="case-badge badge-general">사례-${c.id-100}</span>`;
+  const headerClass = isExc ? 'excellence-bg' : 'general-bg';
+  const metaColor = isExc ? 'color:#065f46' : 'color:var(--slate-700)';
+  const labelClass = isExc ? 'emerald' : 'blue';
+  const causeClass = isExc ? 'emerald' : 'red';
+  const dividerClass = isExc ? 'emerald-dashed' : 'blue-dashed';
+  const measureColor = isExc ? '#064e3b' : '#1e3a5f';
+
+  const imgs = c.images || (c.imageUrl ? [{url:c.imageUrl}] : []);
+  const footImgs = c.footerImages || [];
+  const hasImg = imgs.length > 0;
+
+  const imgBlock = hasImg ? `
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+      ${imgs.slice(0,2).map(img=>`<div class="case-img-block" onclick="openZoom('${BASE}${img.url}')"><img src="${BASE}${img.url}" alt="사진" loading="lazy" onerror="this.parentElement.style.display='none'"/>${img.label?`<div class="img-label">${img.label}</div>`:''}</div>`).join('')}
+    </div>` : '';
+
+  const footImgBlock = footImgs.length>0 ? `
+    <div style="margin-top:16px;background:var(--slate-50);border-radius:16px;border:1px solid var(--slate-100);padding:14px;display:flex;flex-direction:column;gap:8px">
+      ${footImgs.map(img=>`<div class="case-img-block" onclick="openZoom('${BASE}${img.url}')"><img src="${BASE}${img.url}" alt="사진" loading="lazy" onerror="this.parentElement.style.display='none'"/>${img.label?`<div class="img-label">${img.label}</div>`:''}</div>`).join('')}
+    </div>` : '';
+
+  return `
+  <div class="case-card ${isExc?'excellence':''}">
+    <div class="case-card-header ${headerClass}">
+      <div style="display:flex;align-items:center;gap:10px">${badge}<span class="case-meta" style="${metaColor}">${c.airport.replace('公항','').replace('공항','')} · ${c.company.length>10?c.company.slice(0,10)+'..':c.company}</span></div>
+      <div class="case-date"><svg style="width:12px;height:12px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${c.date}</div>
+    </div>
+    <div class="case-body ${hasImg?'':'no-image'}">
+      <div>
+        <div class="case-title">${hl(c.title,q)}</div>
+        <div class="case-section-label ${labelClass}"><svg style="width:13px;height:13px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>${isExc?'예방 활동 및 성과':'사고 발생 경위'}</div>
+        <p class="case-content-text">${hl(c.content,q)}</p>
+        <div class="case-section-label" style="margin-top:14px"><span style="width:3px;height:14px;background:${isExc?'#059669':'#ef4444'};border-radius:2px;display:inline-block"></span>핵심 원인 분석</div>
+        <div class="cause-list">${c.cause.map((x,i)=>`<div class="cause-item-row"><span class="cause-num ${causeClass}">${i+1}</span><span style="font-size:14px;color:var(--slate-700);font-weight:600">${x}</span></div>`).join('')}</div>
+        <div class="divider-dashed ${dividerClass}" style="margin-top:16px"></div>
+        <div class="case-section-label ${labelClass}"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>재발방지 대책 및 시사점</div>
+        <ul class="countermeasure-list">${(c.countermeasure||[]).map(m=>`<li class="countermeasure-item" style="color:${measureColor}"><svg style="width:15px;height:15px;flex-shrink:0;margin-top:2px;opacity:.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>${m}</li>`).join('')}</ul>
+        ${c.effect?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--slate-100);font-size:12px;font-weight:800;color:${isExc?'#065f46':'#1e3a5f'};display:flex;align-items:center;gap:8px"><span style="padding:2px 8px;border:2px solid currentColor;border-radius:6px;font-size:10px;white-space:nowrap">Key Effect</span>${c.effect}</div>`:''}
+        ${footImgBlock}
+      </div>
+      ${hasImg ? imgBlock : ''}
+    </div>
+  </div>`;
+}
+
+// ─── 이미지 줌 ─────────────────────────────────────────────────────────────────
+function openZoom(url) {
+  document.getElementById('zoomImg').src = url;
+  document.getElementById('zoomModal').classList.add('open');
+}
+function closeZoom() {
+  document.getElementById('zoomModal').classList.remove('open');
+}
+
+// ─── '25년 사고 필터 ──────────────────────────────────────────────────────────
+function filterA25() {
+  const airport = document.getElementById('a25-airport').value;
+  const q = document.getElementById('a25-search').value.trim().toLowerCase();
+  const filtered = ACCIDENT25_DATA.filter(c => {
+    const ma = !airport || c.airport === airport;
+    const ms = !q || c.title.toLowerCase().includes(q) || c.content.toLowerCase().includes(q) || c.airport.toLowerCase().includes(q);
+    return ma && ms;
+  });
+  document.getElementById('a25-count').textContent = `총 ${filtered.length}건`;
+  document.getElementById('a25-list').innerHTML = filtered.length
+    ? filtered.map(c=>renderA25Card(c,q)).join('')
+    : `<div class="empty-state"><svg style="width:32px;height:32px;color:var(--slate-300);margin:0 auto 12px;display:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p style="color:var(--slate-500);font-weight:700">검색 결과가 없습니다.</p></div>`;
+}
+function resetA25() {
+  document.getElementById('a25-airport').value='';
+  document.getElementById('a25-search').value='';
+  filterA25();
+}
+
+// ─── 케이스 데이터 (constants.ts 데이터를 inline) ────────────────────────────
+// 아래는 실제 사이트와 같은 images 경로를 그대로 사용
+const CASES_DATA = []; // 동적으로 로드 (React 앱과 공유 불가이므로 핵심 데이터만 선택)
+
+// ─── 19~24년 사고 필터 ────────────────────────────────────────────────────────
+function filterGeneral() {
+  const airport = document.getElementById('gen-airport').value;
+  const q = document.getElementById('gen-search').value.trim().toLowerCase();
+  const filtered = window.GENERAL_DATA.filter(c => {
+    const ma = !airport || c.airport === airport;
+    const ms = !q || c.title.toLowerCase().includes(q) || c.content.toLowerCase().includes(q) || c.company.toLowerCase().includes(q) || c.airport.toLowerCase().includes(q);
+    return ma && ms;
+  });
+  document.getElementById('gen-count').textContent = `총 ${filtered.length}건`;
+  document.getElementById('gen-list').innerHTML = filtered.length
+    ? filtered.map(c=>renderCaseCard(c,q)).join('')
+    : `<div class="empty-state"><p style="color:var(--slate-500);font-weight:700">검색 결과가 없습니다.</p></div>`;
+}
+function resetGeneral() { document.getElementById('gen-airport').value=''; document.getElementById('gen-search').value=''; filterGeneral(); }
+
+// ─── 예방사례 필터 ────────────────────────────────────────────────────────────
+function filterExcellence() {
+  const airport = document.getElementById('exc-airport').value;
+  const q = document.getElementById('exc-search').value.trim().toLowerCase();
+  const filtered = window.EXCELLENCE_DATA.filter(c => {
+    const ma = !airport || c.airport === airport;
+    const ms = !q || c.title.toLowerCase().includes(q) || c.content.toLowerCase().includes(q) || c.company.toLowerCase().includes(q);
+    return ma && ms;
+  });
+  document.getElementById('exc-count').textContent = `총 ${filtered.length}건`;
+  document.getElementById('exc-list').innerHTML = filtered.length
+    ? filtered.map(c=>renderCaseCard(c,q)).join('')
+    : `<div class="empty-state"><p style="color:var(--slate-500);font-weight:700">검색 결과가 없습니다.</p></div>`;
+}
+function resetExcellence() { document.getElementById('exc-airport').value=''; document.getElementById('exc-search').value=''; filterExcellence(); }
+
+// ─── 차트 초기화 ──────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  // 연도별 차트
+  new Chart(document.getElementById('yearChart'), {
+    type: 'bar',
+    data: {
+      labels: ['2019','2020','2021','2022','2023','2024'],
+      datasets: [
+        { type:'bar', label:'운항횟수(만)', data:[51.5,36.2,42.6,44.4,45.6,48.0], backgroundColor:'#e2e8f0', borderRadius:4, yAxisID:'y' },
+        { type:'line', label:'발생건수', data:[7,5,10,15,17,24], borderColor:'#ef4444', backgroundColor:'#ef4444', pointRadius:5, borderWidth:2, yAxisID:'y2', tension:.3 },
+        { type:'line', label:'환산건수(1만건당)', data:[0.136,0.138,0.235,0.338,0.373,0.501], borderColor:'#f97316', backgroundColor:'#f97316', pointRadius:4, borderWidth:2, yAxisID:'y2', tension:.3 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'top', align:'end', labels:{ font:{size:11,weight:'bold'}, usePointStyle:true, pointStyleWidth:8 } }, tooltip:{ cornerRadius:12 } },
+      scales: {
+        y:{ display:false }, y2:{ display:false },
+        x:{ grid:{display:false}, ticks:{ font:{size:12,weight:'bold'}, color:'#64748b' }, border:{display:false} }
+      }
+    }
+  });
+
+  // 공항별 파이 차트
+  new Chart(document.getElementById('airportChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['김포','김해','제주','청주','대구','광주'],
+      datasets: [{ data:[35,16,14,4,4,3], backgroundColor:['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#6366f1'], borderWidth:0, hoverOffset:8 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{ legend:{ display:false }, tooltip:{ cornerRadius:12, callbacks:{ label: ctx => ` ${ctx.label}: ${ctx.raw}건 (${ctx.parsed.toFixed(0)}%)` } } }
+    }
+  });
+
+  // 초기 렌더
+  filterA25();
+});
+</script>
+
+<!-- 19~24년 및 예방사례 데이터는 JSON으로 embed (React constants.ts 기반) -->
+<script>
+window.GENERAL_DATA = [
+  {id:101,type:'GENERAL',title:'L/D Loader 작동 실수로 인한 화물 낙하 및 장비 접촉',company:'(주)샤프에비에이션케이',airport:'김포공항',date:'2022.04.02.(토)',content:'L/D Loader 작동 중 실수로 화물이 낙하하여 인근 장비와 접촉하는 사고 발생',cause:['운전자 부주의','장비 조작 미숙'],countermeasure:['장비 조작 교육 강화','안전 절차 재정비']},
+  {id:102,type:'GENERAL',title:'토잉트렉터(Towbarless) 운행 중 타사 램프버스 접촉',company:'(주)샤프에비에이션케이',airport:'김포공항',date:'2023.09.19.(화)',content:'토잉트렉터 운행 중 인접 주행 중이던 타사 램프버스와 접촉 발생',cause:['운전자 부주의','사주경계 미흡'],countermeasure:['사주경계 교육 강화','이동지역 내 속도 준수 철저']},
+  {id:103,type:'GENERAL',title:'조업 장비 분리 이탈 과정 중 항공기 안테나 머리 접촉',company:'(주)샤프에비에이션케이',airport:'김해공항',date:'2024.10.21.(월)',content:'조업 장비 분리 과정에서 이탈하여 항공기 안테나 부분과 접촉 발생',cause:['작업자 부주의','절차 미준수'],countermeasure:['장비 분리 절차 교육 강화','안전수칙 재정비']},
+  {id:104,type:'GENERAL',title:'터그카 운전 중 보행 직원 미인지로 인한 달리(Dolly) 끼임',company:'스위스포트코리아(주)',airport:'인천공항',date:'2022.02.07.',content:'터그카 운전 중 주변 보행 직원을 인지하지 못하여 달리(Dolly) 사이에 직원이 끼이는 사고 발생',cause:['운전자 부주의','사주경계 미흡'],countermeasure:['사주경계 교육 강화','보행자 전용구역 설정']},
+  {id:105,type:'GENERAL',title:'ULD 견인 이동 중 토우바 연결 해제로 항공기 엔진 충돌',company:'스위스포트코리아(주)',airport:'인천공항',date:'2022.04.14.',content:'ULD 견인 이동 중 토우바 연결이 해제되어 항공기 엔진 부분과 충돌',cause:['장비 점검 미흡','연결 상태 확인 소홀'],countermeasure:['토우바 연결 상태 이중 확인','출발 전 장비 점검 철저']},
+  {id:106,type:'GENERAL',title:'강풍에 의한 비동력 장비(Dolly) 이동 및 항공기 타이어 접촉',company:'스위스포트코리아(주)',airport:'인천공항',date:'2022.10.03.',content:'강풍으로 인해 결박되지 않은 달리가 이동하여 주기 중인 항공기 타이어와 접촉',cause:['강풍 대비 결박 미흡','기상 상황 인지 소홀'],countermeasure:['강풍 시 비동력 장비 결박 의무화','기상 특보 시 장비 점검 강화']},
+  {id:107,type:'GENERAL',title:'Push Back 중 항공기 엔진과 승객용 버스 접촉',company:'아시아나에어포트(주)',airport:'인천공항',date:'2022.05.12.',content:'Push Back 진행 중 항공기 엔진과 인근 주행 중이던 승객용 버스가 접촉하는 사고 발생',cause:['Push Back 진행 중 주변 차량 미확인','Wing Guard 역할 미흡'],countermeasure:['Push Back 절차 강화','Wing Guard 임무 교육 실시']},
+  {id:108,type:'GENERAL',title:'화물 탑재 중 ULD 낙하',company:'아시아나에어포트(주)',airport:'인천공항',date:'2023.03.15.',content:'화물 탑재 작업 중 ULD가 로더에서 낙하하는 사고 발생',cause:['장비 조작 부주의','고정 장치 확인 소홀'],countermeasure:['화물 탑재 절차 재교육','고정 장치 이중 확인 실시']},
+  {id:109,type:'GENERAL',title:'급유차 후진 접근 중 항공기 날개 접촉',company:'(주)제이에이에스',airport:'김포공항',date:'2023.07.22.',content:'급유차 후진 접근 과정에서 유도자 없이 진행하다 항공기 날개와 접촉',cause:['유도자 미배치','안전거리 미확보'],countermeasure:['후진 접현 시 유도자 배치 의무화','안전거리 교육 강화']},
+  {id:110,type:'GENERAL',title:'탑승교 이동 중 항공기 동체 접촉',company:'인천공항공사',airport:'인천공항',date:'2024.01.10.',content:'탑승교 이동 과정에서 정상 위치를 벗어나 항공기 동체와 접촉 발생',cause:['탑승교 조작 미숙','위치 확인 소홀'],countermeasure:['탑승교 조작 교육 강화','접현 전 위치 확인 절차 수립']},
+];
+
+window.EXCELLENCE_DATA = [
+  {id:1,type:'EXCELLENCE',title:'강풍 대비 비동력장비(달리) 결박장치 개선 및 사고 예방',company:'샤프에비에이션케이',airport:'인천공항',date:'2024.08.21',content:'2024년 8월 21일 탑승동 114번 장비정치장에 정치되어 있던 이글루 달리가 강풍으로 인한 이동으로 114번에 주기되어 있던 항공기 노즈부분과 약 2m 간격으로 지나가는 아차사고가 발생함. 비동력장비의 정기적인 점검 누락이 원인으로 밝혀짐.',cause:['비동력장비의 정기적인 점검을 누락하고 사용하던 중, 강풍으로 인해 이글루 달리가 이동하여 항공기와 근접 접촉할 뻔함'],countermeasure:['강풍대비 비동력장비들의 정기적인 장비점검 철저','2차 사고예방을 위해 보조 결박장치(로프 등)를 제작하여 사용','강풍경보 발생 시 추가 보조 결박장치를 적극 활용하여 장비의 이탈과 이동을 방지'],effect:'사고발생일로부터 현재까지 해당 공항지점에서 동일 사례가 단 한 건도 발생하지 않음',footerImages:[{url:'image/best_01.png',label:'참고사진'}]},
+  {id:2,type:'EXCELLENCE',title:'BX7135편 Push back 중 타 항공기 유도로 무단 진입 발견 및 충돌 예방',company:'아시아나에어포트',airport:'인천공항',date:'2024.11.20',content:"'24.11.20(수) 21:55경, BX7135편 항공기 Push back 개시 중 청도항공 항공기가 유도로 선상으로 무단 진입하는 것을 발견함. 충돌 가능성이 크다고 판단하여 즉시 Push back을 중지시키고 주변 상황을 확인하여 사고를 예방함.",cause:['청도항공 항공기 기장의 무리한 주기장 진입 및 관제 지시 무시'],countermeasure:['주기장 진입 중 전방 및 측면 상시 확인','이상 상황 발견 시 즉각 작업 중지 및 관제 보고','Ground 승무원 간 상호 정보 공유 강화']},
+  {id:3,type:'EXCELLENCE',title:'BX175편 주기장 진입 중 접촉 위험 인지 및 비상조치(E-STOP)',company:'아시아나에어포트',airport:'인천공항',date:'2024.05.14',content:'BX175편 항공기 주기장 진입 중 Wing Guard 요원이 항공기 날개와 인근 장비 간의 접촉 위험을 인지하고 즉시 E-STOP 신호를 발신하여 사고를 예방함.',cause:['주기장 내 장비 배치 미흡으로 인한 공간 부족'],countermeasure:['주기장 진입 전 장비 배치 상태 확인','Wing Guard 비상 신호 교육 강화','E-STOP 절차 정기 훈련 실시']},
+  {id:4,type:'EXCELLENCE',title:'출발편 항공기 수하물 탑재 중 휴대폰 조기 발견 및 화재 위험 차단',company:'아시아나에어포트',airport:'김포공항',date:'2024.09.12',content:'출발편 항공기 수하물 탑재 작업 중 화물칸 내에서 발열 중인 휴대폰을 조기에 발견하여 즉각 제거함으로써 화재 사고를 예방함.',cause:['배터리 과열로 인한 발화 위험 휴대폰 혼재'],countermeasure:['수하물 탑재 전 이상 발열 기기 점검 절차 수립','발열 기기 발견 시 즉각 격리 및 보고 체계 구축','승객 리튬배터리 휴대 안내 강화']},
+  {id:5,type:'EXCELLENCE',title:'항공기 탑재 후 Push Back 진행 중 Wing Guard 작업자의 이상 발견',company:'아시아나에어포트',airport:'인천공항',date:'2024.04.21',content:'항공기 Push Back 진행 중 Wing Guard 작업자가 항공기 날개 끝 부분에 이물질이 부착된 것을 발견하고 즉시 보고하여 이물질 제거 후 정상 출발함.',cause:['출발 전 기체 점검 미흡'],countermeasure:['Push Back 전 기체 외부 점검 절차 강화','Wing Guard 작업자 점검 교육 강화']},
+  {id:7,type:'EXCELLENCE',title:'DOLLY 접현 지원 이동 중 공간협소 인지로 사고 예방 및 정치장 개선',company:'(주)제이에이에스',airport:'인천공항',date:'2024.11.25',content:'DOLLY 접현 지원 이동 중 공간이 협소함을 인지하고 작업을 중단하여 사고를 예방함. 이후 정치장 공간 개선 작업을 시행하여 재발을 방지함.',cause:['장비 정치장의 공간 협소','진입 경로 사전 확인 미흡'],countermeasure:['장비 정치장 공간 개선','접현 지원 이동 전 경로 사전 확인 절차화','협소 공간 작업 시 유도자 배치']},
+];
+filterGeneral();
+filterExcellence();
+</script>
+
+<footer style="background:white;border-top:1px solid var(--slate-100);padding:32px;text-align:center;margin-top:40px">
+  <div style="max-width:1400px;margin:0 auto">
+    <div style="font-size:10px;font-weight:900;color:var(--slate-300);text-transform:uppercase;letter-spacing:.2em;margin-bottom:6px">Government Portal Service</div>
+    <div style="font-size:18px;font-weight:900;color:var(--slate-800)">국토교통부 공항운영과</div>
+    <div style="font-size:13px;color:var(--slate-400);margin-top:6px;font-weight:600">지상조업 안전문화 정착을 위해 앞장섭니다.</div>
+    <div style="font-size:11px;color:var(--slate-300);margin-top:16px">© 2025 MOLIT. All rights reserved.</div>
+  </div>
+</footer>
+</body>
+</html>
