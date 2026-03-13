@@ -22,7 +22,8 @@ import {
   EyeOff,
   Octagon,
   Zap,
-  Siren
+  Siren,
+  Target
 } from 'lucide-react';
 
 const StatsDashboard: React.FC = () => {
@@ -59,62 +60,48 @@ const StatsDashboard: React.FC = () => {
     return <span className="text-slate-800">{value}</span>;
   };
 
+  // '25년 목표 달성 현황 데이터
+  const overallGoals = [
+    { label: '항공기간 접촉', target: 0, actual: 0, count: 0 },
+    { label: '항공기-장비·차량과 접촉', target: 0.004, actual: 0, count: 0 },
+    { label: '항공기-장비·차량과 접촉', target: 0.036, actual: 0, count: 0 },
+    { label: '차량·차량·장비·시설간 접촉', target: 0.248, actual: 0.175, count: 16 },
+    { label: '조업자 상해', target: 0.064, actual: 0.055, count: 5 },
+  ];
+
+  const airportGoals = [
+    {
+      name: '한국공항공사',
+      flights: '486,984',
+      rows: [
+        { label: '항공기간 접촉', target: 0, actual: 0, count: 0 },
+        { label: '항공기-장비·차량과 접촉', target: 0, actual: 0, count: 0 },
+        { label: '항공기-장비·차량과 접촉', target: 0, actual: 0, count: 0 },
+        { label: '차량·차량·장비·시설간 접촉', target: 0.291, actual: 0.164, count: 8 },
+        { label: '조업자 상해', target: 0.027, actual: 0.021, count: 1 },
+      ],
+      totalActual: 0.185,
+      totalCount: 9,
+    },
+    {
+      name: '인천공항공사',
+      flights: '425,760',
+      rows: [
+        { label: '항공기간 접촉', target: 0, actual: 0, count: 0 },
+        { label: '항공기-장비·차량과 접촉', target: 0.008, actual: 0, count: 0 },
+        { label: '항공기-장비·차량과 접촉', target: 0.068, actual: 0, count: 0 },
+        { label: '차량·차량·장비·시설간 접촉', target: 0.179, actual: 0.188, count: 8, over: true },
+        { label: '조업자 상해', target: 0.139, actual: 0.094, count: 4 },
+      ],
+      totalActual: 0.282,
+      totalCount: 12,
+    },
+  ];
+
   return (
     <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10 px-0.5">
 
-      {/* 1. 사고의 주요 유형 및 원인 분석 */}
-      <section className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="bg-slate-800 py-3.5 px-4 text-center">
-          <h2 className="text-[16px] font-bold text-white tracking-tight">사고 주요 유형 및 원인 분석</h2>
-        </div>
-
-        <div className="p-5 space-y-6">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-1 h-4 bg-orange-500 rounded-full"></span>
-              <h3 className="text-[15px] font-bold text-slate-800">주요 사고 유형</h3>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2">
-              <div className="flex items-center gap-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
-                <Zap className="w-5 h-5 text-orange-600 shrink-0" />
-                <div>
-                  <p className="text-[15px] font-bold text-slate-800">접촉 및 충돌</p>
-                  <p className="text-[12px] text-slate-500">차량 간 추돌, 주기장 내 시설물 충돌</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
-                <Siren className="w-5 h-5 text-red-600 shrink-0" />
-                <div>
-                  <p className="text-[15px] font-bold text-slate-800">항공기-장비 간 접촉</p>
-                  <p className="text-[12px] text-slate-500">견인/급유 중 항공기 날개 및 동체 손상</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-1 h-4 bg-blue-500 rounded-full"></span>
-              <h3 className="text-[15px] font-bold text-slate-800">핵심 원인</h3>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              <div className="p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex flex-col items-center text-center gap-1.5">
-                <EyeOff className="w-4 h-4 text-blue-600" />
-                <p className="text-[12px] font-bold text-slate-700">사주경계 미흡</p>
-              </div>
-              <div className="p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex flex-col items-center text-center gap-1.5">
-                <Octagon className="w-4 h-4 text-red-500" />
-                <p className="text-[12px] font-bold text-slate-700">안전수칙 미준수</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. 지상안전사고 현황 */}
+      {/* 1. 지상안전사고 현황 */}
       <section className="bg-white p-5 rounded-3xl shadow-sm border border-slate-200">
         <div className="flex items-center gap-1.5 mb-2">
           <TrendingUp className="w-4 h-4 text-blue-600" />
@@ -185,7 +172,141 @@ const StatsDashboard: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. 공항별 사고 분포 */}
+      {/* 2. '25년 목표 달성 현황 */}
+      <section className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="bg-slate-800 py-3 px-4 flex items-center gap-2">
+          <Target className="w-4 h-4 text-orange-400" />
+          <h2 className="text-[14px] font-bold text-white">'25년 지상안전사고 예방 목표 달성 현황</h2>
+        </div>
+
+        {/* 전사 종합 */}
+        <div className="px-4 pt-4 pb-2">
+          <p className="text-[12px] font-bold text-slate-500 mb-2">▪ 전사 종합 <span className="text-slate-400 font-normal">(운항횟수: 912,744)</span></p>
+          <div className="rounded-2xl overflow-hidden border border-slate-100">
+            <table className="w-full text-center text-[12px]">
+              <thead>
+                <tr className="bg-orange-50">
+                  <th className="py-2 px-2 font-bold text-slate-600 text-left">세부지표</th>
+                  <th className="py-2 px-2 font-bold text-orange-500">안전목표</th>
+                  <th className="py-2 px-2 font-bold text-orange-500">실적</th>
+                  <th className="py-2 px-2 font-bold text-orange-500">사고건수</th>
+                </tr>
+              </thead>
+              <tbody>
+                {overallGoals.map((row, i) => (
+                  <tr key={i} className="border-t border-slate-100">
+                    <td className="py-2 px-2 text-left text-slate-600">{row.label}</td>
+                    <td className="py-2 px-2 text-slate-500">{row.target === 0 ? '0' : row.target.toFixed(3)}</td>
+                    <td className="py-2 px-2 text-slate-700 font-bold">{row.actual === 0 ? '0' : row.actual.toFixed(3)}</td>
+                    <td className="py-2 px-2 text-slate-700 font-bold">{row.count}</td>
+                  </tr>
+                ))}
+                <tr className="border-t-2 border-slate-200 bg-slate-50">
+                  <td className="py-2 px-2 text-left font-black text-slate-800">전사 합계</td>
+                  <td className="py-2 px-2 text-slate-400 font-bold">-</td>
+                  <td className="py-2 px-2 font-black text-slate-800">0.230</td>
+                  <td className="py-2 px-2 font-black text-slate-800">21</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* 공사별 현황 */}
+        <div className="px-4 pt-3 pb-4 space-y-4">
+          {airportGoals.map((airport, ai) => (
+            <div key={ai}>
+              <p className="text-[12px] font-bold text-slate-500 mb-2">
+                ▪ {airport.name} <span className="text-slate-400 font-normal">(운항횟수: {airport.flights})</span>
+              </p>
+              <div className="rounded-2xl overflow-hidden border border-slate-100">
+                <table className="w-full text-center text-[12px]">
+                  <thead>
+                    <tr className="bg-orange-50">
+                      <th className="py-2 px-2 font-bold text-slate-600 text-left">세부지표</th>
+                      <th className="py-2 px-2 font-bold text-orange-500">안전목표</th>
+                      <th className="py-2 px-2 font-bold text-orange-500">실적</th>
+                      <th className="py-2 px-2 font-bold text-orange-500">사고건수</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {airport.rows.map((row, i) => (
+                      <tr key={i} className="border-t border-slate-100">
+                        <td className="py-2 px-2 text-left text-slate-600">{row.label}</td>
+                        <td className="py-2 px-2 text-slate-500">{row.target === 0 ? '0' : row.target.toFixed(3)}</td>
+                        <td className={`py-2 px-2 font-bold ${'over' in row && row.over ? 'text-red-500 bg-red-50' : 'text-slate-700'}`}>
+                          {row.actual === 0 ? '0' : row.actual.toFixed(3)}
+                        </td>
+                        <td className="py-2 px-2 text-slate-700 font-bold">{row.count}</td>
+                      </tr>
+                    ))}
+                    <tr className="border-t-2 border-slate-200 bg-slate-50">
+                      <td className="py-2 px-2 text-left font-black text-slate-800">소계</td>
+                      <td className="py-2 px-2 text-slate-400 font-bold">-</td>
+                      <td className="py-2 px-2 font-black text-slate-800">{airport.totalActual.toFixed(3)}</td>
+                      <td className="py-2 px-2 font-black text-slate-800">{airport.totalCount}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. 사고의 주요 유형 및 원인 분석 */}
+      <section className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="bg-slate-800 py-3.5 px-4 text-center">
+          <h2 className="text-[16px] font-bold text-white tracking-tight">사고 주요 유형 및 원인 분석</h2>
+        </div>
+
+        <div className="p-5 space-y-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1 h-4 bg-orange-500 rounded-full"></span>
+              <h3 className="text-[15px] font-bold text-slate-800">주요 사고 유형</h3>
+            </div>
+
+            <div className="grid grid-cols-1 gap-2">
+              <div className="flex items-center gap-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                <Zap className="w-5 h-5 text-orange-600 shrink-0" />
+                <div>
+                  <p className="text-[15px] font-bold text-slate-800">접촉 및 충돌</p>
+                  <p className="text-[12px] text-slate-500">차량 간 추돌, 주기장 내 시설물 충돌</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                <Siren className="w-5 h-5 text-red-600 shrink-0" />
+                <div>
+                  <p className="text-[15px] font-bold text-slate-800">항공기-장비 간 접촉</p>
+                  <p className="text-[12px] text-slate-500">견인/급유 중 항공기 날개 및 동체 손상</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1 h-4 bg-blue-500 rounded-full"></span>
+              <h3 className="text-[15px] font-bold text-slate-800">핵심 원인</h3>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <div className="p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex flex-col items-center text-center gap-1.5">
+                <EyeOff className="w-4 h-4 text-blue-600" />
+                <p className="text-[12px] font-bold text-slate-700">사주경계 미흡</p>
+              </div>
+              <div className="p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex flex-col items-center text-center gap-1.5">
+                <Octagon className="w-4 h-4 text-red-500" />
+                <p className="text-[12px] font-bold text-slate-700">안전수칙 미준수</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. 공항별 사고 분포 */}
       <section className="bg-white p-5 rounded-3xl shadow-sm border border-slate-200">
         <div className="flex items-center gap-1.5 mb-2">
           <Info className="w-4 h-4 text-emerald-600" />
