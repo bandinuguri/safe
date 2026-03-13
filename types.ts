@@ -46,4 +46,7 @@ export interface AirportStat {
   name: string;
   count: number;
   percentage: number;
+  y2019?: number; y2020?: number; y2021?: number;
+  y2022?: number; y2023?: number; y2024?: number;
+  y2025?: number; total?: number;
 }

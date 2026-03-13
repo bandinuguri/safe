@@ -21,12 +21,16 @@ export const YEARLY_STATS: YearStat[] = [
 ];
 
 export const AIRPORT_STATS: AirportStat[] = [
-  { name: '김포', count: 35, percentage: 45 },
-  { name: '김해', count: 16, percentage: 21 },
-  { name: '제주', count: 14, percentage: 18 },
-  { name: '청주', count: 4, percentage: 4.5 },
-  { name: '대구', count: 4, percentage: 4.5 },
-  { name: '광주', count: 3, percentage: 4 },
+  { name: '김포', count: 38, percentage: 38, y2019:4, y2020:3, y2021:4, y2022:12, y2023:8, y2024:4, y2025:3, total:38 },
+  { name: '김해', count: 18, percentage: 18, y2019:1, y2020:1, y2021:1, y2022:1,  y2023:2, y2024:10,y2025:2, total:18 },
+  { name: '제주', count: 15, percentage: 15, y2019:1, y2020:0, y2021:3, y2022:1,  y2023:4, y2024:5, y2025:1, total:15 },
+  { name: '인천', count: 12, percentage: 12, y2019:0, y2020:0, y2021:0, y2022:0,  y2023:0, y2024:0, y2025:12,total:12 },
+  { name: '청주', count: 6,  percentage: 6,  y2019:0, y2020:0, y2021:1, y2022:0,  y2023:2, y2024:1, y2025:2, total:6  },
+  { name: '대구', count: 4,  percentage: 4,  y2019:0, y2020:0, y2021:0, y2022:0,  y2023:1, y2024:3, y2025:0, total:4  },
+  { name: '광주', count: 3,  percentage: 3,  y2019:0, y2020:1, y2021:1, y2022:0,  y2023:0, y2024:1, y2025:0, total:3  },
+  { name: '무안', count: 1,  percentage: 1,  y2019:1, y2020:0, y2021:0, y2022:0,  y2023:0, y2024:0, y2025:0, total:1  },
+  { name: '양양', count: 1,  percentage: 1,  y2019:0, y2020:0, y2021:0, y2022:1,  y2023:0, y2024:0, y2025:0, total:1  },
+  { name: '울산', count: 1,  percentage: 1,  y2019:0, y2020:0, y2021:0, y2022:0,  y2023:0, y2024:0, y2025:1, total:1  },
 ];
 
 export const CASES: Case[] = [

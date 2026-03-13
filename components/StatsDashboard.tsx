@@ -8,8 +8,6 @@ import {
   Line,
   Bar,
   Cell,
-  PieChart,
-  Pie,
   XAxis,
   YAxis,
   LabelList,
@@ -27,27 +25,6 @@ import {
 } from 'lucide-react';
 
 const StatsDashboard: React.FC = () => {
-  const renderCustomLabel = (props: any) => {
-    const { cx, cy, midAngle, outerRadius, name, count, percentage } = props;
-    const RADIAN = Math.PI / 180;
-    const radius = outerRadius + 22;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="#475569"
-        textAnchor={x > cx ? 'start' : 'end'}
-        dominantBaseline="central"
-        className="text-[11px] font-bold"
-      >
-        <tspan x={x} dy="-0.2em">{name}</tspan>
-        <tspan x={x} dy="1.2em" fill="#3b82f6" fontSize="10px">{`${count}건(${percentage}%)`}</tspan>
-      </text>
-    );
-  };
 
   const renderLegendText = (value: string) => {
     if (value === '환산건수') {
@@ -306,92 +283,69 @@ const StatsDashboard: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. 공항별 사고 분포 */}
+      {/* 4. 공항별 사고 현황 */}
       <section className="bg-white p-5 rounded-3xl shadow-sm border border-slate-200">
-        <div className="flex items-center gap-1.5 mb-2">
+        <div className="flex items-center gap-1.5 mb-4">
           <Info className="w-4 h-4 text-emerald-600" />
-          <h3 className="text-[15px] font-bold text-slate-800">공항별 사고 분포 ('19~'24)</h3>
+          <h3 className="text-[15px] font-bold text-slate-800">공항별 지상안전사고 발생현황 <span className="text-slate-400 font-normal text-[13px]">('19~'25)</span></h3>
         </div>
-        <div className="h-[220px] w-full relative mb-10 border-b border-slate-100 pb-8">
+
+        {/* 막대 차트 */}
+        <div className="h-[260px] w-full mb-5">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie data={AIRPORT_STATS} cx="50%" cy="50%" innerRadius={55} outerRadius={70} paddingAngle={5} dataKey="count" nameKey="name" stroke="none" label={renderCustomLabel}>
+            <ComposedChart
+              data={AIRPORT_STATS}
+              margin={{ top: 16, right: 10, left: -28, bottom: 0 }}
+              layout="vertical"
+            >
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+              <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }} />
+              <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#475569', fontSize: 12, fontWeight: 700 }} width={32} />
+              <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }} formatter={(v: any) => [`${v}건`]} />
+              <Bar dataKey="count" name="합계" radius={[0, 6, 6, 0]} barSize={18}>
                 {AIRPORT_STATS.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#6366f1'][index % 6]} />
+                  <Cell key={`cell-${index}`} fill={['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#6366f1','#ec4899','#14b8a6','#f97316','#84cc16'][index % 10]} />
                 ))}
-              </Pie>
-            </PieChart>
+                <LabelList dataKey="count" position="right" style={{ fill: '#475569', fontSize: 12, fontWeight: 900 }} formatter={(v: any) => `${v}건`} />
+              </Bar>
+            </ComposedChart>
           </ResponsiveContainer>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-            <p className="text-[11px] font-bold text-slate-400 mb-0.5">전체 건수</p>
-            <p className="text-2xl font-black text-slate-800">78건</p>
-          </div>
         </div>
 
-        {/* 사고 분석 요약 */}
-        <div className="space-y-10">
-          <div>
-            <h4 className="text-[14px] font-black text-slate-900 flex items-center gap-2 mb-4">
-              <span className="w-1 h-4 bg-blue-600 rounded-full"></span>
-              ㅇ 사고 주요 유형
-            </h4>
-            <p className="text-[13.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
-              사고는 크게 차량/장비 간 접촉, 항공기 접촉, 조업자 상해로 나뉩니다.
-            </p>
-            <div className="space-y-4">
-              {[
-                { title: "차량 및 시설물 접촉", desc: "차량 간 추돌이나 주기장 내 시설물과의 충돌입니다. 특히 탑승교(PBB) 하단부 통과 시 높이 제한을 인지하지 못해 발생하는 충돌 사례가 빈번합니다." },
-                { title: "항공기 접촉", desc: "견인 중인 장비(달리 등)의 결박 해제, 급유차 후진 중 날개 접촉, 토잉(Towing) 중 탑승교와의 접촉 등으로 인해 항공기 엔진이나 기체가 손상되는 경우입니다." },
-                { title: "조업자 인적 상해", desc: "작업 중 발생하는 부상 사고입니다.", sub: ["낙상: 로더(Loader)나 사다리 작업 중 발을 헛딛어 지면으로 추락.", "끼임/충돌: 터그카 운전자가 주변 조업자를 보지 못하고 출발하여 달리 사이에 끼거나, 주행 중인 버스가 작업 중인 윙 가드(Wing Guard)와 접촉."] },
-                { title: "아차 사고 및 우수 사례", desc: "강풍으로 장비가 밀려 항공기에 접근하거나, Push-back 중 타 항공기 침범을 발견하여 멈추는 등 사고로 이어질 뻔한 사례도 포함됩니다." }
-              ].map((item, i) => (
-                <div key={i} className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100 flex flex-col gap-1.5">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
-                    <span className="text-[14px] font-bold text-slate-800 tracking-tight">{item.title}</span>
-                  </div>
-                  <p className="text-[13px] text-slate-500 leading-relaxed font-medium pl-3.5">{item.desc}</p>
-                  {item.sub && (
-                    <div className="mt-1 pl-3.5 space-y-1.5">
-                      {item.sub.map((s, j) => (
-                        <div key={j} className="flex items-start gap-2">
-                          <span className="text-slate-300 mt-0.5">•</span>
-                          <span className="text-[12.5px] text-slate-500/80 font-medium leading-relaxed">{s}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+        {/* 연도별 표 */}
+        <div className="overflow-x-auto -mx-1">
+          <table className="w-full text-center text-[11px] min-w-[420px]">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="py-2 px-1.5 font-bold text-slate-600 text-left w-10">구분</th>
+                {['2019','2020','2021','2022','2023','2024'].map(y => (
+                  <th key={y} className="py-2 px-1 font-bold text-slate-500">{y.slice(2)}년</th>
+                ))}
+                <th className="py-2 px-1 font-bold text-red-500">'25년</th>
+                <th className="py-2 px-1.5 font-bold text-slate-700">합계</th>
+              </tr>
+            </thead>
+            <tbody>
+              {AIRPORT_STATS.map((row, i) => (
+                <tr key={i} className={`border-b border-slate-100 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}>
+                  <td className="py-2 px-1.5 font-bold text-slate-700 text-left">{row.name}</td>
+                  {[row.y2019,row.y2020,row.y2021,row.y2022,row.y2023,row.y2024].map((v,j) => (
+                    <td key={j} className="py-2 px-1 text-slate-500">{v ? v : '-'}</td>
+                  ))}
+                  <td className="py-2 px-1 font-bold text-red-500">{row.y2025 ? row.y2025 : '-'}</td>
+                  <td className="py-2 px-1.5 font-black text-slate-800">{row.total}</td>
+                </tr>
               ))}
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-[14px] font-black text-slate-900 flex items-center gap-2 mb-4">
-              <span className="w-1 h-4 bg-orange-500 rounded-full"></span>
-              ㅇ 사고 발생 원인
-            </h4>
-            <p className="text-[13.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
-              지상안전사고의 대부분은 인적 요인에 의해 발생하며, 특히 2024년 발생한 24건은 모두 운전자 부주의로 인한 차량 사고였습니다.
-            </p>
-            <div className="grid grid-cols-1 gap-2.5">
-              {[
-                { title: "운전자 부주의 및 집중력 저하", desc: "운전 미숙, 전방 주시 태만, 안일함 등이 주요 원인입니다." },
-                { title: "사주경계 및 지적확인 미흡", desc: "출발 전 주변 확인을 소홀히 하거나, 교차로 및 유도로 진입 전 일단정지 규정을 준수하지 않는 경우입니다." },
-                { title: "안전 수칙 및 절차 미준수", desc: "고소장비의 통과 높이 제한 무시, 안전거리 미확보, 유도자 없이 후진 접현을 시도하는 등의 행위가 사고를 유발합니다." },
-                { title: "조급한 작업 수행", desc: "항공기 지연이나 스케줄 압박으로 인해 서둘러 조업하다가 발생하는 사고가 많습니다." },
-                { title: "환경적 요인", desc: "강풍으로 인해 결박되지 않은 비동력 장비가 이동하거나, 빗물로 인해 미끄러운 바닥 노면이 원인이 되기도 합니다." }
-              ].map((item, i) => (
-                <div key={i} className="flex flex-col gap-1 p-3 bg-white border border-slate-100 rounded-xl shadow-sm">
-                  <span className="text-[13.5px] font-bold text-slate-800">• {item.title}</span>
-                  <p className="text-[13px] text-slate-500 pl-3 leading-relaxed font-medium">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 pt-6 border-t border-slate-100 text-[13.5px] text-slate-600 leading-relaxed font-bold text-center italic bg-slate-50/50 p-4 rounded-2xl">
-              "이러한 사고 분석을 바탕으로 각 공항에서는 사례 전파 교육, 지적확인 캠페인, 시설물 경고 장치 강화 등의 개선 대책을 시행하고 있습니다."
-            </p>
-          </div>
+              <tr className="border-t-2 border-slate-300 bg-slate-100">
+                <td className="py-2 px-1.5 font-black text-slate-800 text-left">합계</td>
+                {[7,5,10,15,17,24].map((v,i) => (
+                  <td key={i} className="py-2 px-1 font-bold text-slate-600">{v}</td>
+                ))}
+                <td className="py-2 px-1 font-black text-red-500">21</td>
+                <td className="py-2 px-1.5 font-black text-slate-800">99</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </div>
