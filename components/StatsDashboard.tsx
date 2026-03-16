@@ -183,29 +183,35 @@ const StatsDashboard: React.FC = () => {
         <div className="px-4 pt-4 pb-2">
           <p className="text-[12px] font-bold text-slate-500 mb-2">▪ 전사 종합 <span className="text-slate-400 font-normal">(운항횟수: 912,744)</span></p>
           <div className="rounded-2xl overflow-hidden border border-slate-100">
-            <table className="w-full text-center text-[12px]">
+            <table className="w-full text-center text-[11.5px]">
               <thead>
                 <tr className="bg-orange-50">
-                  <th className="py-2 px-2 font-bold text-slate-600 text-left">세부지표</th>
-                  <th className="py-2 px-2 font-bold text-orange-500">안전목표</th>
-                  <th className="py-2 px-2 font-bold text-orange-500">실적</th>
-                  <th className="py-2 px-2 font-bold text-orange-500">사고건수</th>
+                  <th className="py-2 px-1.5 font-bold text-slate-600 text-left w-[38%]">세부지표</th>
+                  <th className="py-2 px-1 font-bold text-orange-500 w-[18%]">안전목표</th>
+                  <th className="py-2 px-1 font-bold text-orange-500 w-[28%]">실적</th>
+                  <th className="py-2 px-1 font-bold text-orange-500 w-[16%]">사고건수</th>
                 </tr>
               </thead>
               <tbody>
-                {overallGoals.map((row, i) => (
-                  <tr key={i} className="border-t border-slate-100">
-                    <td className="py-2 px-2 text-left text-slate-600">{row.label}</td>
-                    <td className="py-2 px-2 text-slate-500">{row.target === 0 ? '0' : row.target.toFixed(3)}</td>
-                    <td className="py-2 px-2 text-slate-700 font-bold">{row.actual === 0 ? '0' : row.actual.toFixed(3)}</td>
-                    <td className="py-2 px-2 text-slate-700 font-bold">{row.count}</td>
-                  </tr>
-                ))}
+                {overallGoals.map((row, i) => {
+                  const rate = row.actual > 0 && row.target > 0 ? (row.actual / row.target * 100).toFixed(1) : null;
+                  return (
+                    <tr key={i} className="border-t border-slate-100">
+                      <td className="py-2 px-1.5 text-left text-slate-600">{row.label}</td>
+                      <td className="py-2 px-1 text-slate-500">{row.target === 0 ? '0' : row.target.toFixed(3)}</td>
+                      <td className="py-2 px-1 text-slate-700">
+                        {row.actual === 0 ? '0' : row.actual.toFixed(3)}
+                        {rate && <span className="text-slate-400 ml-0.5">({rate}%)</span>}
+                      </td>
+                      <td className="py-2 px-1 text-slate-700">{row.count}</td>
+                    </tr>
+                  );
+                })}
                 <tr className="border-t-2 border-slate-200 bg-slate-50">
-                  <td className="py-2 px-2 text-left font-black text-slate-800">전사 합계</td>
-                  <td className="py-2 px-2 text-slate-400 font-bold">-</td>
-                  <td className="py-2 px-2 font-black text-slate-800">0.230</td>
-                  <td className="py-2 px-2 font-black text-slate-800">21</td>
+                  <td className="py-2 px-1.5 text-left font-black text-slate-800">전사 합계</td>
+                  <td className="py-2 px-1 text-slate-400">-</td>
+                  <td className="py-2 px-1 font-black text-slate-800">0.230</td>
+                  <td className="py-2 px-1 font-black text-slate-800">21</td>
                 </tr>
               </tbody>
             </table>
@@ -220,31 +226,36 @@ const StatsDashboard: React.FC = () => {
                 ▪ {airport.name} <span className="text-slate-400 font-normal">(운항횟수: {airport.flights})</span>
               </p>
               <div className="rounded-2xl overflow-hidden border border-slate-100">
-                <table className="w-full text-center text-[12px]">
+                <table className="w-full text-center text-[11.5px]">
                   <thead>
                     <tr className="bg-orange-50">
-                      <th className="py-2 px-2 font-bold text-slate-600 text-left">세부지표</th>
-                      <th className="py-2 px-2 font-bold text-orange-500">안전목표</th>
-                      <th className="py-2 px-2 font-bold text-orange-500">실적</th>
-                      <th className="py-2 px-2 font-bold text-orange-500">사고건수</th>
+                      <th className="py-2 px-1.5 font-bold text-slate-600 text-left w-[38%]">세부지표</th>
+                      <th className="py-2 px-1 font-bold text-orange-500 w-[18%]">안전목표</th>
+                      <th className="py-2 px-1 font-bold text-orange-500 w-[28%]">실적</th>
+                      <th className="py-2 px-1 font-bold text-orange-500 w-[16%]">사고건수</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {airport.rows.map((row, i) => (
-                      <tr key={i} className="border-t border-slate-100">
-                        <td className="py-2 px-2 text-left text-slate-600">{row.label}</td>
-                        <td className="py-2 px-2 text-slate-500">{row.target === 0 ? '0' : row.target.toFixed(3)}</td>
-                        <td className={`py-2 px-2 font-bold ${'over' in row && row.over ? 'text-red-500 bg-red-50' : 'text-slate-700'}`}>
-                          {row.actual === 0 ? '0' : row.actual.toFixed(3)}
-                        </td>
-                        <td className="py-2 px-2 text-slate-700 font-bold">{row.count}</td>
-                      </tr>
-                    ))}
+                    {airport.rows.map((row, i) => {
+                      const rate = row.actual > 0 && row.target > 0 ? (row.actual / row.target * 100).toFixed(1) : null;
+                      const isOver = 'over' in row && row.over;
+                      return (
+                        <tr key={i} className="border-t border-slate-100">
+                          <td className="py-2 px-1.5 text-left text-slate-600">{row.label}</td>
+                          <td className="py-2 px-1 text-slate-500">{row.target === 0 ? '0' : row.target.toFixed(3)}</td>
+                          <td className={`py-2 px-1 ${isOver ? 'text-red-500 bg-red-50' : 'text-slate-700'}`}>
+                            {row.actual === 0 ? '0' : row.actual.toFixed(3)}
+                            {rate && <span className={`ml-0.5 ${isOver ? 'text-red-400' : 'text-slate-400'}`}>({rate}%)</span>}
+                          </td>
+                          <td className="py-2 px-1 text-slate-700">{row.count}</td>
+                        </tr>
+                      );
+                    })}
                     <tr className="border-t-2 border-slate-200 bg-slate-50">
-                      <td className="py-2 px-2 text-left font-black text-slate-800">소계</td>
-                      <td className="py-2 px-2 text-slate-400 font-bold">-</td>
-                      <td className="py-2 px-2 font-black text-slate-800">{airport.totalActual.toFixed(3)}</td>
-                      <td className="py-2 px-2 font-black text-slate-800">{airport.totalCount}</td>
+                      <td className="py-2 px-1.5 text-left font-black text-slate-800">소계</td>
+                      <td className="py-2 px-1 text-slate-400">-</td>
+                      <td className="py-2 px-1 font-black text-slate-800">{airport.totalActual.toFixed(3)}</td>
+                      <td className="py-2 px-1 font-black text-slate-800">{airport.totalCount}</td>
                     </tr>
                   </tbody>
                 </table>
