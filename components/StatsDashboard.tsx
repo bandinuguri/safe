@@ -390,7 +390,7 @@ const StatsDashboard: React.FC = () => {
                 { title: "차량 및 시설물 접촉", desc: "차량 간 추돌이나 주기장 내 시설물과의 충돌입니다. 특히 탑승교(PBB) 하단부 통과 시 높이 제한을 인지하지 못해 발생하는 충돌 사례가 빈번합니다." },
                 { title: "항공기 접촉", desc: "견인 중인 장비(달리 등)의 결박 해제, 급유차 후진 중 날개 접촉, 토잉(Towing) 중 탑승교와의 접촉 등으로 인해 항공기 엔진이나 기체가 손상되는 경우입니다." },
                 { title: "조업자 인적 상해", desc: "작업 중 발생하는 부상 사고입니다.", sub: ["낙상: 로더(Loader)나 사다리 작업 중 발을 헛딛어 지면으로 추락.", "끼임/충돌: 터그카 운전자가 주변 조업자를 보지 못하고 출발하여 달리 사이에 끼거나, 주행 중인 버스가 작업 중인 윙 가드(Wing Guard)와 접촉."] },
-                { title: "아차 사고 및 우수 사례", desc: "강풍으로 장비가 밀려 항공기에 접근하거나, Push-back 중 타 항공기 침범을 발견하여 멈추는 등 사고로 이어질 뻔한 사례도 포함됩니다." }
+                { title: "아차 사고", desc: "강풍으로 장비가 밀려 항공기에 접근하거나, Push-back 중 타 항공기 침범을 발견하여 멈추는 사고 등" }
               ].map((item, i) => (
                 <div key={i} className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100 flex flex-col gap-1.5">
                   <div className="flex items-center gap-2">
