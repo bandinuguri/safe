@@ -321,7 +321,7 @@ const StatsDashboard: React.FC = () => {
       <section className="bg-white p-5 rounded-3xl shadow-sm border border-slate-200">
         <div className="flex items-center gap-1.5 mb-2">
           <Info className="w-4 h-4 text-emerald-600" />
-          <h3 className="text-[15px] font-bold text-slate-800">공항별 지상안전사고 발생현황 <span className="text-slate-400 font-normal text-[12px]">('19~'25)</span></h3>
+          <h3 className="text-[15px] font-bold text-slate-800">공항별 지상안전사고 발생현황 <span className="text-slate-400 font-normal text-[12px]">('20~'25)</span></h3>
         </div>
         <div className="h-[220px] w-full relative mb-4 pb-2">
           <ResponsiveContainer width="100%" height="100%">
@@ -335,17 +335,17 @@ const StatsDashboard: React.FC = () => {
           </ResponsiveContainer>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
             <p className="text-[11px] font-bold text-slate-400 mb-0.5">전체 건수</p>
-            <p className="text-2xl font-black text-slate-800">99건</p>
+            <p className="text-2xl font-black text-slate-800">135건</p>
           </div>
         </div>
 
         {/* 연도별 표 */}
         <div className="border-t border-slate-100 pt-4 overflow-x-auto -mx-1">
-          <table className="w-full text-center text-[11px] min-w-[380px]">
+          <table className="w-full text-center text-[11px] min-w-[360px]">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
                 <th className="py-2 px-1.5 font-bold text-slate-600 text-left">구분</th>
-                {['2019','2020','2021','2022','2023','2024'].map(y => (
+                {['2020','2021','2022','2023','2024'].map(y => (
                   <th key={y} className="py-2 px-1 font-bold text-slate-500">{y.slice(2)}년</th>
                 ))}
                 <th className="py-2 px-1 font-bold text-red-500">'25년</th>
@@ -353,10 +353,10 @@ const StatsDashboard: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {AIRPORT_STATS.map((row, i) => (
+              {AIRPORT_STATS.filter(r => r.total! > 0).map((row, i) => (
                 <tr key={i} className={`border-b border-slate-100 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}>
                   <td className="py-2 px-1.5 font-bold text-slate-700 text-left">{row.name}</td>
-                  {[row.y2019,row.y2020,row.y2021,row.y2022,row.y2023,row.y2024].map((v,j) => (
+                  {[row.y2020,row.y2021,row.y2022,row.y2023,row.y2024].map((v,j) => (
                     <td key={j} className="py-2 px-1 text-slate-500">{v ? v : '-'}</td>
                   ))}
                   <td className="py-2 px-1 font-bold text-red-500">{row.y2025 ? row.y2025 : '-'}</td>
@@ -365,11 +365,11 @@ const StatsDashboard: React.FC = () => {
               ))}
               <tr className="border-t-2 border-slate-300 bg-slate-100">
                 <td className="py-2 px-1.5 font-black text-slate-800 text-left">합계</td>
-                {[7,5,10,15,17,24].map((v,i) => (
+                {[14,17,22,29,32].map((v,i) => (
                   <td key={i} className="py-2 px-1 font-bold text-slate-600">{v}</td>
                 ))}
                 <td className="py-2 px-1 font-black text-red-500">21</td>
-                <td className="py-2 px-1.5 font-black text-slate-800">99</td>
+                <td className="py-2 px-1.5 font-black text-slate-800">135</td>
               </tr>
             </tbody>
           </table>
