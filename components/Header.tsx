@@ -9,7 +9,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { id: 'overview', name: '개요', icon: BookOpen },
+    { id: 'overview', name: '개념정의', icon: BookOpen },
     { id: 'stats', name: '사고 현황', icon: BarChart3 },
     { id: 'accident25', name: "'25년 사고", icon: AlertTriangle },
     { id: 'general', name: '주요사고', icon: ShieldAlert },
