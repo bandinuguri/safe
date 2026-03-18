@@ -39,14 +39,14 @@ const OverviewPage: React.FC = () => {
       content: (
         <div className="space-y-4">
           <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
-            <p className="text-[12px] font-bold text-slate-500 mb-1.5">정의 <span className="font-normal text-slate-400">(법 제2조 제11의3, 고시 제3조)</span></p>
-            <p className="text-[13px] text-slate-600 leading-relaxed font-medium">
+            <p className="text-[13px] font-bold text-slate-500 mb-1.5">정의 <span className="font-normal text-slate-400">(법 제2조 제11의3, 고시 제3조)</span></p>
+            <p className="text-[14px] text-slate-600 leading-relaxed font-medium">
               "지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <span className="font-bold text-slate-800">인명피해가 발생하거나 항공기, 시설, 차량 등에 물적피해가 발생</span>한 것을 말한다.
             </p>
-            <p className="text-[12px] text-slate-400 mt-2 font-medium">※ 항공기 운항과 관련된 사고는 제외</p>
+            <p className="text-[13px] text-slate-400 mt-2 font-medium">※ 항공기 운항과 관련된 사고는 제외</p>
           </div>
           <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
-            <p className="text-[13px] text-slate-700 font-semibold">
+            <p className="text-[14px] text-slate-700 font-semibold">
               <span className="font-bold text-blue-600">관련 규정 : </span>공항시설법, 공항안전운영기준(고시)
             </p>
           </div>
@@ -67,7 +67,7 @@ const OverviewPage: React.FC = () => {
             { num: '⑤', label: '조업자 상해', sub: '장비·차량과 접촉, 낙상' },
           ].map((item, i) => (
             <div key={i} className="bg-orange-50/60 rounded-2xl p-3.5 border border-orange-100/70">
-              <p className="text-[13.5px] font-bold text-slate-800">
+              <p className="text-[14.5px] font-bold text-slate-800">
                 <span className="text-orange-500 mr-1.5">{item.num}</span>
                 {item.label}{item.sub && <span className="text-slate-500 font-medium">({item.sub})</span>}
               </p>
@@ -82,15 +82,15 @@ const OverviewPage: React.FC = () => {
       color: 'red',
       content: (
         <div className="space-y-3">
-          <p className="text-[11.5px] text-slate-400 font-medium">법 제31조의2, 제31조의3, 고시 제65조</p>
+          <p className="text-[12.5px] text-slate-400 font-medium">법 제31조의2, 제31조의3, 고시 제65조</p>
           {[
             { role: '항공관련업무종사자', desc: '지상안전사고가 발생한 경우 국토교통부장관에게 즉시 신고' },
             { role: '항공관련업무 수행단체', desc: '지상안전사고 발생 사실을 알게 된 경우 국토교통부장관에게 즉시 신고 (종사자가 이미 신고한 경우 제외)' },
             { role: '공항운영자', desc: '계류장에서 차량·장비·시설로 인한 지상안전사고 발생 시 관할 지방항공청장에게 즉시 보고' },
           ].map((item, i) => (
             <div key={i} className="bg-red-50/50 rounded-2xl p-3.5 border border-red-100/60">
-              <p className="text-[12px] font-black text-red-600 mb-1">{item.role}</p>
-              <p className="text-[13px] text-slate-600 leading-relaxed font-medium">{item.desc}</p>
+              <p className="text-[13px] font-black text-red-600 mb-1">{item.role}</p>
+              <p className="text-[14px] text-slate-600 leading-relaxed font-medium">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -102,15 +102,15 @@ const OverviewPage: React.FC = () => {
       color: 'emerald',
       content: (
         <div className="space-y-3">
-          <p className="text-[11.5px] text-slate-400 font-medium">법 제31조의2 제3항, 제4항</p>
+          <p className="text-[12.5px] text-slate-400 font-medium">법 제31조의2 제3항, 제4항</p>
           <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
-            <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
+            <p className="text-[14px] text-slate-700 leading-relaxed font-medium">
               항공관련업무 수행단체는 업무종사자에게 지상안전사고의 예방과 차량 및 장비의 안전운행에 필요한 <span className="font-bold text-slate-800">교육을 정기적으로 실시</span>
             </p>
           </div>
           <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
-            <p className="text-[12px] font-bold text-slate-500 mb-1.5">※ 특별안전교육</p>
-            <p className="text-[13px] text-slate-600 leading-relaxed font-medium">
+            <p className="text-[13px] font-bold text-slate-500 mb-1.5">※ 특별안전교육</p>
+            <p className="text-[14px] text-slate-600 leading-relaxed font-medium">
               국토교통부장관은 항공관련업무 수행단체에 조업방법, 근무환경 개선 등 지상안전사고 예방대책을 마련하여 특별안전교육을 실시하도록 요청할 수 있다.
             </p>
           </div>
@@ -171,7 +171,7 @@ const OverviewPage: React.FC = () => {
               <div className={`p-2 rounded-xl border ${colorMap[sec.color]}`}>
                 {sec.icon}
               </div>
-              <span className="text-[14px] font-black text-slate-800">{sec.title}</span>
+              <span className="text-[15px] font-black text-slate-800">{sec.title}</span>
             </div>
             {openSections[i]
               ? <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
