@@ -3,205 +3,242 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>공항 지상안전사고 예방</title>
+<title>공항 지상안전사고 예방 — 관리자 페이지</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f0f2f5;
-  --surface:#ffffff;
-  --surface2:#f8f9fb;
-  --border:#e4e8ef;
-  --border2:#d0d7e3;
-  --text-primary:#111827;
-  --text-secondary:#4b5563;
-  --text-muted:#9ca3af;
-  --blue:#2563eb;--blue-light:#dbeafe;--blue-mid:#eff6ff;
-  --red:#dc2626;--red-light:#fee2e2;--red-mid:#fff5f5;
-  --green:#059669;--green-light:#d1fae5;--green-mid:#ecfdf5;
-  --orange:#d97706;
-  --radius-card:20px;--radius-sm:10px;--radius-xs:6px;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
-  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
-  --shadow-lg:0 12px 32px rgba(0,0,0,.1),0 4px 8px rgba(0,0,0,.06);
+  --ink:#0d1117;--ink2:#24292f;--ink3:#57606a;--ink4:#8c959f;
+  --bg:#f6f8fa;--surface:#ffffff;--surface2:#f6f8fa;
+  --border:#d0d7de;--border2:#e6edf3;
+  --blue:#0969da;--blue-bg:#ddf4ff;--blue-light:#54aeff;
+  --red:#cf222e;--red-bg:#ffebe9;--red-light:#ff8182;
+  --green:#1a7f37;--green-bg:#dafbe1;
+  --orange:#bc4c00;--orange-bg:#fff1e5;
+  --purple:#8250df;--purple-bg:#fbefff;
+  --radius:12px;--radius-lg:16px;--radius-xl:20px;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.08),0 4px 8px rgba(0,0,0,.04);
 }
-html{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
+html{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
 
-/* ── HEADER ── */
-.header{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center}
-.header-inner{width:100%;max-width:1600px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:36px;height:36px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-icon svg{width:18px;height:18px;fill:white}
-.logo-title{font-size:17px;font-weight:900;color:var(--text-primary);letter-spacing:-.3px}
-.logo-badge{font-size:10px;font-weight:700;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);padding:2px 7px;border-radius:20px;margin-left:4px}
-.back-link{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--blue);background:var(--blue-mid);border:1px solid var(--blue-light);padding:6px 14px;border-radius:8px;text-decoration:none;transition:background .15s;white-space:nowrap}
-.back-link:hover{background:var(--blue-light)}
+/* ─── HEADER ─── */
+.hdr{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:56px;display:flex;align-items:center}
+.hdr-inner{max-width:1600px;margin:0 auto;padding:0 28px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.hdr-brand{display:flex;align-items:center;gap:10px}
+.hdr-icon{width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.hdr-icon svg{width:16px;height:16px;fill:white}
+.hdr-title{font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-.3px;font-family:'DM Sans',sans-serif}
+.hdr-back{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--blue);background:var(--blue-bg);border:1px solid #b6e3ff;padding:5px 14px;border-radius:8px;text-decoration:none;transition:all .15s}
+.hdr-back:hover{background:#b6e3ff}
+.hdr-back svg{width:12px;height:12px}
 
-/* ── TAB BAR ── */
-.tabbar{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:100}
-.tabbar-inner{max-width:1600px;margin:0 auto;padding:0 32px;display:flex;gap:0}
-.tab-btn{display:flex;align-items:center;gap:7px;padding:14px 22px;font-size:13px;font-weight:700;color:var(--text-muted);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;transition:all .2s;white-space:nowrap}
-.tab-btn svg{width:14px;height:14px;opacity:.6;transition:opacity .2s}
-.tab-btn:hover{color:var(--text-secondary)}
-.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
-.tab-btn.active svg{opacity:1}
-.tab-btn.active-red{color:var(--red);border-bottom-color:var(--red)}
-.tab-btn.active-red svg{opacity:1}
+/* ─── TAB BAR ─── */
+.tabbar{background:white;border-bottom:1px solid var(--border2);position:sticky;top:56px;z-index:100}
+.tabbar-inner{max-width:1600px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+.tabbar-inner::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:6px;padding:0 20px;height:46px;font-size:13px;font-weight:700;color:var(--ink4);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:'Noto Sans KR',sans-serif}
+.tab:hover{color:var(--ink3)}
+.tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.tab.on-red{color:var(--red);border-bottom-color:var(--red)}
+.tab svg{width:13px;height:13px;opacity:.55}
+.tab.on svg,.tab.on-red svg{opacity:1}
 
-/* ── LAYOUT ── */
-.main{max-width:1600px;margin:0 auto;padding:28px 32px 64px}
+/* ─── LAYOUT ─── */
+.main{max-width:1600px;margin:0 auto;padding:24px 28px 64px}
+.panel{display:none;animation:up .25s ease}
+.panel.on{display:block}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── PANEL ── */
-.panel{display:none;animation:fadeUp .3s ease}
-.panel.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ─── CARD ─── */
+.card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow)}
+.card-head{padding:14px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:8px}
+.card-head-title{font-size:13px;font-weight:800;color:var(--ink)}
+.card-body{padding:20px}
 
-/* ── CARD ── */
-.card{background:var(--surface);border-radius:var(--radius-card);border:1px solid var(--border);box-shadow:var(--shadow-sm);overflow:hidden}
-.card-header{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.card-header-title{font-size:14px;font-weight:800;color:var(--text-primary)}
+/* ─── OVERVIEW PANEL ─── */
+.ov-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.ov-section{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow);overflow:hidden}
+.ov-section.full{grid-column:1/-1}
+.ov-head{padding:12px 18px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.ov-head-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ov-head-title{font-size:13px;font-weight:800;color:var(--ink);flex:1}
+.ov-head-arrow{width:16px;height:16px;color:var(--ink4);transition:transform .2s;flex-shrink:0}
+.ov-head-arrow.open{transform:rotate(180deg)}
+.ov-body{padding:16px 18px;display:none}
+.ov-body.open{display:block}
+.ov-tag{display:inline-flex;align-items:center;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;color:var(--ink3);margin-bottom:10px}
+.ov-def{background:#f3f6fa;border-radius:10px;padding:14px 16px;border-left:3px solid var(--blue);font-size:14px;line-height:1.8;color:var(--ink2)}
+.ov-def strong{color:var(--ink);font-weight:800}
+.ov-note{font-size:12px;color:var(--ink4);margin-top:8px;font-style:italic}
+.ov-reg{background:var(--blue-bg);border-radius:10px;padding:12px 16px;font-size:13.5px;color:var(--ink2);margin-top:12px}
+.ov-reg strong{color:var(--blue);font-weight:800}
+.ov-type-list{display:flex;flex-direction:column;gap:8px}
+.ov-type-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--orange-bg);border-radius:10px;border:1px solid #ffe0c0}
+.ov-type-num{font-size:15px;font-weight:900;color:var(--orange);min-width:20px}
+.ov-type-text{font-size:14px;font-weight:700;color:var(--ink2)}
+.ov-type-sub{font-size:12px;color:var(--ink4);font-weight:500;margin-left:4px}
+.ov-proc-list{display:flex;flex-direction:column;gap:8px}
+.ov-proc-item{padding:12px 16px;background:var(--red-bg);border-radius:10px;border:1px solid #ffd0ce}
+.ov-proc-role{font-size:12px;font-weight:900;color:var(--red);margin-bottom:4px}
+.ov-proc-desc{font-size:14px;color:var(--ink2);line-height:1.7}
+.ov-edu-item{padding:14px 16px;background:var(--green-bg);border-radius:10px;border:1px solid #aceebb;font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:8px}
+.ov-edu-item strong{color:var(--green);font-weight:800}
+.penalty-table{width:100%;border-collapse:collapse;font-size:12px}
+.penalty-table th{padding:9px 10px;background:var(--purple-bg);font-weight:800;color:var(--purple);text-align:center;border-bottom:1px solid #e4d4ff}
+.penalty-table th:first-child{text-align:left;width:42%}
+.penalty-table td{padding:8px 10px;border-top:1px solid var(--border2);color:var(--ink3);text-align:center;line-height:1.5}
+.penalty-table td:first-child{text-align:left;color:var(--ink2)}
+.penalty-table tr:nth-child(even) td{background:var(--surface2)}
+.ov-law{font-size:11.5px;color:var(--ink4);margin-bottom:12px;font-style:italic}
 
-/* ── STATS GRID ── */
-.stats-grid{display:grid;grid-template-columns:340px 1fr 1fr;gap:20px;align-items:start}
+/* ─── STATS PANEL ─── */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 320px;gap:16px;align-items:start}
+.stats-chart-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow);padding:20px}
+.stats-title{font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:7px;margin-bottom:16px}
+.stats-badge{font-size:10px;font-weight:800;background:var(--red-bg);color:var(--red);border:1px solid var(--red-light);padding:2px 8px;border-radius:20px}
+.stat-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stat-pill{background:var(--surface2);border-radius:10px;border:1px solid var(--border2);padding:12px;text-align:center}
+.stat-pill.red{background:var(--red-bg);border-color:var(--red-light)}
+.stat-pill .yr{font-size:11px;font-weight:700;color:var(--ink4);margin-bottom:3px}
+.stat-pill.red .yr{color:var(--red)}
+.stat-pill .cnt{font-size:20px;font-weight:900;line-height:1}
+.stat-pill.red .cnt{color:var(--red)}
+.stat-pill .rt{font-size:10px;font-weight:700;color:var(--orange);margin-top:4px}
+.stat-pill.red .rt{color:var(--red)}
+.stat-note{font-size:11px;color:var(--ink4);margin-top:10px}
+.pie-wrap{position:relative;height:240px;margin-bottom:8px}
+.pie-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.pie-center .big{font-size:28px;font-weight:900;color:var(--ink);line-height:1}
+.cause-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow);overflow:hidden}
+.cause-dark{background:var(--ink);padding:14px 18px}
+.cause-dark span{font-size:13px;font-weight:800;color:white}
+.cause-inner{padding:16px 18px}
+.cause-type-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:10px;border:1px solid var(--border2);margin-bottom:8px}
+.cause-type-item svg{width:16px;height:16px;flex-shrink:0}
+.cause-type-item .title{font-size:13px;font-weight:700;color:var(--ink2)}
+.cause-type-item .sub{font-size:11px;color:var(--ink4);margin-top:1px}
+.cause-divider{border:none;border-top:1px solid var(--border2);margin:14px 0}
+.cause-core-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cause-core-item{background:var(--blue-bg);border-radius:10px;border:1px solid #b6e3ff;padding:12px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.cause-core-item svg{width:14px;height:14px;color:#0969da}
+.cause-core-item span{font-size:12px;font-weight:800;color:var(--ink2)}
+.analysis-block{margin-top:16px;padding-top:16px;border-top:1px solid var(--border2)}
+.analysis-h{font-size:12px;font-weight:800;color:var(--ink2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.analysis-h::before{content:'';display:inline-block;width:3px;height:12px;border-radius:2px;background:var(--blue)}
+.analysis-item{background:var(--surface2);border-radius:8px;padding:10px 12px;margin-bottom:6px;border:1px solid var(--border2)}
+.analysis-item strong{font-size:12.5px;color:var(--ink);font-weight:700;display:block;margin-bottom:3px}
+.analysis-item p{font-size:12px;color:var(--ink3);line-height:1.6}
 
-/* ── ANALYSIS CARD ── */
-.analysis-dark-header{background:#111827;padding:14px 20px;text-align:center}
-.analysis-dark-header span{font-size:14px;font-weight:800;color:white;letter-spacing:-.2px}
-.type-item{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface2);border-radius:12px;border:1px solid var(--border);margin-bottom:8px}
-.cause-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
-.cause-item{padding:12px 10px;background:var(--blue-mid);border-radius:12px;border:1px solid var(--blue-light);display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
-.divider{height:1px;background:var(--border);margin:14px 0}
-.analysis-list-item{background:var(--surface2);border-radius:10px;border:1px solid var(--border);padding:10px 14px;margin-bottom:7px}
-.analysis-list-item strong{font-size:12.5px;font-weight:700;color:var(--text-primary);display:block;margin-bottom:3px}
-.analysis-list-item p{font-size:12px;color:var(--text-secondary);line-height:1.6}
+/* ─── AIRPORT TABLE ─── */
+.apt-table{width:100%;font-size:12px;border-collapse:collapse}
+.apt-table th{padding:9px 10px;background:var(--surface2);font-weight:800;color:var(--ink3);text-align:center;border-bottom:2px solid var(--border)}
+.apt-table th:first-child{text-align:left}
+.apt-table td{padding:8px 10px;border-top:1px solid var(--border2);text-align:center;color:var(--ink3)}
+.apt-table td:first-child{text-align:left;font-weight:800;color:var(--ink2)}
+.apt-table td.red{color:var(--red);font-weight:800}
+.apt-table td.bold{font-weight:900;color:var(--ink)}
+.apt-table tr.total td{background:var(--ink);color:white;font-weight:900}
+.apt-table tr.total td.red{color:#ffa8aa}
 
-/* ── CHART CARD ── */
-.chart-card{background:var(--surface);border-radius:var(--radius-card);border:1px solid var(--border);padding:22px 24px;box-shadow:var(--shadow-sm)}
-.chart-title{font-size:14px;font-weight:800;color:var(--text-primary);display:flex;align-items:center;gap:7px;margin-bottom:18px}
-.stat-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
-.stat-pill{background:var(--surface2);border-radius:12px;border:1px solid var(--border);padding:13px 14px;text-align:center}
-.stat-pill .year{font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px}
-.stat-pill .count{font-size:22px;font-weight:900;color:var(--text-primary);line-height:1}
-.stat-pill .rate{font-size:11px;color:var(--orange);font-weight:700;margin-top:5px}
+/* ─── CASES LAYOUT ─── */
+.cases-layout{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+.sidebar{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);padding:18px;position:sticky;top:118px;box-shadow:var(--shadow)}
+.sidebar-label{font-size:10px;font-weight:900;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.filter-sel{width:100%;appearance:none;background:var(--surface2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238c959f'/%3E%3C/svg%3E") no-repeat right 11px center;background-size:10px;border:1px solid var(--border);border-radius:8px;padding:8px 28px 8px 11px;font-size:12.5px;font-weight:600;color:var(--ink2);font-family:inherit;margin-bottom:8px;cursor:pointer;transition:border .15s}
+.filter-sel:focus{outline:none;border-color:var(--blue)}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:12px;height:12px;color:var(--ink4)}
+.search-inp{width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 11px 8px 28px;font-size:12.5px;font-family:inherit;background:var(--surface2);color:var(--ink2);transition:border .15s}
+.search-inp:focus{outline:none;border-color:var(--blue)}
+.result-label{font-size:11px;font-weight:700;color:var(--ink4);margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)}
+.result-label span{color:var(--blue);font-weight:900}
+.reset-btn{width:100%;margin-top:7px;padding:7px;background:none;border:1.5px dashed var(--border);border-radius:7px;font-size:11px;font-weight:700;color:var(--blue);cursor:pointer;font-family:inherit;transition:all .15s}
+.reset-btn:hover{background:var(--blue-bg);border-color:#b6e3ff}
 
-/* ── AIRPORT LEGEND ── */
-.airport-legend{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}
-.airport-row{background:var(--surface2);border-radius:10px;border:1px solid var(--border);padding:9px 13px;display:flex;justify-content:space-between;align-items:center}
-.airport-row .name{font-size:12px;font-weight:700;color:var(--text-secondary)}
-.airport-row .val{font-size:14px;font-weight:900}
-.airport-row .pct{font-size:10px;font-weight:600;color:var(--text-muted);margin-left:3px}
-
-/* ── CASES LAYOUT ── */
-.cases-layout{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
-
-/* ── SIDEBAR ── */
-.sidebar{background:var(--surface);border-radius:var(--radius-card);border:1px solid var(--border);padding:20px;position:sticky;top:130px;box-shadow:var(--shadow-sm)}
-.sidebar-title{font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
-.filter-select{width:100%;appearance:none;background:var(--surface2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239ca3af'/%3E%3C/svg%3E") no-repeat right 12px center;background-size:10px;border:1px solid var(--border);border-radius:10px;padding:9px 32px 9px 12px;font-size:12.5px;font-weight:600;color:var(--text-primary);cursor:pointer;font-family:inherit;margin-bottom:8px;transition:border .15s}
-.filter-select:focus{outline:none;border-color:var(--blue)}
-.search-wrap{position:relative;margin-bottom:0}
-.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--text-muted)}
-.search-input{width:100%;border:1px solid var(--border);border-radius:10px;padding:9px 12px 9px 32px;font-size:12.5px;font-family:inherit;background:var(--surface2);color:var(--text-primary);transition:border .15s}
-.search-input:focus{outline:none;border-color:var(--blue)}
-.result-info{font-size:11px;font-weight:700;color:var(--text-muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.result-info span{color:var(--blue);font-weight:900}
-.reset-btn{width:100%;margin-top:8px;padding:8px;background:none;border:1.5px dashed var(--border2);border-radius:8px;font-size:11.5px;font-weight:700;color:var(--blue);cursor:pointer;font-family:inherit;transition:all .15s}
-.reset-btn:hover{background:var(--blue-mid);border-color:var(--blue-light)}
-
-/* ── CASE CARD ── */
-.case-list{display:flex;flex-direction:column;gap:14px}
-.case-card{background:var(--surface);border-radius:var(--radius-card);border:1.5px solid var(--border);overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s}
-.case-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
-.case-card.type-general{}
-.case-card.type-excellence{border-color:#bbf7d0}
-.case-card.type-a25{border-color:var(--red-light)}
-.c-header{padding:11px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.c-header.general-bg{background:var(--surface2);border-bottom:1px solid var(--border)}
-.c-header.excellence-bg{background:var(--green-mid);border-bottom:1px solid var(--green-light)}
-.c-header.a25-bg{background:var(--red-mid);border-bottom:1px solid var(--red-light)}
-.c-badge{font-size:10px;font-weight:900;padding:3px 9px;border-radius:6px;flex-shrink:0;letter-spacing:.03em}
-.badge-g{background:#1e293b;color:white}
-.badge-e{background:var(--green);color:white}
-.badge-a{background:var(--red);color:white}
-.c-meta{font-size:13px;font-weight:700}
-.c-date{font-size:11px;font-weight:700;color:var(--text-muted);display:flex;align-items:center;gap:5px;background:var(--surface);padding:4px 10px;border-radius:20px;border:1px solid var(--border);flex-shrink:0}
-.c-body{padding:20px 22px;display:grid;grid-template-columns:1fr 240px;gap:22px;align-items:start}
-.c-body.no-img{grid-template-columns:1fr}
-.c-title{font-size:17px;font-weight:900;color:var(--text-primary);margin-bottom:12px;line-height:1.5;letter-spacing:-.2px}
-.c-location{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--red);background:var(--red-mid);padding:4px 10px;border-radius:8px;margin-bottom:12px}
-.c-section{font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px;margin-bottom:7px;margin-top:13px;letter-spacing:.02em}
-.c-section.blue{color:#1d4ed8}
-.c-section.red{color:#b91c1c}
-.c-section.green{color:#065f46}
-.c-section.slate{color:#334155}
-.c-text{font-size:13px;color:var(--text-secondary);line-height:1.85;font-weight:500}
-.cause-rows{display:flex;flex-direction:column;gap:7px}
-.cause-row{display:flex;align-items:flex-start;gap:9px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 13px}
-.cause-num{min-width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
-.cn-red{background:var(--red-light);color:var(--red)}
-.cn-green{background:var(--green-light);color:var(--green)}
-.cn-slate{background:#f1f5f9;color:#475569}
-.c-divider{border:none;border-top:1.5px dashed var(--border);margin:13px 0}
-.c-divider.red{border-color:var(--red-light)}
-.c-divider.green{border-color:var(--green-light)}
-.c-divider.blue{border-color:var(--blue-light)}
-.measure-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.measure-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;font-weight:700;line-height:1.6}
-.key-effect{margin-top:12px;padding:10px 14px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text-secondary);line-height:1.6}
-.key-effect strong{font-size:10px;background:var(--text-primary);color:white;padding:2px 6px;border-radius:4px;margin-right:6px;letter-spacing:.05em;vertical-align:middle}
-
-/* ── IMAGE BLOCK ── */
-.img-col{display:flex;flex-direction:column;gap:8px}
-.img-block{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--surface2);cursor:zoom-in;transition:transform .2s,box-shadow .2s}
+/* ─── CASE CARD ─── */
+.case-list{display:flex;flex-direction:column;gap:12px}
+.ccard{background:white;border-radius:var(--radius-lg);border:1.5px solid var(--border2);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s}
+.ccard:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.ccard.type-a25{border-color:#ffc1c1}
+.ccard.type-exc{border-color:#aceebb}
+.cc-head{padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cc-head.bg-default{background:var(--surface2);border-bottom:1px solid var(--border2)}
+.cc-head.bg-red{background:#fff5f5;border-bottom:1px solid #ffdcdc}
+.cc-head.bg-green{background:#f0fbf4;border-bottom:1px solid #aceebb}
+.cc-badge{font-size:10px;font-weight:900;padding:2px 8px;border-radius:5px;letter-spacing:.03em}
+.badge-default{background:var(--ink);color:white}
+.badge-red{background:var(--red);color:white}
+.badge-green{background:var(--green);color:white}
+.cc-meta{font-size:13px;font-weight:700}
+.cc-date{font-size:11px;color:var(--ink4);font-weight:700;display:flex;align-items:center;gap:4px;background:white;padding:3px 9px;border-radius:20px;border:1px solid var(--border2)}
+.cc-body{padding:18px 20px;display:grid;grid-template-columns:1fr 220px;gap:20px;align-items:start}
+.cc-body.noimg{grid-template-columns:1fr}
+.cc-title{font-size:16px;font-weight:900;color:var(--ink);margin-bottom:10px;line-height:1.5;letter-spacing:-.2px}
+.cc-loc{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--red);background:var(--red-bg);padding:3px 9px;border-radius:6px;margin-bottom:10px}
+.cc-sec{font-size:11.5px;font-weight:900;display:flex;align-items:center;gap:5px;margin:12px 0 6px;letter-spacing:.03em}
+.cc-sec.blue{color:#0550ae}
+.cc-sec.red{color:#a40000}
+.cc-sec.green{color:#116329}
+.cc-sec.slate{color:#2d3748}
+.cc-text{font-size:13px;color:var(--ink3);line-height:1.85;font-weight:500}
+.cause-rows{display:flex;flex-direction:column;gap:6px}
+.cause-row{display:flex;align-items:flex-start;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 11px}
+.cause-n{min-width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+.cn-red{background:var(--red-bg);color:var(--red)}
+.cn-green{background:var(--green-bg);color:var(--green)}
+.cn-slate{background:var(--surface2);color:var(--ink3)}
+.cc-divider{border:none;border-top:1.5px dashed var(--border2);margin:11px 0}
+.measure-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.measure-item{display:flex;align-items:flex-start;gap:7px;font-size:13px;line-height:1.6}
+.key-effect{margin-top:10px;padding:10px 13px;background:var(--surface2);border-radius:8px;border:1px solid var(--border2);font-size:12px;color:var(--ink3);line-height:1.6}
+.key-effect strong{font-size:9px;background:var(--ink);color:white;padding:2px 5px;border-radius:3px;margin-right:5px;letter-spacing:.04em;vertical-align:middle}
+.img-col{display:flex;flex-direction:column;gap:7px}
+.img-block{border-radius:10px;overflow:hidden;border:1px solid var(--border2);cursor:zoom-in;transition:transform .18s,box-shadow .18s}
 .img-block:hover{transform:scale(1.01);box-shadow:var(--shadow-md)}
-.img-block img{width:100%;height:auto;max-height:280px;object-fit:contain;display:block}
-.img-label{text-align:center;font-size:10px;color:var(--text-muted);font-weight:600;padding:5px 0 7px}
+.img-block img{width:100%;height:auto;max-height:260px;object-fit:contain;display:block}
+.img-lbl{text-align:center;font-size:10px;color:var(--ink4);padding:4px 0 6px;font-weight:600}
 
-/* ── ACCIDENT 25 SUMMARY ── */
-.a25-header-card{background:var(--surface);border-radius:var(--radius-card);border:1.5px solid var(--red-light);overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow-sm)}
-.a25-header-top{background:linear-gradient(135deg,#fef2f2 0%,#fff5f5 100%);padding:13px 20px;border-bottom:1px solid var(--red-light);display:flex;align-items:center;gap:8px}
-.a25-header-top span{font-size:14px;font-weight:900;color:#b91c1c}
-.a25-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;padding:16px 20px 0}
-.a25-count{background:var(--surface2);border-radius:11px;border:1px solid var(--border);padding:10px 14px;display:flex;flex-direction:column;gap:3px}
-.a25-count .label{font-size:12px;font-weight:700;color:var(--text-secondary)}
-.a25-count .val{font-size:18px;font-weight:900;color:var(--red);line-height:1}
-.a25-count .unit{font-size:10px;font-weight:600;color:var(--text-muted);display:inline;margin-left:2px}
-.a25-total{margin:12px 20px 16px;background:#111827;border-radius:12px;padding:11px 18px;display:flex;justify-content:space-between;align-items:center}
-.a25-total span{font-size:14px;font-weight:900;color:white}
-.a25-total strong{font-size:22px;font-weight:900;color:white}
-.a25-total .unit2{font-size:13px;font-weight:600;color:#6b7280;margin-left:3px}
+/* ─── A25 SUMMARY ─── */
+.a25-sum{background:white;border-radius:var(--radius-lg);border:1.5px solid #ffc1c1;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow)}
+.a25-sum-head{background:#fff5f5;padding:12px 18px;border-bottom:1px solid #ffdcdc;display:flex;align-items:center;gap:7px}
+.a25-sum-head span{font-size:13px;font-weight:900;color:#a40000}
+.a25-sum-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:14px 18px 0}
+.a25-cell{background:var(--surface2);border-radius:8px;border:1px solid var(--border2);padding:9px 12px}
+.a25-cell .lbl{font-size:11.5px;font-weight:700;color:var(--ink3)}
+.a25-cell .val{font-size:17px;font-weight:900;color:var(--red);line-height:1}
+.a25-total{margin:10px 18px 14px;background:var(--ink);border-radius:10px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.a25-total span{font-size:13px;font-weight:900;color:white}
+.a25-total strong{font-size:20px;font-weight:900;color:white}
+.a25-total .u{font-size:12px;color:#8b9498;margin-left:3px}
 
-/* ── EMPTY ── */
-.empty{padding:60px 0;text-align:center;background:var(--surface);border-radius:var(--radius-card);border:1.5px dashed var(--border)}
-.empty svg{width:32px;height:32px;color:var(--border2);margin:0 auto 10px;display:block}
-.empty p{font-size:13px;font-weight:700;color:var(--text-muted)}
-
-/* ── ZOOM MODAL ── */
-.zoom-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);align-items:center;justify-content:center}
+/* ─── EMPTY / ZOOM ─── */
+.empty{padding:56px 0;text-align:center;background:white;border-radius:var(--radius-lg);border:1.5px dashed var(--border2)}
+.empty p{font-size:13px;font-weight:700;color:var(--ink4);margin-top:8px}
+.zoom-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);align-items:center;justify-content:center}
 .zoom-overlay.open{display:flex}
-.zoom-overlay img{max-width:88vw;max-height:88vh;object-fit:contain;border-radius:16px;box-shadow:var(--shadow-lg)}
-.zoom-close{position:absolute;top:18px;right:22px;background:rgba(255,255,255,.12);border:none;width:42px;height:42px;border-radius:50%;color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.zoom-overlay img{max-width:88vw;max-height:88vh;object-fit:contain;border-radius:12px}
+.zoom-close{position:absolute;top:16px;right:20px;background:rgba(255,255,255,.12);border:none;width:40px;height:40px;border-radius:50%;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .zoom-close:hover{background:rgba(255,255,255,.22)}
-
-mark{background:#fef08a;border-radius:2px;padding:0 2px}
+mark{background:#ffe58f;border-radius:2px;padding:0 2px}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-inner">
-    <div class="logo">
-      <div class="logo-icon">
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-brand">
+      <div class="hdr-icon">
         <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
       </div>
-      <span class="logo-title">공항 지상안전사고 예방</span>
-      <span class="logo-badge">PC버전</span>
+      <span class="hdr-title">공항 지상안전사고 예방</span>
+      <span style="font-size:10px;font-weight:700;color:var(--ink4);background:var(--surface2);border:1px solid var(--border2);padding:2px 8px;border-radius:20px;margin-left:6px">PC버전</span>
     </div>
-    <a class="back-link" href="/safe/">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    <a class="hdr-back" href="/safe/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
       모바일 버전으로
     </a>
   </div>
@@ -209,192 +246,258 @@ mark{background:#fef08a;border-radius:2px;padding:0 2px}
 
 <div class="tabbar">
   <div class="tabbar-inner">
-    <button class="tab-btn active" onclick="switchTab('stats',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>사고 현황
+    <button class="tab" onclick="sw('overview',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      개념정의
     </button>
-    <button class="tab-btn" onclick="switchTab('a25',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'25년 사고
+    <button class="tab on" onclick="sw('stats',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      사고 현황
     </button>
-    <button class="tab-btn" onclick="switchTab('general',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>19~24년 사고
+    <button class="tab" onclick="sw('a25',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+      '25년 사고
     </button>
-    <button class="tab-btn" onclick="switchTab('excellence',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>예방사례
+    <button class="tab" onclick="sw('general',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      주요사고
+    </button>
+    <button class="tab" onclick="sw('excellence',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      예방사례
     </button>
   </div>
 </div>
 
 <div class="main">
 
-  <!-- 사고현황 -->
-  <div id="p-stats" class="panel active">
-    <div class="stats-grid">
+<!-- ══════════ 개념정의 ══════════ -->
+<div id="p-overview" class="panel">
+  <div class="ov-grid">
 
-      <!-- 연도별 차트 (첫 번째) -->
-      <div class="chart-card">
-        <div class="chart-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          지상안전사고 발생 현황
-          <span style="font-size:10px;font-weight:700;color:var(--red);background:var(--red-mid);border:1px solid var(--red-light);padding:2px 7px;border-radius:6px;margin-left:4px">'25년 포함</span>
-        </div>
-        <div style="height:300px"><canvas id="yearChart"></canvas></div>
-        <div class="stat-pills">
-          <div class="stat-pill"><div class="year">2023년</div><div class="count">17건</div><div class="rate">0.373</div></div>
-          <div class="stat-pill"><div class="year">2024년</div><div class="count">24건</div><div class="rate">0.501</div></div>
-          <div class="stat-pill" style="border-color:var(--red-light);background:var(--red-mid)">
-            <div class="year" style="color:var(--red)">2025년*</div>
-            <div class="count" style="color:var(--red)">21건</div>
-            <div class="rate" style="color:var(--red)">0.230</div>
-          </div>
-        </div>
-        <p style="font-size:10.5px;color:var(--text-muted);margin-top:8px;font-weight:600">* 2025년 운항횟수 912,744회 기준 (환산건수: 1만회당)</p>
+    <div class="ov-section">
+      <div class="ov-head" onclick="tog(this)">
+        <div class="ov-head-icon" style="background:#ddf4ff"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0969da" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <span class="ov-head-title">지상안전사고 정의 및 규정</span>
+        <svg class="ov-head-arrow open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
       </div>
-
-      <!-- 공항별 차트 (두 번째) -->
-      <div class="chart-card">
-        <div class="chart-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          공항별 사고 분포 ('19~'24)
-        </div>
-        <div style="position:relative;height:260px">
-          <canvas id="airportChart"></canvas>
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none">
-            <div style="font-size:11px;color:var(--text-muted);font-weight:700">전체</div>
-            <div style="font-size:30px;font-weight:900;color:var(--text-primary);line-height:1.1">78건</div>
-          </div>
-        </div>
-        <div class="airport-legend">
-          <div class="airport-row"><span class="name">김포</span><span class="val" style="color:#3b82f6">35건<span class="pct">45%</span></span></div>
-          <div class="airport-row"><span class="name">김해</span><span class="val" style="color:#10b981">16건<span class="pct">21%</span></span></div>
-          <div class="airport-row"><span class="name">제주</span><span class="val" style="color:#f59e0b">14건<span class="pct">18%</span></span></div>
-          <div class="airport-row"><span class="name">청주/대구/광주</span><span class="val" style="color:#ef4444">11건<span class="pct">14%</span></span></div>
-        </div>
+      <div class="ov-body open">
+        <div class="ov-tag">정의 (법 제2조 제11의3, 고시 제3조)</div>
+        <div class="ov-def">"지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <strong>인명피해가 발생하거나 항공기, 시설, 차량 등에 물적피해가 발생</strong>한 것을 말한다.</div>
+        <p class="ov-note">※ 항공기 운항과 관련된 사고는 제외</p>
+        <div class="ov-reg"><strong>관련 규정 : </strong>공항시설법, 공항안전운영기준(고시)</div>
       </div>
-
-      <!-- 유형/원인 (세 번째) -->
-      <div class="card">
-        <div class="analysis-dark-header"><span>사고 주요 유형 및 원인 분석</span></div>
-        <div style="padding:18px 20px">
-          <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
-            <span style="width:3px;height:14px;background:#f97316;border-radius:2px;display:inline-block"></span>
-            <span style="font-size:13px;font-weight:800;color:var(--text-primary)">주요 사고 유형</span>
-          </div>
-          <div class="type-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <div><div style="font-size:13px;font-weight:700">접촉 및 충돌</div><div style="font-size:11px;color:var(--text-muted);margin-top:1px">차량 간 추돌, 주기장 내 시설물 충돌</div></div>
-          </div>
-          <div class="type-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-            <div><div style="font-size:13px;font-weight:700">항공기-장비 간 접촉</div><div style="font-size:11px;color:var(--text-muted);margin-top:1px">견인/급유 중 항공기 날개 및 동체 손상</div></div>
-          </div>
-          <div class="divider"></div>
-          <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
-            <span style="width:3px;height:14px;background:#3b82f6;border-radius:2px;display:inline-block"></span>
-            <span style="font-size:13px;font-weight:800;color:var(--text-primary)">핵심 원인</span>
-          </div>
-          <div class="cause-grid">
-            <div class="cause-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-              <span style="font-size:11.5px;font-weight:700;color:var(--text-primary)">사주경계 미흡</span>
-            </div>
-            <div class="cause-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <span style="font-size:11.5px;font-weight:700;color:var(--text-primary)">안전수칙 미준수</span>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <div style="font-size:12.5px;font-weight:800;color:var(--text-primary);margin-bottom:8px">사고 분석 요약</div>
-          <div class="analysis-list-item"><strong>• 차량 및 시설물 접촉</strong><p>차량 간 추돌, 높이제한 충돌 등 이동지역 내 접촉사고</p></div>
-          <div class="analysis-list-item"><strong>• 항공기 접촉</strong><p>달리 결박 해제, 급유차 날개 접촉, 토잉 중 탑승교 접촉 등</p></div>
-          <div class="analysis-list-item"><strong>• 조업자 인적 상해</strong><p>낙상, 끼임, 차량 충돌 등 작업자 부상 사고</p></div>
-          <p style="margin-top:12px;font-size:11.5px;color:var(--text-muted);line-height:1.7;font-style:italic;border-top:1px solid var(--border);padding-top:10px">사례 전파 교육, 지적확인 캠페인, 시설물 경고 장치 강화 등의 개선 대책을 시행하고 있습니다.</p>
-        </div>
-      </div>
-
     </div>
+
+    <div class="ov-section">
+      <div class="ov-head" onclick="tog(this)">
+        <div class="ov-head-icon" style="background:#fff1e5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bc4c00" stroke-width="2.5"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg></div>
+        <span class="ov-head-title">사고 유형</span>
+        <svg class="ov-head-arrow open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="ov-body open">
+        <div class="ov-type-list">
+          <div class="ov-type-item"><span class="ov-type-num">①</span><span class="ov-type-text">항공기간 접촉<span class="ov-type-sub">(지상조업 요인)</span></span></div>
+          <div class="ov-type-item"><span class="ov-type-num">②</span><span class="ov-type-text">항공기-장비·차량과 접촉<span class="ov-type-sub">(항공기 이동)</span></span></div>
+          <div class="ov-type-item"><span class="ov-type-num">③</span><span class="ov-type-text">항공기-장비·차량과 접촉<span class="ov-type-sub">(항공기 정지)</span></span></div>
+          <div class="ov-type-item"><span class="ov-type-num">④</span><span class="ov-type-text">차량-차량·장비·시설간 접촉</span></div>
+          <div class="ov-type-item"><span class="ov-type-num">⑤</span><span class="ov-type-text">조업자 상해<span class="ov-type-sub">(장비·차량과 접촉, 낙상)</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ov-section">
+      <div class="ov-head" onclick="tog(this)">
+        <div class="ov-head-icon" style="background:#ffebe9"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cf222e" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.1 1.22 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
+        <span class="ov-head-title">신고 등 처리 절차</span>
+        <svg class="ov-head-arrow open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="ov-body open">
+        <p class="ov-law">법 제31조의2, 제31조의3, 고시 제65조</p>
+        <div class="ov-proc-list">
+          <div class="ov-proc-item"><p class="ov-proc-role">항공관련업무종사자</p><p class="ov-proc-desc">지상안전사고가 발생한 경우 국토교통부장관에게 즉시 신고</p></div>
+          <div class="ov-proc-item"><p class="ov-proc-role">항공관련업무 수행단체</p><p class="ov-proc-desc">지상안전사고 발생 사실을 알게 된 경우 국토교통부장관에게 즉시 신고 (종사자가 이미 신고한 경우 제외)</p></div>
+          <div class="ov-proc-item"><p class="ov-proc-role">공항운영자</p><p class="ov-proc-desc">계류장에서 차량·장비·시설로 인한 지상안전사고 발생 시 관할 지방항공청장에게 즉시 보고</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ov-section">
+      <div class="ov-head" onclick="tog(this)">
+        <div class="ov-head-icon" style="background:#dafbe1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7f37" stroke-width="2.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <span class="ov-head-title">사고예방 교육</span>
+        <svg class="ov-head-arrow open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="ov-body open">
+        <p class="ov-law">법 제31조의2 제3항, 제4항</p>
+        <div class="ov-edu-item">항공관련업무 수행단체는 업무종사자에게 지상안전사고의 예방과 차량 및 장비의 안전운행에 필요한 <strong>교육을 정기적으로 실시</strong></div>
+        <div class="ov-edu-item" style="background:#f0fbf4;border-color:#aceebb"><strong>※ 특별안전교육</strong><br>국토교통부장관은 항공관련업무 수행단체에 조업방법, 근무환경 개선 등 예방대책을 마련하여 특별안전교육을 실시하도록 요청할 수 있다.</div>
+      </div>
+    </div>
+
+    <div class="ov-section full">
+      <div class="ov-head" onclick="tog(this)">
+        <div class="ov-head-icon" style="background:#fbefff"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8250df" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <span class="ov-head-title">행정처분 기준 <span style="font-size:11px;font-weight:500;color:var(--ink4);margin-left:4px">제19조의4 공항시설법 시행규칙 [별표 4의2]</span></span>
+        <svg class="ov-head-arrow open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="ov-body open">
+        <table class="penalty-table">
+          <thead><tr><th>위반행위</th><th>1차</th><th>2차</th><th>3차 이상</th></tr></thead>
+          <tbody id="penalty-body"></tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <!-- '25년 사고 -->
-  <div id="p-a25" class="panel">
-    <div class="a25-header-card">
-      <div class="a25-header-top">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span>2025년 공항별 사고 발생 현황 (요약)</span>
-      </div>
-      <div class="a25-grid">
-        <div class="a25-count"><div class="label">인천공항</div><div class="val">12<span class="unit">건</span></div></div>
-        <div class="a25-count"><div class="label">김포공항</div><div class="val">3<span class="unit">건</span></div></div>
-        <div class="a25-count"><div class="label">김해공항</div><div class="val">2<span class="unit">건</span></div></div>
-        <div class="a25-count"><div class="label">청주공항</div><div class="val">2<span class="unit">건</span></div></div>
-        <div class="a25-count"><div class="label">울산공항</div><div class="val">1<span class="unit">건</span></div></div>
-        <div class="a25-count"><div class="label">제주공항</div><div class="val">1<span class="unit">건</span></div></div>
-      </div>
-      <div class="a25-total"><span>합계</span><strong>21<span class="unit2">건</span></strong></div>
-    </div>
-    <div class="cases-layout">
-      <div class="sidebar">
-        <div class="sidebar-title">필터</div>
-        <select class="filter-select" id="a25-airport" onchange="filterA25()">
-          <option value="">전체 공항</option>
-          <option>인천공항</option><option>김포공항</option><option>김해공항</option>
-          <option>청주공항</option><option>울산공항</option><option>제주공항</option>
-        </select>
-        <div class="search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="search-input" type="text" id="a25-q" placeholder="검색 (제목, 내용, 공항…)" oninput="filterA25()"/>
-        </div>
-        <div class="result-info">총 <span id="a25-cnt">21</span>건</div>
-        <button class="reset-btn" onclick="document.getElementById('a25-airport').value='';document.getElementById('a25-q').value='';filterA25()">필터 초기화</button>
-      </div>
-      <div class="case-list" id="a25-list"></div>
-    </div>
-  </div>
+<!-- ══════════ 사고 현황 ══════════ -->
+<div id="p-stats" class="panel on">
+  <div class="stats-grid">
 
-  <!-- 19~24년 사고 -->
-  <div id="p-general" class="panel">
-    <div class="cases-layout">
-      <div class="sidebar">
-        <div class="sidebar-title">필터</div>
-        <select class="filter-select" id="gen-airport" onchange="filterGen()">
-          <option value="">전체 공항</option>
-          <option>인천공항</option><option>김포공항</option><option>김해공항</option>
-          <option>제주공항</option><option>대구공항</option><option>광주공항</option><option>청주공항</option>
-        </select>
-        <div class="search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="search-input" type="text" id="gen-q" placeholder="검색 (제목, 내용, 업체명)" oninput="filterGen()"/>
-        </div>
-        <div class="result-info">총 <span id="gen-cnt">24</span>건</div>
-        <button class="reset-btn" onclick="document.getElementById('gen-airport').value='';document.getElementById('gen-q').value='';filterGen()">필터 초기화</button>
+    <div class="stats-chart-card">
+      <div class="stats-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0969da" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        지상안전사고 발생 현황
+        <span class="stats-badge">'25년 포함</span>
       </div>
-      <div class="case-list" id="gen-list"></div>
+      <div style="height:280px"><canvas id="yearChart"></canvas></div>
+      <div class="stat-pills">
+        <div class="stat-pill"><div class="yr">2023년</div><div class="cnt">29건</div><div class="rt">0.455</div></div>
+        <div class="stat-pill"><div class="yr">2024년</div><div class="cnt">36건</div><div class="rt">0.403</div></div>
+        <div class="stat-pill red"><div class="yr">'25년*</div><div class="cnt">21건</div><div class="rt">0.230</div></div>
+      </div>
+      <p class="stat-note">* 2025년 운항횟수 912,744회 기준 (환산건수: 1만회당)</p>
     </div>
-  </div>
 
-  <!-- 예방사례 -->
-  <div id="p-excellence" class="panel">
-    <div class="cases-layout">
-      <div class="sidebar">
-        <div class="sidebar-title">필터</div>
-        <select class="filter-select" id="exc-airport" onchange="filterExc()">
-          <option value="">전체 공항</option>
-          <option>인천공항</option><option>김포공항</option><option>김해공항</option>
-          <option>제주공항</option><option>대구공항</option>
-        </select>
-        <div class="search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="search-input" type="text" id="exc-q" placeholder="검색 (제목, 내용, 업체명)" oninput="filterExc()"/>
-        </div>
-        <div class="result-info">총 <span id="exc-cnt">6</span>건</div>
-        <button class="reset-btn" onclick="document.getElementById('exc-airport').value='';document.getElementById('exc-q').value='';filterExc()">필터 초기화</button>
+    <div class="stats-chart-card">
+      <div class="stats-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7f37" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+        공항별 지상안전사고 발생현황
+        <span style="font-size:11px;font-weight:600;color:var(--ink4);margin-left:4px">('20~'25)</span>
       </div>
-      <div class="case-list" id="exc-list"></div>
+      <div class="pie-wrap">
+        <canvas id="airportChart"></canvas>
+        <div class="pie-center"><div class="big">135건</div></div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="apt-table">
+          <thead><tr><th>구분</th><th>20년</th><th>21년</th><th>22년</th><th>23년</th><th>24년</th><th style="color:var(--red)">'25년</th><th>합계</th></tr></thead>
+          <tbody id="apt-body"></tbody>
+          <tfoot><tr class="total"><td>합계</td><td>14</td><td>17</td><td>22</td><td>29</td><td>32</td><td class="red">21</td><td>135</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="cause-card">
+      <div class="cause-dark"><span>사고 주요 유형 및 원인 분석</span></div>
+      <div class="cause-inner">
+        <div style="font-size:11.5px;font-weight:800;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:5px"><span style="width:3px;height:11px;background:#bc4c00;border-radius:2px;display:inline-block"></span>주요 사고 유형</div>
+        <div class="cause-type-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#bc4c00" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div><div class="title">접촉 및 충돌</div><div class="sub">차량 간 추돌, 주기장 내 시설물 충돌</div></div>
+        </div>
+        <div class="cause-type-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#cf222e" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          <div><div class="title">항공기-장비 간 접촉</div><div class="sub">견인/급유 중 항공기 날개 및 동체 손상</div></div>
+        </div>
+        <hr class="cause-divider"/>
+        <div style="font-size:11.5px;font-weight:800;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:5px"><span style="width:3px;height:11px;background:#0969da;border-radius:2px;display:inline-block"></span>핵심 원인</div>
+        <div class="cause-core-grid">
+          <div class="cause-core-item"><svg viewBox="0 0 24 24" fill="none" stroke="#0969da" stroke-width="2" style="width:14px;height:14px"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg><span>작업자 부주의</span></div>
+          <div class="cause-core-item"><svg viewBox="0 0 24 24" fill="none" stroke="#cf222e" stroke-width="2" style="width:14px;height:14px"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>안전수칙 미준수</span></div>
+        </div>
+        <div class="analysis-block">
+          <div class="analysis-h">사고 분석 요약</div>
+          <div class="analysis-item"><strong>차량 및 시설물 접촉</strong><p>차량 간 추돌, 높이제한 충돌 등 이동지역 내 접촉사고</p></div>
+          <div class="analysis-item"><strong>항공기 접촉</strong><p>달리 결박 해제, 급유차 날개 접촉, 토잉 중 탑승교 접촉 등</p></div>
+          <div class="analysis-item"><strong>조업자 인적 상해</strong><p>낙상, 끼임, 차량 충돌 등 작업자 부상 사고</p></div>
+          <p style="margin-top:12px;font-size:11.5px;color:var(--ink4);line-height:1.7;font-style:italic;border-top:1px solid var(--border2);padding-top:10px">사례 전파 교육, 지적확인 캠페인, 시설물 경고 장치 강화 등의 개선 대책을 시행하고 있습니다.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="zoom-overlay" id="zModal" onclick="closeZoom()">
-  <button class="zoom-close" onclick="closeZoom()">✕</button>
+<!-- ══════════ '25년 사고 ══════════ -->
+<div id="p-a25" class="panel">
+  <div class="a25-sum">
+    <div class="a25-sum-head"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#cf222e" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>2025년 공항별 사고 발생 현황</span></div>
+    <div class="a25-sum-grid">
+      <div class="a25-cell"><div class="lbl">인천공항</div><div class="val">12<span style="font-size:10px;color:var(--ink4);margin-left:2px">건</span></div></div>
+      <div class="a25-cell"><div class="lbl">김포공항</div><div class="val">3<span style="font-size:10px;color:var(--ink4);margin-left:2px">건</span></div></div>
+      <div class="a25-cell"><div class="lbl">김해공항</div><div class="val">2<span style="font-size:10px;color:var(--ink4);margin-left:2px">건</span></div></div>
+      <div class="a25-cell"><div class="lbl">청주공항</div><div class="val">2<span style="font-size:10px;color:var(--ink4);margin-left:2px">건</span></div></div>
+      <div class="a25-cell"><div class="lbl">울산공항</div><div class="val">1<span style="font-size:10px;color:var(--ink4);margin-left:2px">건</span></div></div>
+      <div class="a25-cell"><div class="lbl">제주공항</div><div class="val">1<span style="font-size:10px;color:var(--ink4);margin-left:2px">건</span></div></div>
+    </div>
+    <div class="a25-total"><span>합계</span><strong>21<span class="u">건</span></strong></div>
+  </div>
+  <div class="cases-layout">
+    <div class="sidebar">
+      <div class="sidebar-label">필터</div>
+      <select class="filter-sel" id="a25-ap" onchange="fa25()">
+        <option value="">전체 공항</option>
+        <option>인천공항</option><option>김포공항</option><option>김해공항</option>
+        <option>청주공항</option><option>울산공항</option><option>제주공항</option>
+      </select>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-inp" type="text" id="a25-q" placeholder="검색…" oninput="fa25()"/>
+      </div>
+      <div class="result-label">총 <span id="a25-cnt">21</span>건</div>
+      <button class="reset-btn" onclick="document.getElementById('a25-ap').value='';document.getElementById('a25-q').value='';fa25()">초기화</button>
+    </div>
+    <div class="case-list" id="a25-list"></div>
+  </div>
+</div>
+
+<!-- ══════════ 주요사고 ══════════ -->
+<div id="p-general" class="panel">
+  <div class="cases-layout">
+    <div class="sidebar">
+      <div class="sidebar-label">필터</div>
+      <select class="filter-sel" id="gen-ap" onchange="fgen()">
+        <option value="">전체 공항</option>
+        <option>인천공항</option><option>김포공항</option><option>김해공항</option>
+        <option>제주공항</option><option>대구공항</option><option>청주공항</option>
+      </select>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-inp" type="text" id="gen-q" placeholder="검색…" oninput="fgen()"/>
+      </div>
+      <div class="result-label">총 <span id="gen-cnt">24</span>건</div>
+      <button class="reset-btn" onclick="document.getElementById('gen-ap').value='';document.getElementById('gen-q').value='';fgen()">초기화</button>
+    </div>
+    <div class="case-list" id="gen-list"></div>
+  </div>
+</div>
+
+<!-- ══════════ 예방사례 ══════════ -->
+<div id="p-excellence" class="panel">
+  <div class="cases-layout">
+    <div class="sidebar">
+      <div class="sidebar-label">필터</div>
+      <select class="filter-sel" id="exc-ap" onchange="fexc()">
+        <option value="">전체 공항</option>
+        <option>인천공항</option><option>김포공항</option>
+      </select>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-inp" type="text" id="exc-q" placeholder="검색…" oninput="fexc()"/>
+      </div>
+      <div class="result-label">총 <span id="exc-cnt">6</span>건</div>
+      <button class="reset-btn" onclick="document.getElementById('exc-ap').value='';document.getElementById('exc-q').value='';fexc()">초기화</button>
+    </div>
+    <div class="case-list" id="exc-list"></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div class="zoom-overlay" id="zModal" onclick="closeZ()">
+  <button class="zoom-close" onclick="closeZ()">✕</button>
   <img id="zImg" src="" onclick="event.stopPropagation()"/>
 </div>
 
@@ -402,182 +505,235 @@ mark{background:#fef08a;border-radius:2px;padding:0 2px}
 window.GENERAL_DATA = [{"id": 101, "type": "GENERAL", "title": "L/D Loader 작동 실수로 인한 화물 낙하 및 장비 접촉", "company": "(주)샤프에비에이션케이", "airport": "김포공항", "date": "2022.04.02.(토)", "content": "2022.04.02.(토) #8번 주기장 김OO L/D Loader작업 중 Loader작동 실수(부주의)로 Loader Elevator밖으로 화물을 낙하시킴", "cause": ["Loader에서 CGO 낙하방지와 CGO의 정렬을 위해 CGO를 Loader 내측으로 정렬 후 end guide와 lateral(side) Guide를 올려야 했으나 Guide 미작동하고 CTNR를 회전시키다 CTNR가 지면으로 낙하 하였고 동시에 대기 중인 Tug-Car와 접촉하여 CTNR 상부를 파손함"], "countermeasure": ["Safety Directive(안전지시)발행하여 사고사례 및 Loader 작동자 재교육 및 작동 시 주의사항 전파", "관리자의 지속적 현장확인/Loader 작동자 재교육 및 작동 시 주의사항 전파"], "effect": "", "imageUrl": "image/1-01.png", "images": [], "footerImages": []}, {"id": 102, "type": "GENERAL", "title": "토잉트렉터(Towbarless) 운행 중 타사 램프버스 접촉", "company": "(주)샤프에비에이션케이", "airport": "김포공항", "date": "2023.09.19.(화)", "content": "2023.09.19.(화) #31번 주기장 김OO는 토잉트렉터(Towbarless) 운행 중 타사 램프버스와 접촉하는 사고를 발생 시킴", "cause": ["토잉트렉터 운행 중, 뒤따라오면 타사 램프버스를 확인 및 선행양보 후 GSE도로에 진입하였으나 사주경계 및 지적확인 미흡으로 진행 중이던 램프버스 후미와 토잉트렉터(Towbarless)가 접촉하는 사고가 발생함"], "countermeasure": ["해당 사례 전파를 통하여 장비 안전운전 절차 준수 강조 및 교육 진행", "장비운행 시 지적확인 및 일시정지 시행 철저"], "effect": "", "imageUrl": "", "images": [{"url": "image/2-01.png", "label": "참고사진"}, {"url": "image/2-02.png", "label": ""}], "footerImages": []}, {"id": 103, "type": "GENERAL", "title": "조업 장비 분리 이탈 과정 중 항공기 안테나 머리 접촉", "company": "(주)샤프에비에이션케이", "airport": "김해공항", "date": "2024.10.21.(월)", "content": "2024.10.21.(월) #43번 주기장에서 항공기 조업 중이던 이OO는 항공기 주변의 GSE(ACU)장비를 분리, 정리하고 이탈하는 과정에서 항공기 하부 돌출부위(안테나)에 머리를 접촉하여 5CM가량의 두피열상이 발생함", "cause": ["항공기 조업 스케줄에 따른 작업자의 조급함과 부주의로 인한 사고", "항공기 주변 조업 시 사주경계 미흡으로 발생함"], "countermeasure": ["해당 사례 전파를 통하여 주의사항 및 표준조업절차 전반에 대한 재교육 실시", "관리자의 지속적 현장 확인 및 동 사례 예방을 위한 정기교육 실시"], "effect": "", "imageUrl": "", "images": [{"url": "image/3-01.png", "label": "참고사진"}], "footerImages": []}, {"id": 104, "type": "GENERAL", "title": "터그카 운전 중 보행 직원 미인지로 인한 달리(Dolly) 끼임", "company": "스위스포트코리아(주)", "airport": "인천공항", "date": "2022.02.07.", "content": "2022년 2월 7일 터그카 운전자가 dolly 사이를 지나던 직원을 인지하지 못하고 운전하여 직원이 dolly 사이에 끼어 부상 발생", "cause": ["이동지역에서 터그카 운전 시 출발전 육안 점검 및 출발 전 경적을 울린 후 운전을 해야하나, 당시 운전자는 출발 전 육안 점검을 실시하지 않아 달리 사이를 넘어다니는 직원을 발견하지 못한채 운전함"], "countermeasure": ["모든 직원에게 즉시 사례공유 및 터그카 출발 전 walkaround 실시 및 주변 위험성 확인 교육", "전 직원 대상 Stop-Check-Go 캠페리 실시 및 사고 예방 교육", "장비 경적 기능 전수 조사 및 점검 실시"], "effect": "", "imageUrl": "", "images": [], "footerImages": []}, {"id": 105, "type": "GENERAL", "title": "ULD 견인 이동 중 토우바 연결 해제로 항공기 엔진 충돌", "company": "스위스포트코리아(주)", "airport": "인천공항", "date": "2022.04.14.", "content": "2022년 4월 14일 ULD를 화물 항공기 게이트로 옮기기 위해 견인하던 중, 두 번째 Dolly의 towbar 연결이 해제되며 627번 주기장에 있던 항공기 엔진과 부딪혀 항공기 엔진 손상 발생", "cause": ["2626번과 627번 사이의 블루라인에 정차되어 있던 dolly를 BTU에 연결 후 631번 주기장으로 이동 중 dolly와 dolly를 연결해주는 towbar의 lock이 풀림"], "countermeasure": ["모든 Dolly 이동 전 BTU 또는 CUT 연결 후 walkaround check 실시", "walkaround check 시 적재함 lock 및 dolly hook 확인", "이동 전 경적을 울려 위험성 알린 후 출발"], "effect": "", "imageUrl": "", "images": [], "footerImages": []}, {"id": 106, "type": "GENERAL", "title": "강풍에 의한 비동력 장비(Dolly) 이동 및 항공기 타이어 접촉", "company": "스위스포트코리아(주)", "airport": "인천공항", "date": "2022.10.03.", "content": "2022년 10월 3일 635번과 636번 주기장 사이에 장치되어 있던 dolly가 강풍에 움직여 635번 주기장에 주기되어 있던 항공기 타이어와 dolly가 부딪히는 사고 발생", "cause": ["25kt 이상의 강풍 경보(인천공항, 항공기상청)", "빗물로 인해 미끄러운 주기장 바닥", "강풍 시 빈 ULD 관리 미흡"], "countermeasure": ["Dolly 주차 시 항공기 동체와 평행하게 주차하도록 함", "Towbar를 들어 주차 브레이크 설치 후 끈으로 고정", "빈 ULD는 제거하여 Rack stand에 고정 보관"], "effect": "", "imageUrl": "", "images": [], "footerImages": []}, {"id": 107, "type": "GENERAL", "title": "장비 정치 중 탑승교 하단부 및 장비 상부 부품 충돌", "company": "스위스포트코리아(주)", "airport": "인천공항", "date": "2023.08.15.", "content": "2023년 8월 15일 36번 주기장에 장비를 정치시키기 위해 이동 중, 탑승교 하단부와 장비 상부 부품과 충돌하여 탑승교 하단부 파손 사고 발생", "cause": ["장비 운용자의 경험 부족으로 장비와 탑승교 시설에 대한 높이 및 환경 인지 부족", "조업하지 않는 주기장에 장비 진입을 위해 주기장을 횡단하는 지침 위반", "폭염으로 인해 온열질환 증상 발생"], "countermeasure": ["높이 3.8m 초과하는 GSE 작업 금지 조치 (T1 구역)", "공항시설물 교육 보완(주기장별 특이사항, 안전높이 등)", "관리감독자의 직원 건강 모니터링 강화 및 온열질환 교육"], "effect": "", "imageUrl": "", "images": [], "footerImages": []}, {"id": 108, "type": "GENERAL", "title": "컨베이어 벨트 로더(CBL) 작업 중 공간 사이 추락 사고", "company": "스위스포트코리아(주)", "airport": "인천공항", "date": "2023.12.21.", "content": "2023년 12월 21일 CBL(Conveyor Belt Loader)에서 항공기에 화물 탑재 중, 카고 도어 입구 부분에서 업무를 담당하던 직원이 작업 자세를 변경하던 중 오른발이 미끄러지며 중심을 잃고 카고 도어와 CBL 사이 공간으로 추락함", "cause": ["CBL 벨트로더의 사이즈에 비해 카고 도어의 폭이 넓어 가이드 레일이 포괄하지 못하는 접현 부분 양옆 공간 존재"], "countermeasure": ["CBL 접현 위치 변경 및 가드레일 없는 쪽에 항공기 네트 설치", "벌크 작업자 안전모 착용 지침 강조", "가드레일 확장 및 네트 체결 지도 점검 실시"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/8-01.png", "label": "참고사진"}]}, {"id": 109, "type": "GENERAL", "title": "Tug Car 이용 고소장비 견인 중 탑승교 하부 접촉", "company": "아시아나에어포트", "airport": "김해공항", "date": "2024.12.25.(수)", "content": "Tug Car 이용, Manual Step을 #32/#34 정치장에서 AAP 정비실 세차장으로 이동 中 Tug Car 작동자가 Manual Step 연결 사실을 망각하고 탑승교 하부로 진입하여 탑승교 하부와 접촉", "cause": ["개인 부주의 (고소장비 견인 사실 망각)"], "countermeasure": ["절차준수 재강조 교육 및 고소장비 CONVOY 운영", "교신절차 강화 및 현장 확인 철저"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/9-01.png", "label": "참고사진"}]}, {"id": 110, "type": "GENERAL", "title": "로더 작동석 플랫폼 하강 및 테이프 제거 중 작업자 낙상", "company": "아시아나에어포트", "airport": "인천공항", "date": "2024.04.01.(월)", "content": "인천공항 T1 #8번 주기장에서 ULD 탑재 작업 완료 후 Loader 작동석 플랫폼 하강 중, 항공기 Door Side 테이프를 제거하기 위해 작동석을 이탈했다가 다시 돌아가는 과정에서 플랫폼 우측 끝단에서 발을 헛딛고 낙상", "cause": ["개인 부주의"], "countermeasure": ["Loader 작업 절차 개선 (항공기 접현 후 작업 시 장비작동석 전진/Cab Extension 작동 실시)"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/10-01.png", "label": "참고사진"}]}, {"id": 111, "type": "GENERAL", "title": "토잉 완료 후 이동 중 토우바 헤드(Head) 밟음 및 기체 접촉", "company": "아시아나에어포트", "airport": "김해공항", "date": "2024.01.16.(화)", "content": "#5번 주기장에서 항공기 Towing 완료 후, 작동자가 Tow Tractor를 우측 날개 방향으로 이동하다 좌회전 하는 과정에서 Tow bar Head를 밟아 반대쪽이 상승하며 항공기 NLG Door 접촉", "cause": ["장비 작동자 임의판단"], "countermeasure": ["전 직원 특별안전교육 실시 및 안전지시 배포", "안전품질팀 주관 지점 집중 안전점검 실시"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/11-01.png", "label": "참고사진"}]}, {"id": 112, "type": "GENERAL", "title": "교차로 일시정지 미준수로 인한 터그카 간 후방 추돌", "company": "(주)에이티에스", "airport": "제주공항", "date": "2022.07.26.", "content": "제주공항 #9 주기장 부근에서 타 조업사 Tug Car가 교차로 일시정지를 하였으나, 뒤따라오던 자사 Tug Car 작동자가 미처 정지하지 못하고 후방에서 추돌", "cause": ["안전거리 미확보 및 전방 주시 미흡"], "countermeasure": ["교차로 진입 전 일시정지 시행 및 사주경계/지적확인 교육", "이동지역 안전 교육 재시행 및 특별 점검"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/12-01.png", "label": "참고사진"}]}, {"id": 113, "type": "GENERAL", "title": "교차로 좌회전 중 정지거리 부족으로 윙가드 단순 접촉", "company": "(주)에이티에스", "airport": "제주공항", "date": "2023.08.29.", "content": "#85 주기장에서 승객 탑승 후 도착장 이동을 위해 GSE 도로 주행 중, 교차로 좌회전 도중 대기 중인 Wing Guard를 발견했으나 정지거리 부족으로 접촉 발생", "cause": ["주행 중 사주경계 미흡 및 버스 회전각 대비 좁은 교차로 주행선 침범"], "countermeasure": ["교차로 진입 전 일시정지 강화 및 작동자 업무 배제/재교육", "Wing Guard 조업 대기 위치 조정 및 이동지역 협의회 안건 상정"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/13-01.png", "label": "참고사진"}]}, {"id": 114, "type": "GENERAL", "title": "스텝카(STEP CAR) 이동 중 높이 제한 초과로 탑승교 하부 접촉", "company": "(주)제이에이에스", "airport": "김포국제공항", "date": "2023.01.25.", "content": "#36에서 #34로 STEP CAR를 이동시키는 과정에서 #35의 탑승교 하부(제한높이 3.6m)를 STEP CAR(높이 5.2m)가 통과하려다 상부 DECK이 접촉", "cause": ["고소장비 진입 금지 구역 운행 및 높이 제한 미숙지", "운전자의 인적오류"], "countermeasure": ["고소장비 운용절차 재교육 및 경고장치(발광/야광) 강화", "운전자 시야 범위 내 '탑승교 진입금지' 부착 및 이동 통제 강화"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/14-01.png", "label": "참고사진"}]}, {"id": 115, "type": "GENERAL", "title": "횡단GSE도로 진입 차량 양보 미준수로 인한 전방차량 추돌", "company": "(주)제이에이에스", "airport": "인천공항", "date": "2023.05.18.", "content": "R6-R4 인근 횡단GSE도로에서 4대의 차량이 이동 중, #39 측에서 진입하는 차량에 양보하기 위해 앞차가 정지했으나 이를 인지하지 못하고 추돌", "cause": ["안전거리 미확보 및 이동지역 규정(진입차량 우선권) 미준수"], "countermeasure": ["횡단GSE도로 진입/진출 시 일시정지 및 안전거리 유지 전파", "일시정지, 규정속도 준수 등 기본 규정 재교육"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/15-01.png", "label": "참고사진"}]}, {"id": 116, "type": "GENERAL", "title": "주기장 전면 GSE도로 진출 중 램프버스 간 접촉", "company": "한국공항(주)", "airport": "김해공항", "date": "2023.11.23.", "content": "부산공항 #42 Remote 주기장에서 Step Car 에스코트 후 주기장 전면 GSE도로 진출 중 타사 Ramp Bus와 접촉", "cause": ["주기장 진출 전 일단정지 및 지적확인 미실시", "유도사의 GSE도로 양방향 통제 미흡"], "countermeasure": ["전사 지적확인 습관화 캠페인 추진", "사례 전파 및 기본수칙 준수 재강조 교육"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/16-01.png", "label": "참고사진"}]}, {"id": 117, "type": "GENERAL", "title": "ULD 로더 계단 이용 중 난간 파지 미흡으로 지면 낙상", "company": "한국공항(주)", "airport": "김포공항", "date": "2024.06.04.", "content": "국제선 #39 Spot에서 조업 중 ULD 로더 작동자가 지원을 요청하여 재해자가 로더 계단을 오르던 중 상부 난간 파지를 제대로 하지 않아 균형을 잃고 낙상", "cause": ["도착 항공편 지연에 따른 서두름 및 불안전한 자세"], "countermeasure": ["ULD Loader 사다리 난간대 Non Slip 조치", "사다리 승기 시 양손 파지 위치 정립 및 서두르는 조업 금지"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/17-01.png", "label": "참고사진"}]}, {"id": 118, "type": "GENERAL", "title": "장비 이동 중 탑승교 높이 제한 충돌방지가드 인지 미흡 접촉", "company": "한국공항(주)", "airport": "대구공항", "date": "2024.01.24.", "content": "#8 주기장에서 M/Step을 연결하여 장비정치장으로 이동 중, 도로 상단에 설치된 탑승교 높이 충돌방지가드를 인지하지 못하고 접촉", "cause": ["장비 운행 중 서두름 및 장비 높이제한 사항 미준수"], "countermeasure": ["탑승교 충돌방지가드 위치 이전(#8 -> #7)", "높이제한 장비 운행규정 준수 철저 및 안전의식 강화 교육"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/18-01.png", "label": "참고사진"}]}, {"id": 119, "type": "GENERAL", "title": "급유출하대 이동 중 장비조작 실패로 보안 벽면 충돌", "company": "한국공항(주)", "airport": "대구공항", "date": "2024.06.06.", "content": "Refueler 급유출하대로 이동하던 중 출하대 전방 약 40m 지점에서 좌측 방향으로 근접 운행 중 보안 벽면과 충돌", "cause": ["운전자 장비조작 실패 및 집중력 저하", "GSE도로 및 급유출하대 지역 공간 협소"], "countermeasure": ["운전자 Safety Mind Set 교육 실시", "시설 보완 (전용차선 Marking 및 회전구간 도로 폭 확장)"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/19-01.png", "label": "참고사진"}]}, {"id": 120, "type": "GENERAL", "title": "조업 종료 후 이동 중 맞은편 주행 차량 인지 미흡 충돌", "company": "한국공항(주)", "airport": "제주공항", "date": "2024.06.17.", "content": "#31 Spot 조업 종료 후 카트 반납을 위해 이동 중, 맞은편에서 주행 중이던 스타리아 차량을 인지하지 못하고 램프트렉터 앞 범퍼와 충돌", "cause": ["장비 주행 중 전방 주시 태만 및 사주경계 미실시"], "countermeasure": ["사주경계 강화를 위한 전 직원 교육", "서두르는 조업 금지 및 지적확인 습관화"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/20-01.png", "label": "참고사진"}]}, {"id": 121, "type": "GENERAL", "title": "항공기 Towing 중 탑승교 정위치 미실시로 인한 기체 손상", "company": "한국공항(주)", "airport": "김포공항", "date": "2023.07.05.(수)", "content": "국제선 #37번 주기장에서 Towing 중 정위치에 있지 않던 탑승교와 접촉하여 항공기 L1 Door 하부 손상", "cause": ["탑승교 청소 후 정위치 미실시 및 Towing 절차 미준수", "구성원 간 커뮤니케이션 실패"], "countermeasure": ["안전의식 향상 교육 및 TBM 철저", "무전기 통화 가능 위치 지참 및 조업 Desk 관리 강화"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/21-01.png", "label": "참고사진"}]}, {"id": 122, "type": "GENERAL", "title": "Tug Car 후진 진입 중 주행 중이던 타사 차량 측면 충돌", "company": "한국공항(주)", "airport": "김포공항", "date": "2023.06.27.", "content": "국내선 #10번 주기장 정치장에서 Tug Car를 후진으로 진입시키던 중 우측에서 진행 중이던 타사 차량 조수석 측면과 충돌", "cause": ["Tug Car 후진 시 운전자의 측면/후방 확인 미흡"], "countermeasure": ["차량/장비 운행 시 안전교육 실시 (사주경계 및 교차로 일단정지)"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/22-01.png", "label": "참고사진"}]}, {"id": 123, "type": "GENERAL", "title": "급유차 후진 중 항공기 날개 Fairing 접촉 및 손상", "company": "한국공항(주)", "airport": "김포공항", "date": "2022.01.11.(화)", "content": "국제선 #33 Spot에서 급유를 위해 장비 후진 중, 급유장비 후방 난간과 항공기 왼쪽 날개 Flap Support Fairing이 접촉", "cause": ["장비 후진 시 유도자 미배치"], "countermeasure": ["급유 직원 직무 교육 및 유도자 부재 시 접현 금지", "33번 주기장 특성 및 Hydrant Servicer 지원 금지"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/23-01.png", "label": "참고사진"}]}, {"id": 124, "type": "GENERAL", "title": "수리 완료 장비 견인 중 유도로 횡단 구간에서 타사 차량 충돌", "company": "한국공항(주)", "airport": "김포공항", "date": "2022.11.17.", "content": "정비공장에서 수리 완료된 Tug Car를 트레일러로 견인 중, 입항 대기 중인 항공기를 보고 급히 후진하는 과정에서 후방의 타사 차량 충돌", "cause": ["유도로 횡단 전 일단정지 미실시 및 후진 시 후방 확인 미흡"], "countermeasure": ["장비 운행규정 준수 교육 및 공항시설 표지(일단정지선) 개선 요청"], "effect": "", "imageUrl": "", "images": [], "footerImages": [{"url": "image/24-01.png", "label": "참고사진"}]}] ;
 window.EXCELLENCE_DATA = [{"id": 1, "type": "EXCELLENCE", "title": "강풍 대비 비동력장비(달리) 결박장치 개선 및 사고 예방", "company": "샤프에비에이션케이", "airport": "인천공항", "date": "2024.08.21", "content": "2024년 8월 21일(수) 07:00분 경 탑승동 114번 장비정치장에 정치되어 있던 이글루 달리가 강풍으로 인한 이동으로 114번에 주기되어 있던 OO 항공기 노즈부분과 약 2m 간격으로 지나가는 아차사고가 발생함. 당시 이글루 달리는 브레이크 락이 체결상태였으나 육안점검 결과, 달리의 브레이크 패드가 바퀴와 접촉이 안된 상태였음을 확인하고 즉각 조치함.", "cause": ["비동력장비의 정기적인 점검을 누락하고 사용하던 중, 강풍으로 인해 이글루 달리가 이동하여 항공기와 근접 접촉할 뻔함"], "countermeasure": ["강풍대비 비동력장비들의 정기적인 장비점검 철저", "2차 사고예방을 위해 보조 결박장치(로프 등)를 제작하여 사용", "강풍경보 발생 시 추가 보조 결박장치를 적극 활용하여 장비의 이탈과 이동을 방지"], "effect": "사고발생일로부터 현재까지 해당 공항지점에서 동일 사례가 단 한 건도 발생하지 않음", "imageUrl": "", "images": [], "footerImages": [{"url": "image/best_01.png", "label": "참고사진"}]}, {"id": 2, "type": "EXCELLENCE", "title": "BX7135편 Push back 중 타 항공기 유도로 무단 진입 발견 및 충돌 예방", "company": "아시아나에어포트", "airport": "인천공항", "date": "2024.11.20", "content": "'24.11.20(수) 21:55경, BX7135편 항공기 Push back 개시 중 청도항공 항공기가 유도로 선상으로 무단 진입하는 것을 발견함. 충돌 가능성이 크다고 판단하여 즉시 Push back을 중지시키고 주변 상황을 확인하여 사고를 예방함.", "cause": ["청도항공 항공기 기장의 무리한 주기장 진입 및 관제 지시 무시"], "countermeasure": ["조업 중 주변 상황(사주경계) 감시 역할 강화", "위험 인지 시 기장/관제사와 무선 연락을 통해 신속하게 상황 설명 및 중단 조치"], "effect": "토잉맨의 신속한 판단과 중지 조치로 대형 항공기 지상 충돌 사고를 사전에 차단함", "imageUrl": "", "images": [], "footerImages": []}, {"id": 3, "type": "EXCELLENCE", "title": "BX175편 주기장 진입 중 접촉 위험 인지 및 비상조치(E-STOP)", "company": "아시아나에어포트", "airport": "인천공항", "date": "2024.05.14", "content": "‘24.05.14(화) 20:50, BX175편 #46 주기장 진입 중, #45/#46 사이 유도로에 비정상적으로 정지해 있던 타 항공기(A350)의 꼬리 날개와 자사 항공기 왼쪽 윙팁이 접촉할 위험을 인지함.", "cause": ["주기장 진입 경로 내 선행 항공기의 비정상 대기 및 간격 부족"], "countermeasure": ["VDGS E-STOP 신호 즉시 발신", "Marshalling(유도) 정지 신호를 병행 수행하여 항공기 강제 정지 유도"], "effect": "항공기 간 접촉 사고를 예방함으로써 항공기 안전 운항 및 경제적 손실 방지에 기여함", "imageUrl": "", "images": [], "footerImages": []}, {"id": 4, "type": "EXCELLENCE", "title": "출발편 항공기 수하물 탑재 중 휴대폰 조기 발견 및 화재 위험 차단", "company": "아시아나에어포트", "airport": "김포공항", "date": "2024.09.12", "content": "'24.09.12(목) 출발편 수하물 탑재 작업 중, 항공사 직원으로부터 인수한 가방의 측면 주머니에서 휴대폰을 발견함. 위험물 취급 교육 수칙에 따라 즉시 탑재를 중지하고 보고하여 항공기 화재 위험을 차단함.", "cause": ["승객의 위탁수하물 내 금지 물품(리튬 배터리 내장 기기) 반입"], "countermeasure": ["수하물 인수 및 탑재 시 육안 점검 절차 강화", "현장 작업자 대상 주기적인 위험물(DG) 식별 교육 실시"], "effect": "화물실 내 배터리 화재 가능성을 조기에 차단하여 항공기 안전 운항 확보", "imageUrl": "", "images": [], "footerImages": []}, {"id": 5, "type": "EXCELLENCE", "title": "항공기 탑재 후 Push Back 진행 중 Wing Guard 작업자의 이상 발견", "company": "아시아나에어포트", "airport": "인천공항", "date": "2024.04.21", "content": "'24.04.21(일) OZ541편 항공기 탑재 완료 후 Push Back을 진행하던 중, Wing Guard 작업자가 항공기 좌측 날개의 급유 패널(Fuel Panel)이 열려 있는 것을 발견하고 즉시 중지 신호를 보냄.", "cause": ["항공기 급유 작업 후 패널 폐쇄 확인 미흡"], "countermeasure": ["Push Back 시작 전 기체 외관 재확인(Walk-around) 절차 엄수", "조업 요원별 감시 구역 및 체크리스트 명확화"], "effect": "자사 소화기를 이용한 신속한 초기 진화로 주기장 내 대형 화재 및 시설 피해 예방", "imageUrl": "", "images": [], "footerImages": []}, {"id": 7, "type": "EXCELLENCE", "title": "DOLLY 접현 지원 이동 중 공간협소 인지로 사고 예방 및 정치장 개선", "company": "(주)제이에이에스", "airport": "인천공항", "date": "2024.11.25", "content": "’24년 11월 25일(월) 11:50경 DOLLY 접현 지원을 위해 이동 중, 협소한 공간으로 인해 우측 Wing 진입이 불가함을 인지함. 무리한 진입 대신 안전한 경로를 선택하고 이후 근본적인 원인 해결을 위해 정치장 삭제 조치를 이끌어냄.", "cause": ["인적오류 (장비 폭과 공간에 대한 판단 미흡)", "환경적 요인 (주변 GSE도로와 인접하여 정치장이 매우 협소함)"], "countermeasure": ["사고 주기장의 조업 장애 유발 방지를 위한 전방 장비정치장 삭제 요청 및 조치 완료", "위험 주기장 및 교차로 구간 안전지킴이 순찰 빈도 상향"], "effect": "근본적인 원인인 협소 정치장을 제거함으로써 조업 중 이동 문제 해소 및 경미 접촉 사고 예방", "imageUrl": "", "images": [], "footerImages": [{"url": "image/best_02.png", "label": "참고사진"}]}] ;
 
-const BASE = '/safe/';
-const A25 = [
-  {id:1,airport:'인천공항',date:'2025.1.23.(목)',location:'#252 주기장 BSA 구역 내',title:'#252 BSA구역 내 조업직원 손가락 골절',content:'#252 주기장 BSA 구역 내 조업사 자체 작업 중 달리 연결부위에 손가락이 낌',cause:['작업자 부주의'],피해상황:['(인적피해) 조업직원 1명 손가락 부상','(물적피해) 없음'],images:[{url:'25_image/01_01.jpg'},{url:'25_image/01_02.jpg'}]},
-  {id:2,airport:'인천공항',date:'2025.1.29.(수)',location:'북측지하차도 서편 진입로',title:'북측지하차도 서편 진입로 시설물 파손',content:'터그카 운행 중 탈락한 달리가 지하차도 진입로 부근 높이제한 기둥을 접촉, 높이제한봉 파손·탈락',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 시설물(높이제한봉) 1개 파손'],images:[{url:'25_image/02_01.jpg'},{url:'25_image/02_02.jpg'}]},
-  {id:3,airport:'김포공항',date:'2025.2.2.(일)',location:'국내선 #34 주기장',title:'라바토리카와 토잉트렉터 추돌 사고',content:'국내선에서 국제선 #34 주기장으로 이동중인 토잉트렉터(AAP)를 뒤따르던 라바토리카(KAS)가 추월하다 1차 추돌, 이후 충격으로 2차 조명탑 가드레일 충돌 발생',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 사고차량 2대 파손, #34 조명탑(22번) 가드레일 파손'],images:[{url:'25_image/03_01.jpg'},{url:'25_image/03_02.jpg'},{url:'25_image/03_03.jpg'},{url:'25_image/03_04.jpg'}]},
-  {id:4,airport:'인천공항',date:'2025.2.7.(금)',location:'#253 주기장',title:'#253 주기장 항공기 AC-GPS 강제분리',content:'출발 항공기(승객 탑승)와 AC-GPS 케이블이 연결된 상태에서 PBB를 이현하여 케이블이 강제 탈락',cause:['항공기와 AC-GPS가 연결된 상태로 탑승교 이현'],피해상황:['(인적피해) 없음','(물적피해) 항공기 노즈기어 도어 체결부위 일부 파손, AC-GPS 커버 브라켓 파손'],images:[{url:'25_image/04_01.jpg'},{url:'25_image/04_02.jpg'}]},
-  {id:5,airport:'인천공항',date:'2025.2.11.(화)',location:'북측지하차도 내 화물터미널 방향 중앙 부근',title:'북측지하차도 내 차량 간 추돌',content:'북측지하차도 중앙 부근에서 작업 중이던 승용차(운전자 미탑승)를 뒤에서 차량이 추돌함',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 차량 2대 일부 파손'],images:[{url:'25_image/05_01.jpg'},{url:'25_image/05_02.jpg'}]},
-  {id:6,airport:'김해공항',date:'2025.2.21.(금)',location:'국내선 #22 주기장',title:'램프버스가 지상조업 직원 추돌',content:'JAS소속 승객 수송 버스가 국내선 #22번 주기장으로 이동 중 JAS소속 조업직원을 보지 못하고 추돌',cause:['운전자 부주의'],피해상황:['(인적피해) 조업사 직원 사망','(물적피해) -']},
-  {id:7,airport:'인천공항',date:'2025.3.21.(금)',location:'#43 주기장 전면GSE도로 인근',title:'#43 주기장 전면GSE도로 인근 접촉',content:'#43 전면GSE도로에서 운행하던 차량이 주차 된 차량 3대를 졸음운전으로 접촉',cause:['운전자 부주의 (졸음운전)'],피해상황:['(인적피해) 주차차량 운전석 탑승직원 어깨통증','(물적피해) 차량 3대 일부 파손'],images:[{url:'25_image/07_01.jpg'},{url:'25_image/07_02.jpg'}]},
-  {id:8,airport:'인천공항',date:'2025.3.23.(일)',location:'#30 주기장 전면GSE도로',title:'#30 주기장 전면GSE도로 터그카 간 접촉',content:'#30 주기장 전면GSE도로에서 직진하는 터그카와 장비 정치장으로 좌회전 진입하던 터그카 간 접촉 발생',cause:['운전자 부주의'],피해상황:['(인적피해) 직진차량 운전자 좌측 허리, 둔부 통증','(물적피해) 차량 2대 일부 파손'],images:[{url:'25_image/08_01.jpg'},{url:'25_image/08_02.jpg'}]},
-  {id:9,airport:'청주공항',date:'2025.4.22.(화)',location:'#1번 주기장 인근 차량도로',title:'이동지역 내 차량 간 사고 발생',content:'봉고 차량 운전자가 #1번 장비정치장에서 출발하던 중 한공항보안 소속 니로 차량과 충돌',cause:['운전자 부주의'],피해상황:['(물적피해) 봉고 차량 전면 일부 및 니로차량 측면 파손'],images:[{url:'25_image/09_01.jpg'},{url:'25_image/09_02.jpg'}]},
-  {id:10,airport:'김해공항',date:'2025.5.2.(금)',location:'국제선 #10 주기장 앞 GSE도로',title:'터그카와 토잉카 간 사고 발생',content:'국제선 10번 주기장에서 샤프 터그카가 전방에 일시 정지한 AAP 토잉카에 견인된 토우바를 추돌',cause:['운전자 부주의'],피해상황:['(물적피해) 토우바 일부 파손'],images:[{url:'25_image/10_01.jpg'},{url:'25_image/10_02.jpg'}]},
-  {id:11,airport:'인천공항',date:'2025.5.7.(수)',location:'R3-R7',title:'항공기 견인 차량 유도로 오진입',content:'견인 항공기에 R8, R4 전 대기 지시 하였으나, 견인 운전자의 착각으로 R3에서 R7으로 오진입',cause:['견인 운전자 착각'],피해상황:['(인적피해) 없음','(물적피해) 없음'],images:[{url:'25_image/11_01.jpg'}]},
-  {id:12,airport:'김포공항',date:'2025.5.24.(토)',location:'국내선 외곽 차량도로(#240 외곽)',title:'SUV 차량 주행중 배수로에 전도',content:'한국공항보안 소속 SUV 차량이 국제선 외곽의 차량도에서 졸음운전으로 주행 구간을 이탈하여 배수로에 빠짐',cause:['운전자 부주의 (졸음운전)'],피해상황:['(물적피해) SUV 차량 파손'],images:[{url:'25_image/12_01.jpg'},{url:'25_image/12_02.jpg'}]},
-  {id:13,airport:'울산공항',date:'2025.6.16.(월)',location:'4초소 앞 배수로',title:'SUV 차량 주행중 배수로에 전도 (울산)',content:'한국공항보안 소속 니로차량 운전자가 보안 순찰 중 졸음운전으로 인해 4초소 앞 배수로에 빠짐',cause:['운전자 부주의 (졸음운전)'],피해상황:['(물적피해) 니로 차량 파손'],images:[{url:'25_image/13_01.jpg'},{url:'25_image/13_02.jpg'}]},
-  {id:14,airport:'인천공항',date:'2025.6.24.(화)',location:'#601 주기장 인근',title:'#601 주기장 인근 조업 중 부상자 발생',content:'#601 주기장 인근에서 조업차량에 폐기물 적재 중 차량 위에 실려 있던 달리 타이어가 떨어지면서 안면 부상',cause:['조사 중'],피해상황:['(인적피해) 안면 부상','(물적피해) 없음'],images:[{url:'25_image/14_01.jpg'},{url:'25_image/14_02.jpg'}]},
-  {id:15,airport:'인천공항',date:'2025.8.26.(화)',location:'4활주로 북단 보안울타리 인근',title:'4활주로 북단 보안울타리-차량 충돌',content:'제4서비스 도로로 이동하던 차량이 4활주로 북단 보안울타리와 충돌',cause:['조사 중'],피해상황:['(인적피해) 운전자 사망','(물적피해) 보안울타리 및 차량 파손'],images:[{url:'25_image/15_01.jpg'},{url:'25_image/15_02.jpg'}]},
-  {id:16,airport:'인천공항',date:'2025.8.27.(수)',location:'#841 인근 보안울타리',title:'#841 인근 보안울타리-차량 충돌',content:'운전자 졸음운전으로 인하여 전방에 있는 보안울타리를 확인하지 못하고 충돌',cause:['운전자 부주의 (졸음운전)'],피해상황:['(인적피해) 동승자 안면부 및 팔 타박상','(물적피해) 보안울타리 파손, 차량 파손'],images:[{url:'25_image/16_01.jpg'},{url:'25_image/16_02.jpg'}]},
-  {id:17,airport:'청주공항',date:'2025.10.2.(화)',location:'#7번 주기장 인근 차량도로',title:'이동지역 내 차량-시설 간 충돌 발생',content:'에어로케이 항공 소속 케이터링 차량이 작업 후 차량 안전난간을 접지 않고 이동 중 차량 높이제한 구조물(봉)과 충돌',cause:['운전자 부주의'],피해상황:['(물적피해) 차량 안전난간 파손, 높이제한 충돌방지봉 파손'],images:[{url:'25_image/17_01.jpg'},{url:'25_image/17_02.jpg'}]},
-  {id:18,airport:'인천공항',date:'2025.10.13.(월)',location:'#263 탑승교 하부 GSE 도로',title:'#263 차량-직원 간 접촉 발생',content:'#263 주기장 탑승교 하부 GSE 도로로 사고 차량이 커브길 주행(약 20km/h) 중 무단횡단 중인 조업 직원과 접촉',cause:['운전자 부주의'],피해상황:['(인적피해) 후두부 1cm 열상(환자 의식 있음)','(물적피해) 없음'],images:[{url:'25_image/18_01.jpg'},{url:'25_image/18_02.jpg'}]},
-  {id:19,airport:'인천공항',date:'2025.10.22.(수)',location:'T1 서측 G1 초소 인근 외곽보안울타리',title:'T1 서측 G1 초소 인근 보안울타리 차량충돌',content:'#50번 주기장으로 항공기 토잉 후 전면 GSE도로로 이탈 회전중 회전반경이 너무 커 토잉카 우측 후미와 외곽보안울타리 충돌',cause:['운전자 부주의'],피해상황:['(인적피해) 없음','(물적피해) 보안울타리 일부 파손(2m×1.3m)'],images:[{url:'25_image/19_01.jpg'},{url:'25_image/19_02.jpg'}]},
-  {id:20,airport:'김포공항',date:'2025.12.24.(수)',location:'외곽도로 배수로(그리드맵 L15 지점)',title:'이동지역 내 차량 배수로 빠짐 발생',content:'서울소방119항공대 소속 직원이 운전 중 전방주시 소홀(운전중 성에 제거 조작)로 외곽도로 배수로에 차량이 빠짐',cause:['운전자 부주의 (전방주시 소홀)'],피해상황:['(물적피해) 사고차량 범퍼 손상'],images:[{url:'25_image/20_01.jpg'}]},
-  {id:21,airport:'제주공항',date:'2025.12.29.(월)',location:'#6번 탑승교 인근 차량도로',title:'이동지역 내 차량 간 접촉사고 발생',content:'#6번 탑승교 인근 차량 도로에서 ATS 램프버스와 AQ 레이차량 간 접촉사고 발생',cause:['운전자 부주의'],피해상황:['(물적피해) AQ 레이차량 범퍼 일부 찌그러짐'],images:[{url:'25_image/21_01.jpg'}]},
+const BASE='/safe/';
+const A25=[
+  {id:1,airport:'인천공항',date:'2025.1.23.(목)',loc:'#252 주기장 BSA 구역 내',title:'#252 BSA구역 내 조업직원 손가락 골절',content:'#252 주기장 BSA 구역 내 조업사 자체 작업 중 달리 연결부위에 손가락이 낌',cause:['작업자 부주의'],피해:[`(인적피해) 조업직원 1명 손가락 부상`,`(물적피해) 없음`],images:[{url:'25_image/01_01.jpg'},{url:'25_image/01_02.jpg'}]},
+  {id:2,airport:'인천공항',date:'2025.1.29.(수)',loc:'북측지하차도 서편 진입로',title:'북측지하차도 서편 진입로 시설물 파손',content:'터그카 운행 중 탈락한 달리가 지하차도 진입로 부근 높이제한 기둥을 접촉, 높이제한봉 파손·탈락',cause:['운전자 부주의'],피해:[`(인적피해) 없음`,`(물적피해) 시설물(높이제한봉) 1개 파손`],images:[{url:'25_image/02_01.jpg'},{url:'25_image/02_02.jpg'}]},
+  {id:3,airport:'김포공항',date:'2025.2.2.(일)',loc:'국내선 #34 주기장',title:'라바토리카와 토잉트렉터 추돌 사고',content:'국내선에서 국제선 #34 주기장으로 이동중인 토잉트렉터(AAP)를 뒤따르던 라바토리카(KAS)가 추월하다 1차 추돌, 이후 충격으로 2차 조명탑 가드레일 충돌 발생',cause:['운전자 부주의'],피해:[`(인적피해) 없음`,`(물적피해) 사고차량 2대 파손, #34 조명탑(22번) 가드레일 파손`],images:[{url:'25_image/03_01.jpg'},{url:'25_image/03_02.jpg'}]},
+  {id:4,airport:'인천공항',date:'2025.2.7.(금)',loc:'#253 주기장',title:'#253 주기장 항공기 AC-GPS 강제분리',content:'출발 항공기(승객 탑승)와 AC-GPS 케이블이 연결된 상태에서 PBB를 이현하여 케이블이 강제 탈락',cause:['항공기와 AC-GPS가 연결된 상태로 탑승교 이현'],피해:[`(인적피해) 없음`,`(물적피해) 항공기 노즈기어 도어 체결부위 일부 파손, AC-GPS 커버 브라켓 파손`],images:[{url:'25_image/04_01.jpg'},{url:'25_image/04_02.jpg'}]},
+  {id:5,airport:'인천공항',date:'2025.2.11.(화)',loc:'북측지하차도 내 화물터미널 방향',title:'북측지하차도 내 차량 간 추돌',content:'북측지하차도 중앙 부근에서 작업 중이던 승용차(운전자 미탑승)를 뒤에서 차량이 추돌함',cause:['운전자 부주의'],피해:[`(인적피해) 없음`,`(물적피해) 차량 2대 일부 파손`],images:[{url:'25_image/05_01.jpg'},{url:'25_image/05_02.jpg'}]},
+  {id:6,airport:'김해공항',date:'2025.2.21.(금)',loc:'국내선 #22 주기장',title:'램프버스가 지상조업 직원 추돌',content:'JAS소속 승객 수송 버스가 국내선 #22번 주기장으로 이동 중 JAS소속 조업직원을 보지 못하고 추돌',cause:['운전자 부주의'],피해:[`(인적피해) 조업사 직원 사망`,`(물적피해) -`]},
+  {id:7,airport:'인천공항',date:'2025.3.21.(금)',loc:'#43 주기장 전면GSE도로 인근',title:'#43 주기장 전면GSE도로 인근 접촉',content:'#43 전면GSE도로에서 운행하던 차량이 주차 된 차량 3대를 졸음운전으로 접촉',cause:['운전자 부주의 (졸음운전)'],피해:[`(인적피해) 주차차량 운전석 탑승직원 어깨통증`,`(물적피해) 차량 3대 일부 파손`],images:[{url:'25_image/07_01.jpg'},{url:'25_image/07_02.jpg'}]},
+  {id:8,airport:'인천공항',date:'2025.3.23.(일)',loc:'#30 주기장 전면GSE도로',title:'#30 주기장 전면GSE도로 터그카 간 접촉',content:'#30 주기장 전면GSE도로에서 직진하는 터그카와 장비 정치장으로 좌회전 진입하던 터그카 간 접촉 발생',cause:['운전자 부주의'],피해:[`(인적피해) 직진차량 운전자 좌측 허리, 둔부 통증`,`(물적피해) 차량 2대 일부 파손`],images:[{url:'25_image/08_01.jpg'},{url:'25_image/08_02.jpg'}]},
+  {id:9,airport:'청주공항',date:'2025.4.22.(화)',loc:'#1번 주기장 인근 차량도로',title:'이동지역 내 차량 간 사고 발생',content:'봉고 차량 운전자가 #1번 장비정치장에서 출발하던 중 한공항보안 소속 니로 차량과 충돌',cause:['운전자 부주의'],피해:[`(물적피해) 봉고 차량 전면 일부 및 니로차량 측면 파손`],images:[{url:'25_image/09_01.jpg'},{url:'25_image/09_02.jpg'}]},
+  {id:10,airport:'김해공항',date:'2025.5.2.(금)',loc:'국제선 #10 주기장 앞 GSE도로',title:'터그카와 토잉카 간 사고 발생',content:'국제선 10번 주기장에서 샤프 터그카가 전방에 일시 정지한 AAP 토잉카에 견인된 토우바를 추돌',cause:['운전자 부주의'],피해:[`(물적피해) 토우바 일부 파손`],images:[{url:'25_image/10_01.jpg'},{url:'25_image/10_02.jpg'}]},
+  {id:11,airport:'인천공항',date:'2025.5.7.(수)',loc:'R3-R7',title:'항공기 견인 차량 유도로 오진입',content:'견인 항공기에 R8, R4 전 대기 지시 하였으나, 견인 운전자의 착각으로 R3에서 R7으로 오진입',cause:['견인 운전자 착각'],피해:[`(인적피해) 없음`,`(물적피해) 없음`],images:[{url:'25_image/11_01.jpg'}]},
+  {id:12,airport:'김포공항',date:'2025.5.24.(토)',loc:'국내선 외곽 차량도로(#240 외곽)',title:'SUV 차량 주행중 배수로에 전도',content:'한국공항보안 소속 SUV 차량이 국제선 외곽의 차량도에서 졸음운전으로 주행 구간을 이탈하여 배수로에 빠짐',cause:['운전자 부주의 (졸음운전)'],피해:[`(물적피해) SUV 차량 파손`],images:[{url:'25_image/12_01.jpg'},{url:'25_image/12_02.jpg'}]},
+  {id:13,airport:'울산공항',date:'2025.6.16.(월)',loc:'4초소 앞 배수로',title:'SUV 차량 주행중 배수로에 전도 (울산)',content:'한국공항보안 소속 니로차량 운전자가 보안 순찰 중 졸음운전으로 인해 4초소 앞 배수로에 빠짐',cause:['운전자 부주의 (졸음운전)'],피해:[`(물적피해) 니로 차량 파손`],images:[{url:'25_image/13_01.jpg'},{url:'25_image/13_02.jpg'}]},
+  {id:14,airport:'인천공항',date:'2025.6.24.(화)',loc:'#601 주기장 인근',title:'#601 주기장 인근 조업 중 부상자 발생',content:'#601 주기장 인근에서 조업차량에 폐기물 적재 중 차량 위에 실려 있던 달리 타이어가 떨어지면서 안면 부상',cause:['조사 중'],피해:[`(인적피해) 안면 부상`,`(물적피해) 없음`],images:[{url:'25_image/14_01.jpg'},{url:'25_image/14_02.jpg'}]},
+  {id:15,airport:'인천공항',date:'2025.8.26.(화)',loc:'4활주로 북단 보안울타리 인근',title:'4활주로 북단 보안울타리-차량 충돌',content:'제4서비스 도로로 이동하던 차량이 4활주로 북단 보안울타리와 충돌',cause:['조사 중'],피해:[`(인적피해) 운전자 사망`,`(물적피해) 보안울타리 및 차량 파손`],images:[{url:'25_image/15_01.jpg'},{url:'25_image/15_02.jpg'}]},
+  {id:16,airport:'인천공항',date:'2025.8.27.(수)',loc:'#841 인근 보안울타리',title:'#841 인근 보안울타리-차량 충돌',content:'운전자 졸음운전으로 인하여 전방에 있는 보안울타리를 확인하지 못하고 충돌',cause:['운전자 부주의 (졸음운전)'],피해:[`(인적피해) 동승자 안면부 및 팔 타박상`,`(물적피해) 보안울타리 파손, 차량 파손`],images:[{url:'25_image/16_01.jpg'},{url:'25_image/16_02.jpg'}]},
+  {id:17,airport:'청주공항',date:'2025.10.2.(화)',loc:'#7번 주기장 인근 차량도로',title:'이동지역 내 차량-시설 간 충돌 발생',content:'에어로케이 항공 소속 케이터링 차량이 작업 후 차량 안전난간을 접지 않고 이동 중 차량 높이제한 구조물(봉)과 충돌',cause:['운전자 부주의'],피해:[`(물적피해) 차량 안전난간 파손, 높이제한 충돌방지봉 파손`],images:[{url:'25_image/17_01.jpg'},{url:'25_image/17_02.jpg'}]},
+  {id:18,airport:'인천공항',date:'2025.10.13.(월)',loc:'#263 탑승교 하부 GSE 도로',title:'#263 차량-직원 간 접촉 발생',content:'#263 주기장 탑승교 하부 GSE 도로로 사고 차량이 커브길 주행(약 20km/h) 중 무단횡단 중인 조업 직원과 접촉',cause:['운전자 부주의'],피해:[`(인적피해) 후두부 1cm 열상(환자 의식 있음)`,`(물적피해) 없음`],images:[{url:'25_image/18_01.jpg'},{url:'25_image/18_02.jpg'}]},
+  {id:19,airport:'인천공항',date:'2025.10.22.(수)',loc:'T1 서측 G1 초소 인근 외곽보안울타리',title:'T1 서측 G1 초소 인근 보안울타리-차량충돌',content:'#50번 주기장으로 항공기 토잉 후 전면 GSE도로로 이탈 회전중 회전반경이 너무 커 토잉카 우측 후미와 외곽보안울타리 충돌',cause:['운전자 부주의'],피해:[`(인적피해) 없음`,`(물적피해) 보안울타리 일부 파손(2m×1.3m)`],images:[{url:'25_image/19_01.jpg'},{url:'25_image/19_02.jpg'}]},
+  {id:20,airport:'김포공항',date:'2025.12.24.(수)',loc:'외곽도로 배수로(그리드맵 L15 지점)',title:'이동지역 내 차량 배수로 빠짐 발생',content:'서울소방119항공대 소속 직원이 운전 중 전방주시 소홀(운전중 성에 제거 조작)로 외곽도로 배수로에 차량이 빠짐',cause:['운전자 부주의 (전방주시 소홀)'],피해:[`(물적피해) 사고차량 범퍼 손상`],images:[{url:'25_image/20_01.jpg'}]},
+  {id:21,airport:'제주공항',date:'2025.12.29.(월)',loc:'#6번 탑승교 인근 차량도로',title:'이동지역 내 차량 간 접촉사고 발생',content:'#6번 탑승교 인근 차량 도로에서 ATS 램프버스와 AQ 레이차량 간 접촉사고 발생',cause:['운전자 부주의'],피해:[`(물적피해) AQ 레이차량 범퍼 일부 찌그러짐`],images:[{url:'25_image/21_01.jpg'}]},
 ];
 
-function hl(t,q){if(!q)return t;return t.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>')}
-function openZoom(u){document.getElementById('zImg').src=u;document.getElementById('zModal').classList.add('open')}
-function closeZoom(){document.getElementById('zModal').classList.remove('open')}
+const PENALTY=[
+  {act:'가. 사전 승인 없이 차량 운전/장비 사용',p1:'업무정지 10일',p2:'업무정지 20일',p3:'업무정지 40일'},
+  {act:'가-2. 거짓·부정한 방법으로 사전 승인',p1:'운전업무승인 취소',p2:'-',p3:'-'},
+  {act:'나. 승차정원·화물적재량 초과',p1:'업무정지 1일',p2:'업무정지 2일',p3:'업무정지 4일'},
+  {act:'다-1. 제한속도 10km/h 미만 초과',p1:'운전업무정지 1일',p2:'운전업무정지 2일',p3:'운전업무정지 4일'},
+  {act:'다-2. 제한속도 10km/h 이상 초과',p1:'운전업무정지 2일',p2:'운전업무정지 4일',p3:'운전업무정지 8일'},
+  {act:'라. 주행 중 차량 추월',p1:'운전업무정지 2일',p2:'운전업무정지 4일',p3:'운전업무정지 8일'},
+  {act:'마. 이동 중 항공기 앞 가로지르기/주기 항공기 밑 운행',p1:'업무정지 5일',p2:'업무정지 7일',p3:'업무정지 15일'},
+  {act:'바. 지정 구역 외 주차·정차',p1:'운전업무정지 1일',p2:'운전업무정지 2일',p3:'운전업무정지 4일'},
+  {act:'사. 운행 중 전방 주시 불이행',p1:'운전업무정지 2일',p2:'운전업무정지 4일',p3:'운전업무정지 8일'},
+  {act:'아. 운행 중 휴대폰 사용',p1:'운전업무정지 2일',p2:'운전업무정지 4일',p3:'운전업무정지 8일'},
+  {act:'자. 교통안전 시설·표지 훼손',p1:'업무정지 1일',p2:'업무정지 3일',p3:'업무정지 7일'},
+  {act:'차-1. 활주로·유도로 등에 장비·이물질 방치',p1:'업무정지 3일',p2:'업무정지 5일',p3:'업무정지 10일'},
+  {act:'차-2. 지정 구역 외 위험물 보관·저장',p1:'업무정지 1일',p2:'업무정지 3일',p3:'업무정지 5일'},
+  {act:'카. 사고 발생 시 즉시 신고 불이행',p1:'업무정지 5일',p2:'업무정지 10일',p3:'업무정지 20일'},
+  {act:'타-1. 흡연·음주·환각제 (운전 외 업무)',p1:'업무정지 3일',p2:'업무정지 5일',p3:'업무정지 10일'},
+  {act:'타-2. 흡연·음주·환각제 (운전 업무)',p1:'운전업무승인 취소',p2:'-',p3:'-'},
+  {act:'파. 연료 유출 시 미신고·조치 불이행',p1:'업무정지 3일',p2:'업무정지 5일',p3:'업무정지 10일'},
+  {act:'하. 차량·장비 견인 규정 미준수',p1:'운전업무정지 1일',p2:'운전업무정지 2일',p3:'운전업무정지 4일'},
+  {act:'거. 통행방법 미준수',p1:'운전업무정지 1일',p2:'운전업무정지 2일',p3:'운전업무정지 4일'},
+];
 
-function switchTab(id,btn){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active','active-red'));
-  document.getElementById('p-'+id).classList.add('active');
-  btn.classList.add(id==='a25'?'active-red':'active');
+const APT_DATA=[
+  {name:'인천',y20:9,y21:7,y22:7,y23:12,y24:12,y25:12,total:59},
+  {name:'김포',y20:3,y21:4,y22:12,y23:8,y24:10,y25:3,total:40},
+  {name:'김해',y20:1,y21:1,y22:1,y23:2,y24:5,y25:2,total:12},
+  {name:'제주',y20:0,y21:3,y22:1,y23:4,y24:1,y25:1,total:10},
+  {name:'청주',y20:0,y21:1,y22:0,y23:2,y24:3,y25:2,total:8},
+  {name:'대구',y20:0,y21:0,y22:0,y23:1,y24:0,y25:0,total:1},
+  {name:'광주',y20:1,y21:1,y22:0,y23:0,y24:1,y25:0,total:3},
+  {name:'무안',y20:0,y21:0,y22:0,y23:0,y24:0,y25:0,total:0},
+  {name:'양양',y20:0,y21:0,y22:1,y23:0,y24:0,y25:0,total:1},
+  {name:'울산',y20:0,y21:0,y22:0,y23:0,y24:0,y25:1,total:1},
+];
+
+// ── helpers ──
+function hl(t,q){if(!q)return t;return t.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>')}
+function openZ(u){document.getElementById('zImg').src=u;document.getElementById('zModal').classList.add('open')}
+function closeZ(){document.getElementById('zModal').classList.remove('open')}
+function tog(head){
+  const body=head.nextElementSibling;
+  const arrow=head.querySelector('.ov-head-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on','on-red'));
+  document.getElementById('p-'+id).classList.add('on');
+  btn.classList.add(id==='a25'?'on-red':'on');
 }
 
-function imgBlock(imgs,maxN=2){
+function imgCol(imgs,max=2){
   if(!imgs||!imgs.length)return'';
-  return`<div class="img-col">${imgs.slice(0,maxN).map(i=>`<div class="img-block" onclick="openZoom('${BASE}${i.url}')"><img src="${BASE}${i.url}" loading="lazy" onerror="this.parentElement.style.display='none'"/>${i.label?`<div class="img-label">${i.label}</div>`:''}</div>`).join('')}${imgs.length>maxN?`<div style="font-size:10px;color:var(--text-muted);font-weight:600;text-align:center;padding:2px 0">외 ${imgs.length-maxN}장 더보기</div>`:''}</div>`;
+  return`<div class="img-col">${imgs.slice(0,max).map(i=>`<div class="img-block" onclick="openZ('${BASE}${i.url}')"><img src="${BASE}${i.url}" loading="lazy" onerror="this.parentElement.style.display='none'"/>${i.label?`<div class="img-lbl">${i.label}</div>`:''}</div>`).join('')}${imgs.length>max?`<div style="font-size:10px;color:var(--ink4);text-align:center;padding:2px 0">+${imgs.length-max}장</div>`:''}</div>`;
 }
 
 function renderA25(c,q){
   const imgs=c.images||[];const hi=imgs.length>0;
-  return`<div class="case-card type-a25">
-    <div class="c-header a25-bg">
-      <div style="display:flex;align-items:center;gap:9px">
-        <span class="c-badge badge-a">'25-${c.id}</span>
-        <span class="c-meta" style="color:#991b1b">${c.airport}</span>
-      </div>
-      <div class="c-date"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${c.date}</div>
+  return`<div class="ccard type-a25">
+    <div class="cc-head bg-red">
+      <div style="display:flex;align-items:center;gap:8px"><span class="cc-badge badge-red">'25-${c.id}</span><span class="cc-meta" style="color:#a40000">${c.airport}</span></div>
+      <div class="cc-date">${c.date}</div>
     </div>
-    <div class="c-body${hi?'':' no-img'}">
+    <div class="cc-body${hi?'':' noimg'}">
       <div>
-        <div class="c-title">${hl(c.title,q)}</div>
-        ${c.location?`<div class="c-location"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${c.location}</div>`:''}
-        <div class="c-section red"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>사고 발생 경위</div>
-        <p class="c-text">${hl(c.content,q)}</p>
-        <div class="c-section red" style="margin-top:13px"><span style="width:2.5px;height:13px;background:#ef4444;border-radius:2px;display:inline-block"></span>사고 원인</div>
-        <div class="cause-rows">${c.cause.map((x,i)=>`<div class="cause-row"><span class="cause-num cn-red">${i+1}</span><span style="font-size:12.5px;color:var(--text-secondary);font-weight:600">${x}</span></div>`).join('')}</div>
-        <hr class="c-divider red"/>
-        <div class="c-section red"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>피해 현황</div>
-        <ul class="measure-list">${(c.피해상황||[]).map(m=>`<li class="measure-item" style="color:#7f1d1d"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:2px;opacity:.45"><polyline points="20 6 9 17 4 12"/></svg>${m}</li>`).join('')}</ul>
+        <div class="cc-title">${hl(c.title,q)}</div>
+        ${c.loc?`<div class="cc-loc"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${c.loc}</div>`:''}
+        <div class="cc-sec red">사고 발생 경위</div>
+        <p class="cc-text">${hl(c.content,q)}</p>
+        <div class="cc-sec red" style="margin-top:12px">사고 원인</div>
+        <div class="cause-rows">${c.cause.map((x,i)=>`<div class="cause-row"><span class="cause-n cn-red">${i+1}</span><span style="font-size:12.5px;color:var(--ink3);font-weight:600">${x}</span></div>`).join('')}</div>
+        <hr class="cc-divider"/>
+        <div class="cc-sec red">피해 현황</div>
+        <ul class="measure-list">${(c.피해||[]).map(m=>`<li class="measure-item" style="color:#6e0000"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:2px;opacity:.4"><polyline points="20 6 9 17 4 12"/></svg>${m}</li>`).join('')}</ul>
       </div>
-      ${hi?imgBlock(imgs):''}
+      ${hi?imgCol(imgs):''}
     </div>
   </div>`;
 }
 
 function renderCase(c,q){
   const isE=c.type==='EXCELLENCE';
-  const badge=isE?`<span class="c-badge badge-e">예방-${c.id}</span>`:`<span class="c-badge badge-g">사례-${c.id-100}</span>`;
-  const hCls=isE?'excellence-bg':'general-bg';
-  const mCol=isE?'#065f46':'var(--text-primary)';
+  const hBg=isE?'bg-green':'bg-default';
+  const badge=isE?`<span class="cc-badge badge-green">예방-${c.id}</span>`:`<span class="cc-badge badge-default">사례-${c.id-100}</span>`;
+  const metaColor=isE?'#116329':'var(--ink2)';
   const secCls=isE?'green':'blue';
-  const divCls=isE?'green':'blue';
-  const mColor=isE?'#064e3b':'#1e3a5f';
-  const detailImgs=c.images||(c.imageUrl?[{url:c.imageUrl}]:[]);
+  const imgs=c.images||(c.imageUrl?[{url:c.imageUrl}]:[]);
   const footImgs=c.footerImages||[];
-  const hasImg=detailImgs.length>0;
-  const footBlock=footImgs.length?`<div style="margin-top:12px;background:var(--surface2);border-radius:12px;border:1px solid var(--border);padding:12px">${imgBlock(footImgs,3)}</div>`:'';
-  return`<div class="case-card ${isE?'type-excellence':'type-general'}">
-    <div class="c-header ${hCls}">
-      <div style="display:flex;align-items:center;gap:9px">${badge}<span class="c-meta" style="color:${mCol}">${c.airport.replace('공항','').replace('국제','').replace('공항','')} · ${c.company.length>12?c.company.slice(0,12)+'..':c.company}</span></div>
-      <div class="c-date"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${c.date}</div>
+  const hi=imgs.length>0;
+  const footBlock=footImgs.length?`<div style="margin-top:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border2);padding:10px">${imgCol(footImgs,3)}</div>`:'';
+  return`<div class="ccard ${isE?'type-exc':''}">
+    <div class="cc-head ${hBg}">
+      <div style="display:flex;align-items:center;gap:8px">${badge}<span class="cc-meta" style="color:${metaColor}">${c.airport.replace('公港','').replace('국제공항','').replace('공항','')} · ${c.company.length>13?c.company.slice(0,13)+'..':c.company}</span></div>
+      <div class="cc-date">${c.date}</div>
     </div>
-    <div class="c-body${hasImg?'':' no-img'}">
+    <div class="cc-body${hi?'':' noimg'}">
       <div>
-        <div class="c-title">${hl(c.title,q)}</div>
-        <div class="c-section ${secCls}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>${isE?'예방 활동 및 성과':'사고 발생 경위'}</div>
-        <p class="c-text">${hl(c.content,q)}</p>
-        <div class="c-section slate" style="margin-top:13px"><span style="width:2.5px;height:13px;background:${isE?'#059669':'#ef4444'};border-radius:2px;display:inline-block"></span>핵심 원인 분석</div>
-        <div class="cause-rows">${c.cause.map((x,i)=>`<div class="cause-row"><span class="cause-num ${isE?'cn-green':'cn-slate'}">${i+1}</span><span style="font-size:12.5px;color:var(--text-secondary);font-weight:600">${hl(x,q)}</span></div>`).join('')}</div>
-        <hr class="c-divider ${divCls}"/>
-        <div class="c-section ${secCls}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>재발방지 대책 및 시사점</div>
-        <ul class="measure-list">${(c.countermeasure||[]).map(m=>`<li class="measure-item" style="color:${mColor}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:2px;opacity:.45"><polyline points="20 6 9 17 4 12"/></svg>${hl(m,q)}</li>`).join('')}</ul>
+        <div class="cc-title">${hl(c.title,q)}</div>
+        <div class="cc-sec ${secCls}">${isE?'예방 활동 및 성과':'사고 발생 경위'}</div>
+        <p class="cc-text">${hl(c.content,q)}</p>
+        <div class="cc-sec slate" style="margin-top:12px">핵심 원인 분석</div>
+        <div class="cause-rows">${c.cause.map((x,i)=>`<div class="cause-row"><span class="cause-n ${isE?'cn-green':'cn-slate'}">${i+1}</span><span style="font-size:12.5px;color:var(--ink3);font-weight:600">${hl(x,q)}</span></div>`).join('')}</div>
+        <hr class="cc-divider"/>
+        <div class="cc-sec ${secCls}">재발방지 대책</div>
+        <ul class="measure-list">${(c.countermeasure||[]).map(m=>`<li class="measure-item" style="color:${isE?'#116329':'#0550ae'}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;margin-top:2px;opacity:.4"><polyline points="20 6 9 17 4 12"/></svg>${hl(m,q)}</li>`).join('')}</ul>
         ${c.effect?`<div class="key-effect"><strong>KEY EFFECT</strong>${c.effect}</div>`:''}
         ${footBlock}
       </div>
-      ${hasImg?imgBlock(detailImgs):''}
+      ${hi?imgCol(imgs):''}
     </div>
   </div>`;
 }
 
-function doFilter(data,airportId,qId,listId,cntId,renderFn){
-  const airport=document.getElementById(airportId).value;
+function doFilter(data,apId,qId,listId,cntId,renderFn){
+  const ap=document.getElementById(apId).value;
   const q=document.getElementById(qId).value.trim().toLowerCase();
   const f=data.filter(c=>{
-    const ma=!airport||c.airport===airport||c.airport.includes(airport.replace('공항',''));
+    const ma=!ap||c.airport===ap||c.airport.includes(ap.replace('공항',''));
     const ms=!q||c.title.toLowerCase().includes(q)||c.content.toLowerCase().includes(q)||(c.company||'').toLowerCase().includes(q)||c.airport.toLowerCase().includes(q);
     return ma&&ms;
   });
   document.getElementById(cntId).textContent=f.length;
   document.getElementById(listId).innerHTML=f.length
     ?f.map(c=>renderFn(c,q)).join('')
-    :`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>검색 결과가 없습니다.</p></div>`;
+    :`<div class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d0d7de" stroke-width="2" style="margin:0 auto 8px;display:block"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>검색 결과가 없습니다.</p></div>`;
 }
+function fa25(){doFilter(A25,'a25-ap','a25-q','a25-list','a25-cnt',renderA25)}
+function fgen(){doFilter(window.GENERAL_DATA,'gen-ap','gen-q','gen-list','gen-cnt',renderCase)}
+function fexc(){doFilter(window.EXCELLENCE_DATA,'exc-ap','exc-q','exc-list','exc-cnt',renderCase)}
 
-function filterA25(){doFilter(A25,'a25-airport','a25-q','a25-list','a25-cnt',renderA25)}
-function filterGen(){doFilter(window.GENERAL_DATA,'gen-airport','gen-q','gen-list','gen-cnt',renderCase)}
-function filterExc(){doFilter(window.EXCELLENCE_DATA,'exc-airport','exc-q','exc-list','exc-cnt',renderCase)}
-
-// 차트
+// ── INIT ──
 window.addEventListener('DOMContentLoaded',()=>{
+  // Penalty table
+  const pb=document.getElementById('penalty-body');
+  PENALTY.forEach((r,i)=>{
+    pb.innerHTML+=`<tr><td>${r.act}</td><td>${r.p1}</td><td>${r.p2}</td><td>${r.p3}</td></tr>`;
+  });
+
+  // Airport table
+  const ab=document.getElementById('apt-body');
+  APT_DATA.filter(r=>r.total>0).sort((a,b)=>b.total-a.total).forEach(r=>{
+    ab.innerHTML+=`<tr><td>${r.name}</td><td>${r.y20||'-'}</td><td>${r.y21||'-'}</td><td>${r.y22||'-'}</td><td>${r.y23||'-'}</td><td>${r.y24||'-'}</td><td class="red">${r.y25||'-'}</td><td class="bold">${r.total}</td></tr>`;
+  });
+
+  // Year chart
   new Chart(document.getElementById('yearChart'),{
     type:'bar',
     data:{
-      labels:['2019','2020','2021','2022','2023','2024',"'25*"],
+      labels:['2020','2021','2022','2023','2024',"'25*"],
       datasets:[
-        {type:'bar',label:'운항횟수(만)',data:[51.5,36.2,42.6,44.4,45.6,48.0,91.3],
-          backgroundColor:['#e2e8f0','#e2e8f0','#e2e8f0','#e2e8f0','#e2e8f0','#e2e8f0','#fee2e2'],
-          borderRadius:5,yAxisID:'y',order:2},
-        {type:'line',label:'발생건수',data:[7,5,10,15,17,24,21],
-          borderColor:'#ef4444',
-          backgroundColor:['#ef4444','#ef4444','#ef4444','#ef4444','#ef4444','#ef4444','#dc2626'],
-          pointRadius:[5,5,5,5,5,5,7],pointHoverRadius:8,borderWidth:2.5,
-          yAxisID:'y2',order:1,tension:.3,
-          segment:{borderDash:ctx=>ctx.p0DataIndex===5?[5,4]:undefined}},
-        {type:'line',label:'환산건수(1만건당)',data:[0.136,0.138,0.235,0.338,0.373,0.501,0.230],
-          borderColor:'#f97316',backgroundColor:'#f97316',pointRadius:4,borderWidth:2,
-          yAxisID:'y2',order:1,tension:.3,
-          segment:{borderDash:ctx=>ctx.p0DataIndex===5?[5,4]:undefined}}
+        {type:'bar',label:'운항횟수(만)',data:[51.9,56.7,58.7,63.7,89.3,91.3],
+          backgroundColor:['#e6edf3','#e6edf3','#e6edf3','#e6edf3','#e6edf3','#ffebe9'],
+          borderRadius:4,yAxisID:'y',order:2},
+        {type:'line',label:'발생건수',data:[14,17,22,29,36,21],
+          borderColor:'#cf222e',backgroundColor:'#cf222e',
+          pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y2',order:1,tension:.3,
+          segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined}},
+        {type:'line',label:'환산건수(1만건당)',data:[0.270,0.300,0.375,0.455,0.403,0.230],
+          borderColor:'#bc4c00',backgroundColor:'#bc4c00',
+          pointRadius:4,borderWidth:2,yAxisID:'y2',order:1,tension:.3,
+          segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined}},
       ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
       plugins:{
-        legend:{position:'top',align:'end',labels:{font:{size:11,weight:'700'},usePointStyle:true,pointStyleWidth:8,padding:16}},
-        tooltip:{cornerRadius:12,padding:10,callbacks:{
-          title:ctx=>ctx[0].label==="'25*"?`2025년 (진행중)`:ctx[0].label+'년',
-          footer:ctx=>ctx[0].label==="'25*"?'* 운항횟수 912,744회 기준':''
-        }}
+        legend:{position:'top',align:'end',labels:{font:{size:11,weight:'700'},usePointStyle:true,pointStyleWidth:7,padding:14}},
+        tooltip:{cornerRadius:10,padding:10,callbacks:{title:ctx=>ctx[0].label==="'25*"?`2025년 (진행중)`:ctx[0].label+'년'}}
       },
       scales:{
         y:{display:false},y2:{display:false},
-        x:{grid:{display:false},ticks:{font:{size:12,weight:'700'},color:ctx=>ctx.index===6?'#dc2626':'#6b7280'},border:{display:false}}
+        x:{grid:{display:false},ticks:{font:{size:12,weight:'700'},color:ctx=>ctx.index===5?'#cf222e':'#57606a'},border:{display:false}}
       }
     }
   });
+
+  // Airport donut chart
   new Chart(document.getElementById('airportChart'),{
     type:'doughnut',
     data:{
-      labels:['김포','김해','제주','청주','대구','광주'],
-      datasets:[{data:[35,16,14,4,4,3],backgroundColor:['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#6366f1'],borderWidth:0,hoverOffset:8}]
+      labels:APT_DATA.filter(r=>r.total>0).sort((a,b)=>b.total-a.total).map(r=>r.name),
+      datasets:[{
+        data:APT_DATA.filter(r=>r.total>0).sort((a,b)=>b.total-a.total).map(r=>r.total),
+        backgroundColor:['#0969da','#1a7f37','#bc4c00','#8250df','#cf222e','#0550ae','#1b7c3e','#6e40c9','#9a1c1c'],
+        borderWidth:0,hoverOffset:7
+      }]
     },
-    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{cornerRadius:12,padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw}건`}}}}
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'65%',
+      plugins:{legend:{display:false},tooltip:{cornerRadius:10,padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw}건`}}}
+    }
   });
-  filterA25();filterGen();filterExc();
+
+  fa25();fgen();fexc();
 });
 </script>
 
-<footer style="background:white;border-top:1px solid var(--border);padding:28px 32px;text-align:center;margin-top:20px">
+<footer style="background:white;border-top:1px solid var(--border2);padding:28px;text-align:center">
   <div style="max-width:1600px;margin:0 auto">
-    <div style="font-size:9px;font-weight:900;color:var(--text-muted);text-transform:uppercase;letter-spacing:.2em;margin-bottom:5px">Government Portal Service</div>
-    <div style="font-size:17px;font-weight:900;color:var(--text-primary)">국토교통부 공항운영과</div>
-    <div style="font-size:12px;color:var(--text-muted);margin-top:5px;font-weight:600">지상조업 안전문화 정착을 위해 앞장섭니다.</div>
-    <div style="font-size:10px;color:var(--border2);margin-top:14px">© 2025 MOLIT. All rights reserved.</div>
+    <div style="font-size:9px;font-weight:900;color:var(--ink4);text-transform:uppercase;letter-spacing:.2em;margin-bottom:5px">Government Portal Service</div>
+    <div style="font-size:16px;font-weight:900;color:var(--ink)">국토교통부 공항운영과</div>
+    <div style="font-size:12px;color:var(--ink4);margin-top:4px">지상조업 안전문화 정착을 위해 앞장섭니다.</div>
+    <div style="font-size:10px;color:var(--border);margin-top:14px">© 2025 MOLIT. All rights reserved.</div>
   </div>
 </footer>
 </body>
