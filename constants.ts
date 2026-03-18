@@ -24,7 +24,7 @@ export const AIRPORT_STATS: AirportStat[] = [
   { name: '김포', count: 34, percentage: 25, y2020:3,  y2021:4,  y2022:12, y2023:8,  y2024:4,  y2025:3,  total:34 },
   { name: '김해', count: 17, percentage: 13, y2020:1,  y2021:1,  y2022:1,  y2023:2,  y2024:10, y2025:2,  total:17 },
   { name: '제주', count: 14, percentage: 10, y2020:0,  y2021:3,  y2022:1,  y2023:4,  y2024:5,  y2025:1,  total:14 },
-  { name: '청주', count: 8,  percentage: 6,  y2020:0,  y2021:1,  y2022:0,  y2023:2,  y2024:3,  y2025:2,  total:8  },
+  { name: '청주', count: 6,  percentage: 4,  y2020:0,  y2021:1,  y2022:0,  y2023:2,  y2024:1,  y2025:2,  total:6  },
   { name: '대구', count: 4,  percentage: 3,  y2020:0,  y2021:0,  y2022:0,  y2023:1,  y2024:3,  y2025:0,  total:4  },
   { name: '광주', count: 3,  percentage: 2,  y2020:1,  y2021:1,  y2022:0,  y2023:0,  y2024:1,  y2025:0,  total:3  },
   { name: '양양', count: 1,  percentage: 1,  y2020:0,  y2021:0,  y2022:1,  y2023:0,  y2024:0,  y2025:0,  total:1  },
