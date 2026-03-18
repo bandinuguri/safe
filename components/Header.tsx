@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center justify-center gap-1 flex-1 py-2.5 rounded-xl text-[11px] font-bold transition-all ${
+                className={`flex items-center justify-center gap-1 flex-1 py-2.5 rounded-xl text-[12px] font-bold transition-all ${
                   isActive
                     ? isAccident25
                       ? 'bg-red-50 text-red-600 shadow-sm ring-1 ring-red-100'
