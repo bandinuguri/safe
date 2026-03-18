@@ -306,11 +306,11 @@ const StatsDashboard: React.FC = () => {
             <div className="grid grid-cols-2 gap-2">
               <div className="p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex flex-col items-center text-center gap-1.5">
                 <EyeOff className="w-4 h-4 text-blue-600" />
-                <p className="text-[12px] font-bold text-slate-700">사주경계 미흡</p>
+                <p className="text-[14px] font-bold text-slate-700">작업자 부주의</p>
               </div>
               <div className="p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex flex-col items-center text-center gap-1.5">
                 <Octagon className="w-4 h-4 text-red-500" />
-                <p className="text-[12px] font-bold text-slate-700">안전수칙 미준수</p>
+                <p className="text-[14px] font-bold text-slate-700">안전수칙 미준수</p>
               </div>
             </div>
           </div>
@@ -326,7 +326,20 @@ const StatsDashboard: React.FC = () => {
         <div className="h-[220px] w-full relative mb-4 pb-2">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={AIRPORT_STATS} cx="50%" cy="50%" innerRadius={55} outerRadius={70} paddingAngle={5} dataKey="count" nameKey="name" stroke="none" label={renderCustomLabel}>
+              <Pie data={AIRPORT_STATS} cx="50%" cy="50%" innerRadius={55} outerRadius={70} paddingAngle={5} dataKey="count" nameKey="name" stroke="none" label={(props) => {
+                const { cx, cy, midAngle, outerRadius, name, count, percentage } = props;
+                const RADIAN = Math.PI / 180;
+                const radius = outerRadius + 22;
+                const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                const major = ['김포','인천','김해','제주'].includes(name);
+                return (
+                  <text x={x} y={y} fill="#475569" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+                    <tspan x={x} dy="-0.2em" fontSize={major ? 13 : 11} fontWeight="700">{name}</tspan>
+                    <tspan x={x} dy="1.2em" fill="#3b82f6" fontSize={major ? 11 : 10}>{`${count}건(${percentage}%)`}</tspan>
+                  </text>
+                );
+              }}>
                 {AIRPORT_STATS.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#6366f1','#ec4899','#14b8a6','#f97316','#84cc16'][index % 10]} />
                 ))}
@@ -334,14 +347,13 @@ const StatsDashboard: React.FC = () => {
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-            <p className="text-[11px] font-bold text-slate-400 mb-0.5">전체 건수</p>
             <p className="text-2xl font-black text-slate-800">135건</p>
           </div>
         </div>
 
         {/* 연도별 표 */}
         <div className="border-t border-slate-100 pt-4 overflow-x-auto -mx-1">
-          <table className="w-full text-center text-[11px] min-w-[360px]">
+          <table className="w-full text-center text-[12px] min-w-[360px]">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
                 <th className="py-2 px-1.5 font-bold text-slate-600 text-left">구분</th>
@@ -353,7 +365,7 @@ const StatsDashboard: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {AIRPORT_STATS.filter(r => r.total! > 0).map((row, i) => (
+              {[...AIRPORT_STATS.filter(r => r.total! > 0)].sort((a,b) => (b.total||0)-(a.total||0)).map((row, i) => (
                 <tr key={i} className={`border-b border-slate-100 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}>
                   <td className="py-2 px-1.5 font-bold text-slate-700 text-left">{row.name}</td>
                   {[row.y2020,row.y2021,row.y2022,row.y2023,row.y2024].map((v,j) => (
@@ -380,9 +392,9 @@ const StatsDashboard: React.FC = () => {
           <div>
             <h4 className="text-[14px] font-black text-slate-900 flex items-center gap-2 mb-4">
               <span className="w-1 h-4 bg-blue-600 rounded-full"></span>
-              ㅇ 사고 주요 유형
+              사고 주요 유형
             </h4>
-            <p className="text-[13.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
+            <p className="text-[15.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
               사고는 크게 차량/장비 간 접촉, 항공기 접촉, 조업자 상해로 나뉩니다.
             </p>
             <div className="space-y-4">
@@ -395,15 +407,15 @@ const StatsDashboard: React.FC = () => {
                 <div key={i} className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100 flex flex-col gap-1.5">
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
-                    <span className="text-[14px] font-bold text-slate-800 tracking-tight">{item.title}</span>
+                    <span className="text-[16px] font-bold text-slate-800 tracking-tight">{item.title}</span>
                   </div>
-                  <p className="text-[13px] text-slate-500 leading-relaxed font-medium pl-3.5">{item.desc}</p>
+                  <p className="text-[15px] text-slate-500 leading-relaxed font-medium pl-3.5">{item.desc}</p>
                   {item.sub && (
                     <div className="mt-1 pl-3.5 space-y-1.5">
                       {item.sub.map((s, j) => (
                         <div key={j} className="flex items-start gap-2">
                           <span className="text-slate-300 mt-0.5">•</span>
-                          <span className="text-[12.5px] text-slate-500/80 font-medium leading-relaxed">{s}</span>
+                          <span className="text-[14.5px] text-slate-500/80 font-medium leading-relaxed">{s}</span>
                         </div>
                       ))}
                     </div>
@@ -416,9 +428,9 @@ const StatsDashboard: React.FC = () => {
           <div>
             <h4 className="text-[14px] font-black text-slate-900 flex items-center gap-2 mb-4">
               <span className="w-1 h-4 bg-orange-500 rounded-full"></span>
-              ㅇ 사고 발생 원인
+              사고 발생 원인
             </h4>
-            <p className="text-[13.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
+            <p className="text-[15.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
               지상안전사고의 대부분은 인적 요인에 의해 발생하며, 특히 2024년 발생한 24건은 모두 운전자 부주의로 인한 차량 사고였습니다.
             </p>
             <div className="grid grid-cols-1 gap-2.5">
@@ -430,12 +442,12 @@ const StatsDashboard: React.FC = () => {
                 { title: "환경적 요인", desc: "강풍으로 인해 결박되지 않은 비동력 장비가 이동하거나, 빗물로 인해 미끄러운 바닥 노면이 원인이 되기도 합니다." }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-1 p-3 bg-white border border-slate-100 rounded-xl shadow-sm">
-                  <span className="text-[13.5px] font-bold text-slate-800">• {item.title}</span>
-                  <p className="text-[13px] text-slate-500 pl-3 leading-relaxed font-medium">{item.desc}</p>
+                  <span className="text-[15.5px] font-bold text-slate-800">• {item.title}</span>
+                  <p className="text-[15px] text-slate-500 pl-3 leading-relaxed font-medium">{item.desc}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-8 pt-6 border-t border-slate-100 text-[13.5px] text-slate-600 leading-relaxed font-bold text-center italic bg-slate-50/50 p-4 rounded-2xl">
+            <p className="mt-8 pt-6 border-t border-slate-100 text-[15.5px] text-slate-600 leading-relaxed font-bold text-center italic bg-slate-50/50 p-4 rounded-2xl">
               "이러한 사고 분석을 바탕으로 각 공항에서는 사례 전파 교육, 지적확인 캠페인, 시설물 경고 장치 강화 등의 개선 대책을 시행하고 있습니다."
             </p>
           </div>
