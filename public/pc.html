@@ -756,8 +756,8 @@ window.addEventListener('DOMContentLoaded',()=>{
       labels:['2020','2021','2022','2023','2024',"'25*"],
       datasets:[
         {type:'bar',label:'운항횟수(만)',data:[51.9,56.7,58.7,63.7,89.3,91.3],
-          backgroundColor:['#e6edf3','#e6edf3','#e6edf3','#e6edf3','#e6edf3','#ffebe9'],
-          borderRadius:4,yAxisID:'y',order:2},
+          backgroundColor:['#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#fde8e8'],
+          borderRadius:5,yAxisID:'y',order:2},
         {type:'line',label:'발생건수',data:[14,17,22,29,36,21],
           borderColor:'#cf222e',backgroundColor:'#cf222e',
           pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y2',order:1,tension:.3,
@@ -775,7 +775,8 @@ window.addEventListener('DOMContentLoaded',()=>{
         tooltip:{cornerRadius:10,padding:10,callbacks:{title:ctx=>ctx[0].label==="'25*"?`2025년 (진행중)`:ctx[0].label+'년'}}
       },
       scales:{
-        y:{display:false},y2:{display:false},
+        y:{display:false,min:30,max:100},
+        y2:{display:false,min:0,max:55},
         x:{grid:{display:false},ticks:{font:{size:12,weight:'700'},color:ctx=>ctx.index===5?'#cf222e':'#57606a'},border:{display:false}}
       }
     }

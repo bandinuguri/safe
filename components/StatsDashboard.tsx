@@ -126,8 +126,8 @@ const StatsDashboard: React.FC = () => {
                   );
                 }}
               />
-              <YAxis yAxisId="left" hide />
-              <YAxis yAxisId="right" orientation="right" hide />
+              <YAxis yAxisId="left" hide domain={[300000, 1000000]} />
+              <YAxis yAxisId="right" orientation="right" hide domain={[0, 55]} />
               <Tooltip
                 contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
               />
