@@ -150,13 +150,13 @@ html{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink)
 .analysis-note{margin-top:16px;font-size:15px;color:var(--ink4);line-height:1.7;font-style:italic;border-top:1px solid var(--border2);padding-top:14px}
 
 /* ─── AIRPORT TABLE ─── */
-.apt-table{width:100%;font-size:13px;border-collapse:collapse}
 .apt-table th{padding:11px 12px;background:var(--surface2);font-weight:800;color:var(--ink3);text-align:center;border-bottom:2px solid var(--border)}
 .apt-table th:first-child{text-align:left}
 .apt-table td{padding:10px 12px;border-top:1px solid var(--border2);text-align:center;color:var(--ink3)}
 .apt-table td:first-child{text-align:left;font-weight:800;color:var(--ink2)}
 .apt-table td.red{color:var(--red);font-weight:800}
 .apt-table td.bold{font-weight:900;color:var(--ink)}
+.apt-table{width:100%;font-size:13px;border-collapse:collapse;height:100%}
 .apt-table tr.total td{background:var(--ink);color:white;font-weight:900}
 .apt-table tr.total td.red{color:#ffa8aa}
 
@@ -380,20 +380,19 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
         지상안전사고 발생 현황
         <span class="stats-badge">'25년 포함</span>
       </div>
-      <div style="height:220px"><canvas id="yearChart"></canvas></div>
+      <div style="height:200px"><canvas id="yearChart"></canvas></div>
       <div class="stat-pills">
         <div class="stat-pill"><div class="yr">2023년</div><div class="cnt">29건</div><div class="rt">0.455</div></div>
         <div class="stat-pill"><div class="yr">2024년</div><div class="cnt">36건</div><div class="rt">0.403</div></div>
         <div class="stat-pill red"><div class="yr">'25년*</div><div class="cnt">21건</div><div class="rt">0.230</div></div>
       </div>
       <p class="stat-note">* 2025년 기준 (환산건수: 1만회당)</p>
-      <div style="margin-top:20px;border-top:1px solid var(--border2);padding-top:16px;flex:1">
-        <div class="stats-title" style="margin-bottom:12px">
+      <div style="margin-top:16px;border-top:1px solid var(--border2);padding-top:14px;flex:1;display:flex;flex-direction:column">
+        <div class="stats-title" style="margin-bottom:10px">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bc4c00" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           '25년 지상안전사고 예방 목표 달성 현황
         </div>
-        <p style="font-size:12px;color:var(--ink4);margin-bottom:10px">(운항횟수: 912,744)</p>
-        <table class="apt-table">
+        <table class="apt-table" style="flex:1">
           <thead>
             <tr>
               <th style="text-align:left">세부지표</th>
@@ -422,12 +421,12 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
         공항별 지상안전사고 발생현황
         <span style="font-size:12px;font-weight:600;color:var(--ink4);margin-left:4px">('20~'25)</span>
       </div>
-      <div class="pie-wrap">
+      <div class="pie-wrap" style="height:220px">
         <canvas id="airportChart"></canvas>
         <div class="pie-center" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none"><div class="big">135건</div></div>
       </div>
-      <div style="overflow-x:auto">
-        <table class="apt-table">
+      <div style="flex:1;display:flex;flex-direction:column">
+        <table class="apt-table" style="flex:1">
           <thead><tr><th>구분</th><th>20년</th><th>21년</th><th>22년</th><th>23년</th><th>24년</th><th style="color:var(--red)">'25년</th><th>합계</th></tr></thead>
           <tbody id="apt-body"></tbody>
           <tfoot><tr class="total"><td>합계</td><td>14</td><td>17</td><td>22</td><td>29</td><td>32</td><td class="red">21</td><td>135</td></tr></tfoot>
