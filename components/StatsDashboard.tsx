@@ -430,7 +430,7 @@ const StatsDashboard: React.FC = () => {
               사고 발생 원인
             </h4>
             <p className="text-[15.5px] text-slate-600 mb-4 leading-relaxed font-semibold">
-              지상안전사고의 대부분은 인적 요인에 의해 발생하며, 특히 2024년 발생한 24건은 모두 운전자 부주의로 인한 차량 사고였습니다.
+              지상안전사고의 대부분은 인적 요인에 의해 발생하며, 특히 운전자, 작업자 부주의로 인한 사고가 대부분이었습니다.
             </p>
             <div className="grid grid-cols-1 gap-2.5">
               {[
