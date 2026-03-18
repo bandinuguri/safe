@@ -757,21 +757,23 @@ window.addEventListener('DOMContentLoaded',()=>{
       datasets:[
         {type:'bar',label:'운항횟수(만)',data:[51.9,56.7,58.7,63.7,89.3,91.3],
           backgroundColor:['#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#fde8e8'],
-          borderRadius:5,yAxisID:'y',order:2},
+          borderRadius:5,yAxisID:'y',order:2,pointStyle:'rect'},
         {type:'line',label:'발생건수',data:[14,17,22,29,36,21],
           borderColor:'#cf222e',backgroundColor:'#cf222e',
           pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y2',order:1,tension:.3,
+          pointStyle:'circle',
           segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined}},
         {type:'line',label:'환산건수(1만건당)',data:[0.270,0.300,0.375,0.455,0.403,0.230],
           borderColor:'#bc4c00',backgroundColor:'#bc4c00',
           pointRadius:4,borderWidth:2,yAxisID:'y2',order:1,tension:.3,
+          pointStyle:'circle',
           segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined}},
       ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
       plugins:{
-        legend:{position:'top',align:'end',labels:{font:{size:11,weight:'700'},usePointStyle:true,pointStyle:'circle',pointStyleWidth:8,padding:14}},
+        legend:{position:'top',align:'end',labels:{font:{size:11,weight:'700'},usePointStyle:true,pointStyleWidth:10,padding:14}},
         tooltip:{cornerRadius:10,padding:10,callbacks:{title:ctx=>ctx[0].label==="'25*"?`2025년 (진행중)`:ctx[0].label+'년'}}
       },
       scales:{

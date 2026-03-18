@@ -143,15 +143,15 @@ const StatsDashboard: React.FC = () => {
                   paddingTop: '0px'
                 }}
               />
-              <Bar yAxisId="left" dataKey="flights" name="운항횟수" barSize={32} radius={[4, 4, 0, 0]}>
+              <Bar yAxisId="left" dataKey="flights" name="운항횟수" barSize={32} radius={[4, 4, 0, 0]} legendType="rect">
                 {YEARLY_STATS.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.year === "'25*" ? '#fecaca' : '#e2e8f0'} />
                 ))}
               </Bar>
-              <Line yAxisId="right" type="monotone" dataKey="accidents" name="발생건수" stroke="#ef4444" strokeWidth={2} dot={{ r: 4, fill: '#ef4444', strokeWidth: 1, stroke: '#fff' }}>
+              <Line yAxisId="right" type="monotone" dataKey="accidents" name="발생건수" stroke="#ef4444" strokeWidth={2} dot={{ r: 4, fill: '#ef4444', strokeWidth: 1, stroke: '#fff' }} legendType="circle">
                 <LabelList dataKey="accidents" position="top" offset={12} style={{ fill: '#ef4444', fontSize: 13, fontWeight: 900 }} />
               </Line>
-              <Line yAxisId="right" type="monotone" dataKey="rate" name="환산건수" stroke="#f97316" strokeWidth={2} dot={{ r: 3, fill: '#f97316', strokeWidth: 1, stroke: '#fff' }}>
+              <Line yAxisId="right" type="monotone" dataKey="rate" name="환산건수" stroke="#f97316" strokeWidth={2} dot={{ r: 3, fill: '#f97316', strokeWidth: 1, stroke: '#fff' }} legendType="circle">
                 <LabelList dataKey="rate" position="top" offset={10} style={{ fill: '#f97316', fontSize: 11, fontWeight: 700 }} />
               </Line>
             </ComposedChart>
