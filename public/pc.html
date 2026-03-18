@@ -125,22 +125,22 @@ html{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink)
 .cause-sec-label.blue::before{background:var(--blue)}
 .cause-type-item{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border2);margin-bottom:10px}
 .cause-type-item svg{width:18px;height:18px;flex-shrink:0;margin-top:1px}
-.cause-type-item .title{font-size:14px;font-weight:700;color:var(--ink2)}
-.cause-type-item .sub{font-size:12px;color:var(--ink4);margin-top:2px}
+.cause-type-item .title{font-size:16px;font-weight:700;color:var(--ink2)}
+.cause-type-item .sub{font-size:14px;color:var(--ink4);margin-top:2px}
 .cause-divider{border:none;border-top:1px solid var(--border2);margin:16px 0}
 .cause-core-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cause-core-item{background:var(--blue-bg);border-radius:10px;border:1px solid #b6e3ff;padding:16px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
 .cause-core-item svg{width:20px;height:20px}
-.cause-core-item span{font-size:14px;font-weight:800;color:var(--ink2)}
+.cause-core-item span{font-size:16px;font-weight:800;color:var(--ink2)}
 
 /* ─── ANALYSIS CARD ─── */
 .analysis-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow);padding:24px}
-.analysis-h2{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.analysis-h2{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .analysis-h2::before{content:'';display:inline-block;width:4px;height:16px;border-radius:2px;background:var(--blue)}
 .analysis-item{background:var(--surface2);border-radius:10px;padding:14px 16px;margin-bottom:10px;border:1px solid var(--border2)}
-.analysis-item strong{font-size:14px;color:var(--ink);font-weight:800;display:block;margin-bottom:5px}
-.analysis-item p{font-size:13px;color:var(--ink3);line-height:1.7}
-.analysis-note{margin-top:16px;font-size:13px;color:var(--ink4);line-height:1.7;font-style:italic;border-top:1px solid var(--border2);padding-top:14px}
+.analysis-item strong{font-size:16px;color:var(--ink);font-weight:800;display:block;margin-bottom:5px}
+.analysis-item p{font-size:15px;color:var(--ink3);line-height:1.7}
+.analysis-note{margin-top:16px;font-size:15px;color:var(--ink4);line-height:1.7;font-style:italic;border-top:1px solid var(--border2);padding-top:14px}
 
 /* ─── AIRPORT TABLE ─── */
 .apt-table{width:100%;font-size:13px;border-collapse:collapse}
@@ -373,13 +373,42 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
         지상안전사고 발생 현황
         <span class="stats-badge">'25년 포함</span>
       </div>
-      <div style="height:300px"><canvas id="yearChart"></canvas></div>
+      <div style="height:220px"><canvas id="yearChart"></canvas></div>
       <div class="stat-pills">
         <div class="stat-pill"><div class="yr">2023년</div><div class="cnt">29건</div><div class="rt">0.455</div></div>
         <div class="stat-pill"><div class="yr">2024년</div><div class="cnt">36건</div><div class="rt">0.403</div></div>
         <div class="stat-pill red"><div class="yr">'25년*</div><div class="cnt">21건</div><div class="rt">0.230</div></div>
       </div>
       <p class="stat-note">* 2025년 운항횟수 912,744회 기준 (환산건수: 1만회당)</p>
+
+      <!-- '25년 목표달성현황 -->
+      <div style="margin-top:20px;border-top:1px solid var(--border2);padding-top:16px">
+        <div class="stats-title" style="margin-bottom:12px">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bc4c00" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          '25년 지상안전사고 예방 목표 달성 현황
+        </div>
+        <p style="font-size:12px;color:var(--ink4);margin-bottom:10px">▪ 전사 종합 <span style="color:var(--ink3)">(운항횟수: 912,744)</span></p>
+        <table class="apt-table">
+          <thead>
+            <tr>
+              <th style="text-align:left">세부지표</th>
+              <th>안전목표</th>
+              <th>실적</th>
+              <th>사고건수</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>항공기간 접촉</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>항공기-장비·차량과 접촉</td><td>0.004</td><td>0</td><td>0</td></tr>
+            <tr><td>항공기-장비·차량과 접촉</td><td>0.036</td><td>0</td><td>0</td></tr>
+            <tr><td>차량·차량·장비·시설간 접촉</td><td>0.248</td><td style="color:var(--ink2);font-weight:700">0.175 <span style="font-size:11px;color:var(--ink4);font-weight:500">(70.6%)</span></td><td>16</td></tr>
+            <tr><td>조업자 상해</td><td>0.064</td><td style="color:var(--ink2);font-weight:700">0.055 <span style="font-size:11px;color:var(--ink4);font-weight:500">(85.9%)</span></td><td>5</td></tr>
+          </tbody>
+          <tfoot>
+            <tr class="total"><td>전사 합계</td><td>-</td><td>0.230</td><td>21</td></tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
 
     <div class="stats-chart-card">
@@ -431,7 +460,7 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
     <div class="cause-card">
       <div class="cause-dark"><span>핵심 원인</span></div>
       <div class="cause-inner">
-        <div class="cause-core-grid" style="margin-bottom:16px">
+        <div class="cause-core-grid" style="margin-bottom:18px">
           <div class="cause-core-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="#0969da" stroke-width="2" style="width:22px;height:22px"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
             <span>작업자 부주의</span>
@@ -441,7 +470,7 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
             <span>안전수칙 미준수</span>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;flex-direction:column;gap:12px">
           <div class="analysis-item"><strong>운전자 부주의 및 집중력 저하</strong><p>운전 미숙, 전방 주시 태만, 안일함 등</p></div>
           <div class="analysis-item"><strong>사주경계 및 지적확인 미흡</strong><p>출발 전 주변 확인 소홀, 교차로 일단정지 미준수</p></div>
           <div class="analysis-item"><strong>안전 수칙 및 절차 미준수</strong><p>높이 제한 무시, 안전거리 미확보, 유도자 없이 후진 접현</p></div>
