@@ -142,7 +142,7 @@ const StatsDashboard: React.FC = () => {
                   paddingTop: '0px'
                 }}
               />
-              <Bar yAxisId="left" dataKey="flights" name="운항횟수(만)" barSize={32} radius={[4, 4, 0, 0]} legendType="rect">
+              <Bar yAxisId="left" dataKey="flights" name="운항횟수(만)" barSize={32} radius={[4, 4, 0, 0]} legendType="rect" fill="#e2e8f0">
                 {YEARLY_STATS.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.year === "'25*" ? '#fecaca' : '#e2e8f0'} />
                 ))}
