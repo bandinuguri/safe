@@ -47,7 +47,10 @@ const OverviewPage: React.FC = () => {
           </div>
           <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
             <p className="text-[14px] text-slate-700 font-semibold">
-              <span className="font-bold text-blue-600">관련 규정 : </span>공항시설법, 공항안전운영기준(고시)
+              <span className="font-bold text-blue-600">관련 규정 : </span>
+              <a href="https://www.law.go.kr/법령/공항시설법" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline underline-offset-2 hover:text-blue-800">공항시설법</a>
+              <span className="text-slate-500">, </span>
+              <a href="https://www.law.go.kr/행정규칙/공항안전운영기준/(2025-366,20250630)" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline underline-offset-2 hover:text-blue-800">공항안전운영기준(고시)</a>
             </p>
           </div>
         </div>
