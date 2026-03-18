@@ -777,20 +777,59 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
 
   // Airport donut chart
+  const TOP5 = ['인천','김포','김해','제주','청주'];
+  const aptSorted = APT_DATA.filter(r=>r.total>0).sort((a,b)=>b.total-a.total);
+
+  // 커스텀 레이블 플러그인
+  const airportLabelPlugin = {
+    id:'airportLabel',
+    afterDraw(chart){
+      const {ctx,chartArea:{width,height},_metasets} = chart;
+      if(!_metasets||!_metasets[0])return;
+      const meta = _metasets[0];
+      const cx = chart.getDatasetMeta(0).data[0]?.x ?? width/2;
+      const cy = chart.getDatasetMeta(0).data[0]?.y ?? height/2;
+      const outerR = chart.getDatasetMeta(0).data[0]?.outerRadius ?? 100;
+
+      ctx.save();
+      chart.getDatasetMeta(0).data.forEach((arc,i)=>{
+        const label = aptSorted[i]?.name;
+        if(!TOP5.includes(label))return;
+        const total = aptSorted[i]?.total;
+        const midAngle = (arc.startAngle + arc.endAngle) / 2;
+        const r = outerR + 28;
+        const x = cx + r * Math.cos(midAngle);
+        const y = cy + r * Math.sin(midAngle);
+
+        ctx.font = 'bold 13px Noto Sans KR, sans-serif';
+        ctx.fillStyle = '#24292f';
+        ctx.textAlign = x > cx ? 'left' : 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`${label} ${total}건`, x, y);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('airportChart'),{
     type:'doughnut',
     data:{
-      labels:APT_DATA.filter(r=>r.total>0).sort((a,b)=>b.total-a.total).map(r=>r.name),
+      labels:aptSorted.map(r=>r.name),
       datasets:[{
-        data:APT_DATA.filter(r=>r.total>0).sort((a,b)=>b.total-a.total).map(r=>r.total),
+        data:aptSorted.map(r=>r.total),
         backgroundColor:['#0969da','#1a7f37','#bc4c00','#8250df','#cf222e','#0550ae','#1b7c3e','#6e40c9','#9a1c1c'],
         borderWidth:0,hoverOffset:7
       }]
     },
     options:{
-      responsive:true,maintainAspectRatio:false,cutout:'65%',
-      plugins:{legend:{display:false},tooltip:{cornerRadius:10,padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw}건`}}}
-    }
+      responsive:true,maintainAspectRatio:false,cutout:'62%',
+      layout:{padding:{top:20,bottom:20,left:60,right:60}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{cornerRadius:10,padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw}건`}}
+      }
+    },
+    plugins:[airportLabelPlugin]
   });
 
   fa25();fgen();fexc();
