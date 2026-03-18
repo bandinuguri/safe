@@ -34,20 +34,21 @@ const OverviewPage: React.FC = () => {
   const sections = [
     {
       icon: <Scale className="w-5 h-5 text-blue-600" />,
-      title: '지상안전사고 관련 규정 및 정의',
+      title: '지상안전사고 정의 및 규정',
       color: 'blue',
       content: (
         <div className="space-y-4">
-          <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
-            <p className="text-[12px] font-bold text-blue-500 mb-1.5">관련 규정</p>
-            <p className="text-[13.5px] font-semibold text-slate-700">공항시설법, 공항안전운영기준(고시)</p>
-          </div>
           <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
             <p className="text-[12px] font-bold text-slate-500 mb-1.5">정의 <span className="font-normal text-slate-400">(법 제2조 제11의3, 고시 제3조)</span></p>
             <p className="text-[13px] text-slate-600 leading-relaxed font-medium">
               "지상안전사고"란 공항 보호구역에서 사람, 시설, 차량 및 장비 등으로 인하여 <span className="font-bold text-slate-800">인명피해가 발생하거나 항공기, 시설, 차량 등에 물적피해가 발생</span>한 것을 말한다.
             </p>
             <p className="text-[12px] text-slate-400 mt-2 font-medium">※ 항공기 운항과 관련된 사고는 제외</p>
+          </div>
+          <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100">
+            <p className="text-[13px] text-slate-700 font-semibold">
+              <span className="font-bold text-blue-600">관련 규정 : </span>공항시설법, 공항안전운영기준(고시)
+            </p>
           </div>
         </div>
       ),
@@ -65,12 +66,11 @@ const OverviewPage: React.FC = () => {
             { num: '④', label: '차량-차량·장비·시설간 접촉', sub: '' },
             { num: '⑤', label: '조업자 상해', sub: '장비·차량과 접촉, 낙상' },
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 bg-orange-50/60 rounded-2xl p-3.5 border border-orange-100/70">
-              <span className="text-[15px] font-black text-orange-500 shrink-0 mt-0.5">{item.num}</span>
-              <div>
-                <p className="text-[13.5px] font-bold text-slate-800">{item.label}</p>
-                {item.sub && <p className="text-[11.5px] text-slate-500 font-medium mt-0.5">{item.sub}</p>}
-              </div>
+            <div key={i} className="bg-orange-50/60 rounded-2xl p-3.5 border border-orange-100/70">
+              <p className="text-[13.5px] font-bold text-slate-800">
+                <span className="text-orange-500 mr-1.5">{item.num}</span>
+                {item.label}{item.sub && <span className="text-slate-500 font-medium">({item.sub})</span>}
+              </p>
             </div>
           ))}
         </div>
