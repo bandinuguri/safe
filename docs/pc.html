@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -378,7 +379,6 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
       <div class="stats-title">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0969da" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         지상안전사고 발생 현황
-        <span class="stats-badge">'25년 포함</span>
       </div>
       <div style="height:200px"><canvas id="yearChart"></canvas></div>
       <div class="stat-pills">
@@ -750,6 +750,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
 
   // Year chart
+  Chart.register(ChartDataLabels);
+
   new Chart(document.getElementById('yearChart'),{
     type:'bar',
     data:{
@@ -757,17 +759,20 @@ window.addEventListener('DOMContentLoaded',()=>{
       datasets:[
         {type:'bar',label:'운항횟수(만)',data:[51.9,56.7,58.7,63.7,89.3,91.3],
           backgroundColor:['#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#fde8e8'],
-          borderRadius:5,yAxisID:'y',order:2,pointStyle:'rect'},
+          borderRadius:5,yAxisID:'y',order:2,pointStyle:'rect',
+          datalabels:{display:false}},
         {type:'line',label:'발생건수',data:[14,17,22,29,36,21],
           borderColor:'#cf222e',backgroundColor:'#cf222e',
           pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y2',order:1,tension:.3,
           pointStyle:'circle',
-          segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined}},
+          segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined},
+          datalabels:{display:true,align:'top',anchor:'end',color:'#cf222e',font:{size:13,weight:'bold'},offset:4,formatter:v=>v}},
         {type:'line',label:'환산건수(1만건당)',data:[0.270,0.300,0.375,0.455,0.403,0.230],
           borderColor:'#bc4c00',backgroundColor:'#bc4c00',
           pointRadius:4,borderWidth:2,yAxisID:'y2',order:1,tension:.3,
           pointStyle:'circle',
-          segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined}},
+          segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined},
+          datalabels:{display:true,align:'bottom',anchor:'start',color:'#bc4c00',font:{size:11,weight:'bold'},offset:4,formatter:v=>v}},
       ]
     },
     options:{
@@ -876,7 +881,8 @@ window.addEventListener('DOMContentLoaded',()=>{
       layout:{padding:{top:20,bottom:20,left:60,right:60}},
       plugins:{
         legend:{display:false},
-        tooltip:{cornerRadius:10,padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw}건`}}
+        tooltip:{cornerRadius:10,padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw}건`}},
+        datalabels:{display:false}
       }
     },
     plugins:[airportLabelPlugin]
