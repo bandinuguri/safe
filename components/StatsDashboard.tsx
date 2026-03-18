@@ -53,7 +53,7 @@ const StatsDashboard: React.FC = () => {
     if (value === '환산건수') {
       return (
         <span className="text-slate-800">
-          {value} <span className="text-slate-400 font-normal ml-0.5">(운항 1만건당)</span>
+          {value} <span className="text-slate-400 font-normal ml-0.5">(1만건당)</span>
         </span>
       );
     }
@@ -134,7 +134,6 @@ const StatsDashboard: React.FC = () => {
               <Legend
                 verticalAlign="top"
                 align="right"
-                iconType="circle"
                 formatter={renderLegendText}
                 wrapperStyle={{
                   fontSize: '11px',
@@ -143,7 +142,7 @@ const StatsDashboard: React.FC = () => {
                   paddingTop: '0px'
                 }}
               />
-              <Bar yAxisId="left" dataKey="flights" name="운항횟수" barSize={32} radius={[4, 4, 0, 0]} legendType="rect">
+              <Bar yAxisId="left" dataKey="flights" name="운항횟수(만)" barSize={32} radius={[4, 4, 0, 0]} legendType="rect">
                 {YEARLY_STATS.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.year === "'25*" ? '#fecaca' : '#e2e8f0'} />
                 ))}

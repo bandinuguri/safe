@@ -773,7 +773,28 @@ window.addEventListener('DOMContentLoaded',()=>{
     options:{
       responsive:true,maintainAspectRatio:false,
       plugins:{
-        legend:{position:'top',align:'end',labels:{font:{size:11,weight:'700'},usePointStyle:true,pointStyleWidth:10,padding:14}},
+        legend:{
+          position:'top',align:'end',
+          labels:{
+            font:{size:11,weight:'700'},
+            padding:16,
+            generateLabels(chart){
+              const ds = chart.data.datasets;
+              return ds.map((d,i)=>{
+                const isBar = d.type==='bar'||i===0;
+                return {
+                  text: d.label,
+                  fillStyle: isBar ? '#dbe7f5' : d.borderColor,
+                  strokeStyle: isBar ? '#c8d9ec' : d.borderColor,
+                  lineWidth: isBar ? 1 : 0,
+                  pointStyle: isBar ? 'rect' : 'circle',
+                  hidden: false,
+                  datasetIndex: i
+                };
+              });
+            }
+          }
+        },
         tooltip:{cornerRadius:10,padding:10,callbacks:{title:ctx=>ctx[0].label==="'25*"?`2025년 (진행중)`:ctx[0].label+'년'}}
       },
       scales:{
