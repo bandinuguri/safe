@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import StatsDashboard from './components/StatsDashboard';
+import OverviewPage from './components/OverviewPage';
 import CaseCard from './components/CaseCard';
 import { CASES } from './constants';
 import { ACCIDENT25_CASES } from './accident25case';
@@ -85,6 +86,7 @@ const App: React.FC = () => {
       <Header activeTab={activeTab} setActiveTab={handleTabChange} />
 
       <main className="flex-1 max-w-xl mx-auto px-4 py-4 w-full">
+        {activeTab === 'overview' && <OverviewPage />}
         {activeTab === 'stats' && <StatsDashboard />}
 
         {(activeTab === 'excellence' || activeTab === 'general' || activeTab === 'accident25') && (

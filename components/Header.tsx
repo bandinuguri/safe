@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Plane, ShieldAlert, BarChart3, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Plane, ShieldAlert, BarChart3, CheckCircle2, AlertTriangle, BookOpen } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: string;
@@ -9,9 +9,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const tabs = [
+    { id: 'overview', name: '개요', icon: BookOpen },
     { id: 'stats', name: '사고 현황', icon: BarChart3 },
     { id: 'accident25', name: "'25년 사고", icon: AlertTriangle },
-    { id: 'general', name: '19~24년사고', icon: ShieldAlert },
+    { id: 'general', name: '주요사고', icon: ShieldAlert },
     { id: 'excellence', name: '예방사례', icon: CheckCircle2 },
   ];
 
@@ -44,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center justify-center gap-1.5 flex-1 py-2.5 rounded-xl text-[12px] font-bold transition-all ${
+                className={`flex items-center justify-center gap-1 flex-1 py-2.5 rounded-xl text-[11px] font-bold transition-all ${
                   isActive
                     ? isAccident25
                       ? 'bg-red-50 text-red-600 shadow-sm ring-1 ring-red-100'
@@ -52,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     : 'text-slate-500 hover:bg-slate-50'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? (isAccident25 ? 'text-red-600' : 'text-blue-600') : 'text-slate-400'}`} />
+                <Icon className={`w-3 h-3 shrink-0 ${isActive ? (isAccident25 ? 'text-red-600' : 'text-blue-600') : 'text-slate-400'}`} />
                 <span>{tab.name}</span>
               </button>
             );
