@@ -97,7 +97,7 @@ html{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink)
 
 /* ─── STATS PANEL ─── */
 .stats-grid-top{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:20px}
-.stats-grid-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;align-items:start}
+.stats-grid-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;align-items:stretch}
 .stats-chart-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column}
 .stats-title{font-size:15px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:18px}
 .stats-badge{font-size:11px;font-weight:800;background:var(--red-bg);color:var(--red);border:1px solid var(--red-light);padding:2px 9px;border-radius:20px}
@@ -115,7 +115,7 @@ html{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink)
 .pie-center .big{font-size:32px;font-weight:900;color:var(--ink);line-height:1}
 
 /* ─── BOTTOM ROW CARDS (통일) ─── */
-.cause-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow);overflow:hidden}
+.cause-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border2);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
 .cause-dark{padding:14px 22px;border-bottom:1px solid var(--border2)}
 .cause-dark.orange{background:#fff7ed;border-bottom-color:#fed7aa}
 .cause-dark.blue{background:#eff6ff;border-bottom-color:#bfdbfe}
@@ -124,7 +124,7 @@ html{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink)
 .cause-dark.orange span{color:#9a3412}
 .cause-dark.blue span{color:#1e40af}
 .cause-dark.teal span{color:#0f766e}
-.cause-inner{padding:20px 22px}
+.cause-inner{padding:20px 22px;flex:1}
 .cause-sec-label{font-size:12px;font-weight:800;color:var(--ink3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .cause-sec-label::before{content:'';display:inline-block;width:3px;height:13px;border-radius:2px;flex-shrink:0}
 .cause-sec-label.orange::before{background:var(--orange)}
@@ -386,7 +386,7 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
         <div class="stat-pill"><div class="yr">2024년</div><div class="cnt">36건</div><div class="rt">0.403</div></div>
         <div class="stat-pill red"><div class="yr">'25년*</div><div class="cnt">21건</div><div class="rt">0.230</div></div>
       </div>
-      <p class="stat-note">* 2025년 기준 (환산건수: 1만회당)</p>
+      <p class="stat-note">* 2025년 운항횟수 912,744회 기준 (환산건수: 1만회당)</p>
       <div style="margin-top:16px;border-top:1px solid var(--border2);padding-top:14px;flex:1;display:flex;flex-direction:column">
         <div class="stats-title" style="margin-bottom:10px">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bc4c00" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -488,7 +488,6 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
         <div class="analysis-item"><strong>차량 및 시설물 접촉</strong><p>차량 간 추돌이나 주기장 내 시설물과의 충돌. 특히 탑승교(PBB) 하단부 높이 제한을 인지하지 못해 발생하는 충돌 사례가 빈번합니다.</p></div>
         <div class="analysis-item"><strong>항공기 접촉</strong><p>달리 결박 해제, 급유차 후진 중 날개 접촉, 토잉 중 탑승교 접촉 등으로 기체가 손상되는 경우입니다.</p></div>
         <div class="analysis-item"><strong>조업자 인적 상해</strong><p>로더·사다리 작업 중 낙상, 터그카 출발 시 끼임, 주행 중 버스와 윙 가드 접촉 등 부상 사고입니다.</p></div>
-        <p class="analysis-note">사례 전파 교육, 지적확인 캠페인, 시설물 경고 장치 강화 등의 개선 대책을 시행하고 있습니다.</p>
       </div>
     </div>
 
@@ -803,15 +802,36 @@ window.addEventListener('DOMContentLoaded',()=>{
         if(!TOP5.includes(label))return;
         const total = aptSorted[i]?.total;
         const midAngle = (arc.startAngle + arc.endAngle) / 2;
-        const r = outerR + 28;
-        const x = cx + r * Math.cos(midAngle);
-        const y = cy + r * Math.sin(midAngle);
+        // 지시선 시작점 (외곽 바로 밖)
+        const r1 = outerR + 4;
+        // 꺾임점
+        const r2 = outerR + 16;
+        // 텍스트 시작점
+        const r3 = outerR + 22;
+        const x1 = cx + r1 * Math.cos(midAngle);
+        const y1 = cy + r1 * Math.sin(midAngle);
+        const x2 = cx + r2 * Math.cos(midAngle);
+        const y2 = cy + r2 * Math.sin(midAngle);
+        const x3 = cx + r3 * Math.cos(midAngle);
+        const y3 = cy + r3 * Math.sin(midAngle);
+        const isRight = x3 > cx;
+        const xEnd = isRight ? x3 + 8 : x3 - 8;
 
-        ctx.font = 'bold 13px Noto Sans KR, sans-serif';
+        // 지시선
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(xEnd, y2);
+        ctx.strokeStyle = '#8c959f';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // 텍스트
+        ctx.font = 'bold 12px Noto Sans KR, sans-serif';
         ctx.fillStyle = '#24292f';
-        ctx.textAlign = x > cx ? 'left' : 'right';
+        ctx.textAlign = isRight ? 'left' : 'right';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`${label} ${total}건`, x, y);
+        ctx.fillText(`${label} ${total}건`, isRight ? xEnd + 4 : xEnd - 4, y2);
       });
       ctx.restore();
     }
