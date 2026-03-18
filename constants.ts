@@ -20,16 +20,16 @@ export const YEARLY_STATS: YearStat[] = [
 ];
 
 export const AIRPORT_STATS: AirportStat[] = [
-  { name: '김포', count: 40, percentage: 33, y2020:3,  y2021:4,  y2022:12, y2023:8,  y2024:10, y2025:3,  total:40 },
-  { name: '김해', count: 12, percentage: 10, y2020:1,  y2021:1,  y2022:1,  y2023:2,  y2024:5,  y2025:2,  total:12 },
-  { name: '제주', count: 10, percentage: 8,  y2020:0,  y2021:3,  y2022:1,  y2023:4,  y2024:1,  y2025:1,  total:10 },
-  { name: '인천', count: 59, percentage: 49, y2020:9,  y2021:7,  y2022:7,  y2023:12, y2024:12, y2025:12, total:59 },
-  { name: '청주', count: 8,  percentage: 7,  y2020:0,  y2021:1,  y2022:0,  y2023:2,  y2024:3,  y2025:2,  total:8  },
-  { name: '대구', count: 1,  percentage: 1,  y2020:0,  y2021:0,  y2022:0,  y2023:1,  y2024:0,  y2025:0,  total:1  },
-  { name: '무안', count: 0,  percentage: 0,  y2020:0,  y2021:0,  y2022:0,  y2023:0,  y2024:0,  y2025:0,  total:0  },
+  { name: '인천', count: 59, percentage: 44, y2020:9,  y2021:7,  y2022:7,  y2023:12, y2024:12, y2025:12, total:59 },
+  { name: '김포', count: 34, percentage: 25, y2020:3,  y2021:4,  y2022:12, y2023:8,  y2024:4,  y2025:3,  total:34 },
+  { name: '김해', count: 17, percentage: 13, y2020:1,  y2021:1,  y2022:1,  y2023:2,  y2024:10, y2025:2,  total:17 },
+  { name: '제주', count: 14, percentage: 10, y2020:0,  y2021:3,  y2022:1,  y2023:4,  y2024:5,  y2025:1,  total:14 },
+  { name: '청주', count: 8,  percentage: 6,  y2020:0,  y2021:1,  y2022:0,  y2023:2,  y2024:3,  y2025:2,  total:8  },
+  { name: '대구', count: 4,  percentage: 3,  y2020:0,  y2021:0,  y2022:0,  y2023:1,  y2024:3,  y2025:0,  total:4  },
+  { name: '광주', count: 3,  percentage: 2,  y2020:1,  y2021:1,  y2022:0,  y2023:0,  y2024:1,  y2025:0,  total:3  },
   { name: '양양', count: 1,  percentage: 1,  y2020:0,  y2021:0,  y2022:1,  y2023:0,  y2024:0,  y2025:0,  total:1  },
-  { name: '광주', count: 5,  percentage: 4,  y2020:1,  y2021:1,  y2022:0,  y2023:0,  y2024:1,  y2025:0,  total:3  },
   { name: '울산', count: 1,  percentage: 1,  y2020:0,  y2021:0,  y2022:0,  y2023:0,  y2024:0,  y2025:1,  total:1  },
+  { name: '무안', count: 0,  percentage: 0,  y2020:0,  y2021:0,  y2022:0,  y2023:0,  y2024:0,  y2025:0,  total:0  },
 ];
 
 export const CASES: Case[] = [

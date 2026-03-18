@@ -347,7 +347,7 @@ const StatsDashboard: React.FC = () => {
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-            <p className="text-2xl font-black text-slate-800">135건</p>
+            <p className="text-2xl font-black text-slate-800">141건</p>
           </div>
         </div>
 
@@ -377,11 +377,11 @@ const StatsDashboard: React.FC = () => {
               ))}
               <tr className="border-t-2 border-slate-300 bg-slate-100">
                 <td className="py-2 px-1.5 font-black text-slate-800 text-left">합계</td>
-                {[14,17,22,29,32].map((v,i) => (
+                {[14,17,22,29,36].map((v,i) => (
                   <td key={i} className="py-2 px-1 font-bold text-slate-600">{v}</td>
                 ))}
                 <td className="py-2 px-1 font-black text-red-500">21</td>
-                <td className="py-2 px-1.5 font-black text-slate-800">135</td>
+                <td className="py-2 px-1.5 font-black text-slate-800">141</td>
               </tr>
             </tbody>
           </table>
