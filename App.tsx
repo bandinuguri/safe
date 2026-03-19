@@ -85,7 +85,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-slate-50 flex flex-col overflow-x-hidden">
       <Header activeTab={activeTab} setActiveTab={handleTabChange} />
 
-      <main className="flex-1 px-2 py-4 w-full">
+      <main className="flex-1 px-1.5 py-3 w-full">
         {activeTab === 'overview' && <OverviewPage />}
         {activeTab === 'stats' && <StatsDashboard />}
 

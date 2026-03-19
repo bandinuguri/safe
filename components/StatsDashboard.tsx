@@ -99,7 +99,7 @@ const StatsDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10 px-0.5">
+    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10 px-0">
 
       {/* 1. 지상안전사고 현황 */}
       <section className="bg-white p-5 rounded-3xl shadow-sm border border-slate-200">
