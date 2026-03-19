@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-xl mx-auto px-1">
+      <div className="px-2">
         <div className="flex items-center justify-between pt-5 pb-4">
           <div className="flex items-center gap-2">
             <div className="bg-blue-600 p-1.5 rounded-lg shadow-sm shadow-blue-200 shrink-0">

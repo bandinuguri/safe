@@ -85,7 +85,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-slate-50 flex flex-col overflow-x-hidden">
       <Header activeTab={activeTab} setActiveTab={handleTabChange} />
 
-      <main className="flex-1 max-w-xl mx-auto px-4 py-4 w-full">
+      <main className="flex-1 px-2 py-4 w-full">
         {activeTab === 'overview' && <OverviewPage />}
         {activeTab === 'stats' && <StatsDashboard />}
 
@@ -212,7 +212,7 @@ const App: React.FC = () => {
       </button>
 
       <footer className="bg-white py-10 border-t border-slate-100 safe-bottom">
-        <div className="max-w-xl mx-auto px-6 text-center">
+        <div className="px-4 text-center">
           <div className="flex justify-center mb-4">
             <div className="h-[2px] w-8 bg-slate-200 rounded-full"></div>
           </div>
