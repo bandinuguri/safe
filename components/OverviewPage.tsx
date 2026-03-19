@@ -163,7 +163,7 @@ const OverviewPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10 px-0">
+    <div className="space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10">
       {sections.map((sec, i) => (
         <div key={i} className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
           <button

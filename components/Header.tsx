@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { id: 'overview', name: '개념정의', icon: BookOpen },
     { id: 'stats', name: '사고현황', icon: BarChart3 },
-    { id: 'accident25', name: "'25년 사고", icon: AlertTriangle },
+    { id: 'accident25', name: '25년사고', icon: AlertTriangle },
     { id: 'general', name: '주요사고', icon: ShieldAlert },
     { id: 'excellence', name: '예방사례', icon: CheckCircle2 },
   ];

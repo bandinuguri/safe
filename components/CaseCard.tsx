@@ -106,9 +106,9 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
   const bottomTextColor = isExcellence ? 'text-emerald-900' : isAccident25 ? 'text-red-900' : 'text-blue-900';
 
   return (
-    <div className={`bg-white rounded-[32px] shadow-sm border overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1 animate-fade-in ${cardBorder}`}>
+    <div className="bg-white rounded-[16px] overflow-hidden animate-fade-in border-b border-slate-100">
       {/* 카드 헤더 */}
-      <div className={`px-6 py-4 flex items-center justify-between ${headerBg}`}>
+      <div className={`px-3 py-3 flex items-center justify-between ${headerBg}`}>
         <div className="flex items-center gap-3">
           <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg shadow-sm tracking-tighter ${badgeBg}`}>
             {displayId}
@@ -123,7 +123,7 @@ const CaseCard: React.FC<CaseCardProps> = ({ caseData, highlight = '', onImageZo
         </div>
       </div>
 
-      <div className="px-5 py-7">
+      <div className="px-3 py-4">
         <h4 className="text-[20px] font-extrabold text-slate-900 mb-5 leading-[1.45] break-keep tracking-tight">
           {highlightText(caseData.title, highlight)}
         </h4>
