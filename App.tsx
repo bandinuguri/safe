@@ -69,7 +69,9 @@ const App: React.FC = () => {
         c.title.toLowerCase().includes(query) ||
         c.content.toLowerCase().includes(query) ||
         c.company.toLowerCase().includes(query) ||
-        c.airport.toLowerCase().includes(query);
+        c.airport.toLowerCase().includes(query) ||
+        (c.피해상황 || []).join(' ').toLowerCase().includes(query) ||
+        (c.countermeasure || []).join(' ').toLowerCase().includes(query);
 
       return matchesTab && matchesAirport && matchesCompany && matchesSearch;
     }).sort((a, b) => a.id - b.id);
