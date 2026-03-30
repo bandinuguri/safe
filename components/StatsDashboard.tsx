@@ -376,7 +376,7 @@ const StatsDashboard: React.FC = () => {
               ))}
               <tr className="border-t-2 border-slate-300 bg-slate-100">
                 <td className="py-2 px-1.5 font-black text-slate-800 text-left">합계</td>
-                {[14,17,22,29,34].map((v,i) => (
+                {[14,17,22,29,36].map((v,i) => (
                   <td key={i} className="py-2 px-1 font-bold text-slate-600">{v}</td>
                 ))}
                 <td className="py-2 px-1 font-black text-red-500">21</td>
