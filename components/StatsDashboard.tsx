@@ -209,8 +209,8 @@ const StatsDashboard: React.FC = () => {
                 <tr className="border-t-2 border-slate-200 bg-slate-50">
                   <td className="py-2 px-1.5 text-left font-black text-slate-800">전사 합계</td>
                   <td className="py-2 px-1 text-slate-400">-</td>
-                  <td className="py-2 px-1 font-black text-slate-800">0.230</td>
-                  <td className="py-2 px-1 font-black text-slate-800">21</td>
+                  <td className="py-2 px-1 font-black text-slate-800">0.241</td>
+                  <td className="py-2 px-1 font-black text-slate-800">22</td>
                 </tr>
               </tbody>
             </table>

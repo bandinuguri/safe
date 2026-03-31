@@ -383,7 +383,7 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
       <div class="stat-pills">
         <div class="stat-pill"><div class="yr">2023년</div><div class="cnt">29건</div><div class="rt">0.455</div></div>
         <div class="stat-pill"><div class="yr">2024년</div><div class="cnt">36건</div><div class="rt">0.403</div></div>
-        <div class="stat-pill red"><div class="yr">'25년*</div><div class="cnt">21건</div><div class="rt">0.230</div></div>
+        <div class="stat-pill red"><div class="yr">'25년*</div><div class="cnt">22건</div><div class="rt">0.241</div></div>
       </div>
       <p class="stat-note">* 2025년 운항횟수 912,744회 기준 (환산건수: 1만회당)</p>
       <div style="margin-top:16px;border-top:1px solid var(--border2);padding-top:14px;flex:1;display:flex;flex-direction:column">
@@ -408,7 +408,7 @@ mark{background:#ffe58f;border-radius:2px;padding:0 2px}
             <tr><td>조업자 상해</td><td>0.064</td><td style="color:var(--ink2);font-weight:700">0.055 <span style="font-size:11px;color:var(--ink4);font-weight:500">(85.9%)</span></td><td>5</td></tr>
           </tbody>
           <tfoot>
-            <tr class="total"><td>전사 합계</td><td>-</td><td>0.230</td><td>21</td></tr>
+            <tr class="total"><td>전사 합계</td><td>-</td><td>0.241</td><td>22</td></tr>
           </tfoot>
         </table>
       </div>
@@ -760,13 +760,13 @@ window.addEventListener('DOMContentLoaded',()=>{
           backgroundColor:['#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#dbe7f5','#fde8e8'],
           borderRadius:5,yAxisID:'y',order:2,pointStyle:'rect',
           datalabels:{display:false}},
-        {type:'line',label:'발생건수',data:[14,17,22,29,36,21],
+        {type:'line',label:'발생건수',data:[14,17,22,29,36,22],
           borderColor:'#cf222e',backgroundColor:'#cf222e',
           pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y2',order:1,tension:.3,
           pointStyle:'circle',
           segment:{borderDash:ctx=>ctx.p0DataIndex===4?[5,4]:undefined},
           datalabels:{display:true,align:'top',anchor:'end',color:'#cf222e',font:{size:13,weight:'bold'},offset:6,formatter:v=>v}},
-        {type:'line',label:'환산건수(1만건당)',data:[0.270,0.300,0.375,0.455,0.403,0.230],
+        {type:'line',label:'환산건수(1만건당)',data:[0.270,0.300,0.375,0.455,0.403,0.241],
           borderColor:'#bc4c00',backgroundColor:'#bc4c00',
           pointRadius:4,borderWidth:2,yAxisID:'y2',order:1,tension:.3,
           pointStyle:'circle',

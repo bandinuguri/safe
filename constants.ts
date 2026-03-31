@@ -16,7 +16,7 @@ export const YEARLY_STATS: YearStat[] = [
   { year: '2022', flights: 586991, accidents: 22, rate: 0.375 },
   { year: '2023', flights: 637485, accidents: 29, rate: 0.455 },
   { year: '2024', flights: 892653, accidents: 36, rate: 0.403 },
-  { year: "'25*", flights: 912744, accidents: 21, rate: 0.230 },
+  { year: "'25*", flights: 912744, accidents: 22, rate: 0.241 },
 ];
 
 export const AIRPORT_STATS: AirportStat[] = [
