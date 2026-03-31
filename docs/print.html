@@ -327,8 +327,8 @@ html{font-family:'Noto Sans KR',sans-serif;font-size:10px;background:var(--bg);c
           </div>
           <div class="c-card">
             <div class="c-label blue">2025년 사고</div>
-            <div class="c-val red">21건</div>
-            <div class="c-desc">환산건수 0.230<br>(1만회당)</div>
+            <div class="c-val red">22건</div>
+            <div class="c-desc">환산건수 0.241<br>(1만회당)</div>
           </div>
           <div class="c-card">
             <div class="c-label blue">5개년 누적</div>
@@ -572,7 +572,7 @@ html{font-family:'Noto Sans KR',sans-serif;font-size:10px;background:var(--bg);c
           <div style="text-align:center"><div style="font-size:6.5px;color:var(--ink4)">2022</div><div style="font-size:10px;font-weight:900;color:var(--red)">22건</div><div style="font-size:6.5px;color:var(--orange)">0.375</div></div>
           <div style="text-align:center"><div style="font-size:6.5px;color:var(--ink4)">2023</div><div style="font-size:10px;font-weight:900;color:var(--red)">29건</div><div style="font-size:6.5px;color:var(--orange)">0.455</div></div>
           <div style="text-align:center"><div style="font-size:6.5px;color:var(--ink4)">2024</div><div style="font-size:10px;font-weight:900;color:var(--red)">36건</div><div style="font-size:6.5px;color:var(--orange)">0.403</div></div>
-          <div style="text-align:center;background:var(--red-light);border-radius:4px;padding:2px"><div style="font-size:6.5px;color:var(--red)">2025년</div><div style="font-size:10px;font-weight:900;color:var(--red)">21건</div><div style="font-size:6.5px;color:var(--red)">0.230</div></div>
+          <div style="text-align:center;background:var(--red-light);border-radius:4px;padding:2px"><div style="font-size:6.5px;color:var(--red)">2025년</div><div style="font-size:10px;font-weight:900;color:var(--red)">22건</div><div style="font-size:6.5px;color:var(--red)">0.241</div></div>
         </div>
       </div>
       <div style="font-size:7px;color:var(--ink4);margin-top:5px">* 2025년 운항횟수 912,744회 기준 (환산건수: 1만회당)</div>
@@ -585,29 +585,29 @@ html{font-family:'Noto Sans KR',sans-serif;font-size:10px;background:var(--bg);c
 
   <!-- SLIDE 10: 공항별 현황표 -->
   <div class="slide" data-slide="10" onclick="focusSlide(this)">
-    <div class="slide-inner">
+    <div class="slide-inner" style="padding:14px 18px 10px">
       <div class="slide-label">Airport Data — ('20~'25)</div>
-      <div class="slide-title">공항별 지상안전사고 발생현황</div>
-      <div style="flex:1;overflow:hidden">
-        <table class="s-table">
+      <div class="slide-title" style="margin-bottom:7px">공항별 지상안전사고 발생현황</div>
+      <div style="flex:1">
+        <table class="s-table" style="font-size:7px">
           <thead>
             <tr>
-              <th style="text-align:left">구분</th>
-              <th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th>
-              <th style="color:#ffccc0">'25년</th><th>합계</th>
+              <th style="text-align:left;padding:4px 6px">구분</th>
+              <th style="padding:4px 5px">2020</th><th style="padding:4px 5px">2021</th><th style="padding:4px 5px">2022</th><th style="padding:4px 5px">2023</th><th style="padding:4px 5px">2024</th>
+              <th style="color:#ffccc0;padding:4px 5px">'25년</th><th style="padding:4px 5px">합계</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>인천</td><td>9</td><td>7</td><td>7</td><td>12</td><td>12</td><td class="red">12</td><td style="font-weight:900">59</td></tr>
-            <tr><td>김포</td><td>3</td><td>4</td><td>12</td><td>8</td><td>4</td><td class="red">3</td><td style="font-weight:900">34</td></tr>
-            <tr><td>김해</td><td>1</td><td>1</td><td>1</td><td>2</td><td>10</td><td class="red">2</td><td style="font-weight:900">17</td></tr>
-            <tr><td>제주</td><td>-</td><td>3</td><td>1</td><td>4</td><td>5</td><td class="red">1</td><td style="font-weight:900">14</td></tr>
-            <tr><td>청주</td><td>-</td><td>1</td><td>-</td><td>2</td><td>1</td><td class="red">2</td><td style="font-weight:900">6</td></tr>
-            <tr><td>대구</td><td>-</td><td>-</td><td>-</td><td>1</td><td>3</td><td>-</td><td style="font-weight:900">4</td></tr>
-            <tr><td>광주</td><td>1</td><td>1</td><td>-</td><td>-</td><td>1</td><td>-</td><td style="font-weight:900">3</td></tr>
-            <tr><td>양양</td><td>-</td><td>-</td><td>1</td><td>-</td><td>-</td><td>-</td><td style="font-weight:900">1</td></tr>
-            <tr><td>울산</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td class="red">1</td><td style="font-weight:900">1</td></tr>
-            <tr class="total"><td>합 계</td><td>14</td><td>17</td><td>22</td><td>29</td><td>34</td><td class="red">21</td><td>139</td></tr>
+            <tr><td style="padding:3px 6px">인천</td><td style="padding:3px 5px">9</td><td style="padding:3px 5px">7</td><td style="padding:3px 5px">7</td><td style="padding:3px 5px">12</td><td style="padding:3px 5px">12</td><td class="red" style="padding:3px 5px">12</td><td style="font-weight:900;padding:3px 5px">59</td></tr>
+            <tr><td style="padding:3px 6px">김포</td><td style="padding:3px 5px">3</td><td style="padding:3px 5px">4</td><td style="padding:3px 5px">12</td><td style="padding:3px 5px">8</td><td style="padding:3px 5px">4</td><td class="red" style="padding:3px 5px">3</td><td style="font-weight:900;padding:3px 5px">34</td></tr>
+            <tr><td style="padding:3px 6px">김해</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">2</td><td style="padding:3px 5px">10</td><td class="red" style="padding:3px 5px">3</td><td style="font-weight:900;padding:3px 5px">18</td></tr>
+            <tr><td style="padding:3px 6px">제주</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">3</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">4</td><td style="padding:3px 5px">5</td><td class="red" style="padding:3px 5px">1</td><td style="font-weight:900;padding:3px 5px">14</td></tr>
+            <tr><td style="padding:3px 6px">청주</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">2</td><td style="padding:3px 5px">1</td><td class="red" style="padding:3px 5px">2</td><td style="font-weight:900;padding:3px 5px">6</td></tr>
+            <tr><td style="padding:3px 6px">대구</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">3</td><td style="padding:3px 5px">-</td><td style="font-weight:900;padding:3px 5px">4</td></tr>
+            <tr><td style="padding:3px 6px">광주</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">-</td><td style="font-weight:900;padding:3px 5px">3</td></tr>
+            <tr><td style="padding:3px 6px">양양</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">1</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="font-weight:900;padding:3px 5px">1</td></tr>
+            <tr><td style="padding:3px 6px">울산</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td style="padding:3px 5px">-</td><td class="red" style="padding:3px 5px">1</td><td style="font-weight:900;padding:3px 5px">1</td></tr>
+            <tr class="total"><td style="padding:4px 6px">합 계</td><td style="padding:4px 5px">14</td><td style="padding:4px 5px">17</td><td style="padding:4px 5px">22</td><td style="padding:4px 5px">29</td><td style="padding:4px 5px">36</td><td class="red" style="padding:4px 5px">22</td><td style="padding:4px 5px">140</td></tr>
           </tbody>
         </table>
       </div>
