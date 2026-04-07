@@ -379,8 +379,8 @@ const StatsDashboard: React.FC = () => {
                 {[14,17,22,29,36].map((v,i) => (
                   <td key={i} className="py-2 px-1 font-bold text-slate-600">{v}</td>
                 ))}
-                <td className="py-2 px-1 font-black text-red-500">21</td>
-                <td className="py-2 px-1.5 font-black text-slate-800">139</td>
+                <td className="py-2 px-1 font-black text-red-500">22</td>
+                <td className="py-2 px-1.5 font-black text-slate-800">140</td>
               </tr>
             </tbody>
           </table>

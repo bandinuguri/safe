@@ -22,7 +22,7 @@ export const YEARLY_STATS: YearStat[] = [
 export const AIRPORT_STATS: AirportStat[] = [
   { name: '인천', count: 59, percentage: 44, y2020:9,  y2021:7,  y2022:7,  y2023:12, y2024:12, y2025:12, total:59 },
   { name: '김포', count: 34, percentage: 25, y2020:3,  y2021:4,  y2022:12, y2023:8,  y2024:4,  y2025:3,  total:34 },
-  { name: '김해', count: 17, percentage: 13, y2020:1,  y2021:1,  y2022:1,  y2023:2,  y2024:10, y2025:2,  total:17 },
+  { name: '김해', count: 18, percentage: 13, y2020:1,  y2021:1,  y2022:1,  y2023:2,  y2024:10, y2025:3,  total:18 },
   { name: '제주', count: 14, percentage: 10, y2020:0,  y2021:3,  y2022:1,  y2023:4,  y2024:5,  y2025:1,  total:14 },
   { name: '청주', count: 6,  percentage: 4,  y2020:0,  y2021:1,  y2022:0,  y2023:2,  y2024:1,  y2025:2,  total:6  },
   { name: '대구', count: 4,  percentage: 3,  y2020:0,  y2021:0,  y2022:0,  y2023:1,  y2024:3,  y2025:0,  total:4  },
